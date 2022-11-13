@@ -1,15 +1,18 @@
-import InitMap from "./components/map/initMap";
-import Marker from "./components/map/Marker";
-import GeolocationMap from "./components/map/GeolocationMap";
+import React from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Main from "./pages/main";
+import Event from "./pages/Event";
 
-const App = (): JSX.Element => {
+function App(): JSX.Element {
   return (
-    <>
-      {/* <InitMap /> */}
-      {/* <Marker /> */}
-      <GeolocationMap />
-    </>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Main />} />
+        <Route path="/event" element={<Event />} />
+        <Route path="/*" element={<Main />} />
+      </Routes>
+    </BrowserRouter>
   );
-};
+}
 
 export default App;

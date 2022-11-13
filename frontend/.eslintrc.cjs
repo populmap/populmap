@@ -26,8 +26,11 @@ module.exports = {
     "@typescript-eslint/no-explicit-any": 2,
     "react/button-has-type": 0,
     "react/jsx-filename-extension": 0,
+    "react/react-in-jsx-scope": "off",
+    "react/function-component-definition": 0,
     "no-shadow": 0,
     "import/no-extraneous-dependencies": 0,
+    "import/no-unresolved": [2, { caseSensitive: false }],
     "import/extensions": [
       "off",
       "always",

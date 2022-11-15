@@ -3,10 +3,17 @@ import { ConfigService } from "@nestjs/config";
 import { PassportStrategy } from "@nestjs/passport";
 import { Strategy } from "passport-kakao";
 import { UserSessionDto } from "src/dto/user.session.dto";
+import { UserSocialDto } from "src/dto/user.social.dto";
+import LoginType from "src/enums/login.type.enum";
+import SocialType from "src/enums/social.type.enum";
+import { AuthService } from "../auth.service";
 
 @Injectable()
 export class KakaoStrategy extends PassportStrategy(Strategy, 'kakao') {
-  constructor(private readonly configService: ConfigService) {
+  constructor(
+    private readonly configService: ConfigService,
+    private readonly authService: AuthService,
+    ) {
     super({
       clientID: configService.get<string>('kakao.clientID'),
       clientSecret: configService.get<string>('kakao.clientSecret'),
@@ -15,18 +22,24 @@ export class KakaoStrategy extends PassportStrategy(Strategy, 'kakao') {
   }
 
   async validate(accessToken, refreshToken, profile, callback) {
+    console.log('kakao strate validate');
     const profile_json = profile._json;
     const kakao_account = profile_json.kakao_account;
-    console.log(profile);
-    console.log(accessToken);
+    // let user;
     const user: UserSessionDto = {
-      user_id: profile_json.id,
-      nickname: kakao_account.profile.nickname,
-      profile_url: profile_json.properties.thumbnail_image,
+      userId: undefined,
+      userName: undefined,
       email: kakao_account.has_email ? kakao_account.email : null,
-      access_token: accessToken,
+      loginType: LoginType.SOCIAL,
+      socialType: SocialType.KAKAO,
+      socialUserId: profile.id,
+      accessToken: accessToken,
     };
-    console.log(user);
+    const existingUser = await this.authService.getUserDtoBySocialUserId(user.socialUserId, user.socialType);
+    if (existingUser) {
+      user.userId = existingUser.userId;
+      user.userName = existingUser.userName;
+    }
     callback(null, user);
   }
 }

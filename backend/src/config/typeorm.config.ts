@@ -8,7 +8,6 @@ export default class TypeOrmConfigService implements TypeOrmOptionsFactory {
 
   createTypeOrmOptions(): TypeOrmModuleOptions | Promise<TypeOrmModuleOptions> {
     const log = this.configService.get<boolean>('debug.log');
-
     return {
       type: 'mysql',
       host: this.configService.get<string>('database.host'),

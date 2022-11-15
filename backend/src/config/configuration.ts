@@ -16,4 +16,7 @@ export default () => ({
     user: process.env.DATABASE_USER,
     password: process.env.DATABASE_PASSWORD,
   },
+  debug: {
+    log: process.env.DEBUG_LOG === 'true' ? true : false,
+  },
 });

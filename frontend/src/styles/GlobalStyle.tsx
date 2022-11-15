@@ -10,10 +10,11 @@ const style = css`
   }
   html {
     max-width: 30rem;
-    max-height: 60rem;
+    margin: auto;
   }
   body {
-    height: 100vh;
+    margin: 0;
+    max-height: 60rem;
     font-family: "EliceDigitalBaeum_Regular";
   }
 `;

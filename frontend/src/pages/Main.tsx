@@ -1,15 +1,7 @@
-import InitMap from "../components/map/InitMap";
-import Marker from "../components/map/Marker";
-import GeolocationMap from "../components/map/GeolocationMap";
+import MainTemplate from "../components/templates/mainTemplate";
 
 const Main = (): JSX.Element => {
-  return (
-    <>
-      {/* <InitMap /> */}
-      <Marker />
-      {/* <GeolocationMap /> */}
-    </>
-  );
+  return <MainTemplate />;
 };
 
 export default Main;

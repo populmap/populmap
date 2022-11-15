@@ -53,7 +53,7 @@ DROP TABLE IF EXISTS `auth_social`;
 CREATE TABLE `auth_social` (
   `social_id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL COMMENT 'user의 fk',
-  `social_user_id` bigint DEFAULT NULL,
+  `social_user_id` varchar(64) DEFAULT NULL,
   `social_type` varchar(16) NOT NULL,
   `access_token` varchar(256) NOT NULL,
   `first_login` datetime DEFAULT NULL,

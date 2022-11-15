@@ -5,7 +5,7 @@ import { UserDto } from "./user.dto";
 export class UserSessionDto extends UserDto {
   loginType: LoginType;
   socialType?: SocialType;
-  socialUserId?: number;
+  socialUserId?: string;
   accessToken: string;
   iat?: number;
   exp?: number;

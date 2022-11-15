@@ -3,7 +3,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from "typeorm";
 import User from "src/entities/user.entity";
 import AuthSocial from "src/entities/auth.social.entity";
-import { UserSocialDto } from "src/dto/user.social.dto";
 import LoginType from "src/enums/login.type.enum";
 import { UserSessionDto } from "src/dto/user.session.dto";
 import SocialType from "src/enums/social.type.enum";
@@ -18,8 +17,19 @@ export class AuthRepository implements IAuthRepository {
     private userRepository: Repository<User>,
   ) {}
 
+  async findUserByEmail(email: string): Promise<Boolean> {
+    const result = await this.userRepository.findOne({
+      where: {
+        email: email,
+      }
+    });
+    if (!result) {
+      return false;
+    }
+    return true;
+  }
 
-  async findSocialUserByUserId(socialUserId: number, socialType: SocialType): Promise<Boolean> {
+  async findSocialUserByUserId(socialUserId: string, socialType: SocialType): Promise<Boolean> {
     const result = await this.authSocialRepository.findOne({
       where: {
         socialUserId: socialUserId,
@@ -52,7 +62,7 @@ export class AuthRepository implements IAuthRepository {
     });
   }
 
-  async getUserDtoBySocialUserId(socialUserId: number, socialType: SocialType): Promise<UserDto> {
+  async getUserDtoBySocialUserId(socialUserId: string, socialType: SocialType): Promise<UserDto> {
     const result = await this.authSocialRepository.findOne({
       relations: ['user'],
       select: {

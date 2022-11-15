@@ -4,7 +4,6 @@ import { Request, Response } from "express";
 import { Observable } from "rxjs";
 import { AuthService } from "src/auth/auth.service";
 import { UserSessionDto } from "src/dto/user.session.dto";
-import { UserSocialDto } from "src/dto/user.social.dto";
 import LoginType from "src/enums/login.type.enum";
 
 @Injectable()

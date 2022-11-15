@@ -9,8 +9,11 @@ const style = css`
     font-style: normal;
   }
   html {
+    max-width: 30rem;
+    max-height: 60rem;
   }
   body {
+    height: 100vh;
     font-family: "EliceDigitalBaeum_Regular";
   }
 `;

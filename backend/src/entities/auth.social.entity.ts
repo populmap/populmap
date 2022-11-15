@@ -11,10 +11,11 @@ export default class AuthSocial {
 
   @Column({
     name: 'social_user_id',
-    type: 'int',
+    type: 'varchar',
+    length: 64,
     nullable: true,
   })
-  socialUserId: number;
+  socialUserId: string;
 
   @Column({
     name: 'user_id',

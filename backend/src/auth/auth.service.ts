@@ -1,5 +1,4 @@
 import { Inject, Injectable, Logger } from '@nestjs/common';
-import { UserSocialDto } from 'src/dto/user.social.dto';
 import { IAuthRepository } from './repository/auth.repository.interface';
 import { v4 as uuid } from 'uuid';
 import { UserSessionDto } from 'src/dto/user.session.dto';
@@ -21,6 +20,9 @@ export class AuthService {
     this.logger.debug(`Called ${this.addSocialUserIfNotExists.name}`);
     // user 테이블에서 userId로 auth_social에서 유저 조회.
     // 이미 존재하는 유저라면 null return
+    if (await this.authRepository.findUserByEmail(user.email)) {
+      return null;
+    }
     if (await this.authRepository.findSocialUserByUserId(user.socialUserId, user.socialType)) {
       return null;
     }
@@ -33,7 +35,7 @@ export class AuthService {
     return { userId, userName };
   }
 
-  async getUserDtoBySocialUserId(socialUserId: number, socialType: SocialType): Promise<UserDto> {
+  async getUserDtoBySocialUserId(socialUserId: string, socialType: SocialType): Promise<UserDto> {
     this.logger.debug(`Called ${this.getUserDtoBySocialUserId.name}`);
     return await this.authRepository.getUserDtoBySocialUserId(socialUserId, socialType);
   }

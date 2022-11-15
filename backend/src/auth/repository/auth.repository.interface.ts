@@ -1,17 +1,21 @@
 import { UserDto } from "src/dto/user.dto";
 import { UserSessionDto } from "src/dto/user.session.dto";
-import { UserSocialDto } from "src/dto/user.social.dto";
 import SocialType from "src/enums/social.type.enum";
 
 export interface IAuthRepository {
 
+  /**
+   * email로 해당 유저가 이미 존재하는지 확인한다.
+   * @param email
+   */
+  findUserByEmail(email: string): Promise<Boolean>;
 
   /**
    * socialUserId으로 해당 소셜 플랫폼의 유저가 존재하는지 확인한다.
    * @param socialUserId
    * @param socialType
    */
-  findSocialUserByUserId(socialUserId: number, socialType: SocialType): Promise<Boolean>;
+  findSocialUserByUserId(socialUserId: string, socialType: SocialType): Promise<Boolean>;
 
   /**
    * 새로운 소셜 로그인 유저를 추가한다.
@@ -33,5 +37,5 @@ export interface IAuthRepository {
    * 존재하지 않으면 null을 반환한다.
    * @param socialUserId
    */
-  getUserDtoBySocialUserId(socialUserId: number, socailType: SocialType): Promise<UserDto>;
+  getUserDtoBySocialUserId(socialUserId: string, socailType: SocialType): Promise<UserDto>;
 }

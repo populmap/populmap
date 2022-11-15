@@ -52,18 +52,6 @@ export class AuthRepository implements IAuthRepository {
     });
   }
 
-  async getUserNameById(userId: number): Promise<string> {
-    const result = await this.userRepository.findOne({
-      select: {
-        userName: true,
-      },
-      where: {
-        userId: userId,
-      }
-    });
-    return result.userName;
-  }
-
   async getUserDtoBySocialUserId(socialUserId: number, socialType: SocialType): Promise<UserDto> {
     const result = await this.authSocialRepository.findOne({
       relations: ['user'],

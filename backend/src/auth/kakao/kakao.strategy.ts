@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable, Logger } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import { PassportStrategy } from "@nestjs/passport";
 import { Strategy } from "passport-kakao";
@@ -22,10 +22,8 @@ export class KakaoStrategy extends PassportStrategy(Strategy, 'kakao') {
   }
 
   async validate(accessToken, refreshToken, profile, callback) {
-    console.log('kakao strate validate');
     const profile_json = profile._json;
     const kakao_account = profile_json.kakao_account;
-    // let user;
     const user: UserSessionDto = {
       userId: undefined,
       userName: undefined,

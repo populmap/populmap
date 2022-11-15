@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable, Logger } from '@nestjs/common';
 import { UserSocialDto } from 'src/dto/user.social.dto';
 import { IAuthRepository } from './repository/auth.repository.interface';
 import { v4 as uuid } from 'uuid';
@@ -7,18 +7,18 @@ import { UserDto } from 'src/dto/user.dto';
 import SocialType from 'src/enums/social.type.enum';
 import { HttpService } from '@nestjs/axios';
 import { firstValueFrom, map } from 'rxjs';
-import { ConfigService } from '@nestjs/config';
 import { Response } from 'express';
 
 @Injectable()
 export class AuthService {
+  private logger = new Logger(AuthService.name);
   constructor(
     @Inject('IAuthRepository') private authRepository: IAuthRepository,
-    // private configService: ConfigService,
     private readonly httpService: HttpService,
   ) {}
 
   async addSocialUserIfNotExists(user: UserSessionDto): Promise<UserDto> {
+    this.logger.debug(`Called ${this.addSocialUserIfNotExists.name}`);
     // user 테이블에서 userId로 auth_social에서 유저 조회.
     // 이미 존재하는 유저라면 null return
     if (await this.authRepository.findSocialUserByUserId(user.socialUserId, user.socialType)) {
@@ -33,15 +33,13 @@ export class AuthService {
     return { userId, userName };
   }
 
-  async getUserNameById(userId: number): Promise<string> {
-    return await this.authRepository.getUserNameById(userId);
-  }
-
   async getUserDtoBySocialUserId(socialUserId: number, socialType: SocialType): Promise<UserDto> {
+    this.logger.debug(`Called ${this.getUserDtoBySocialUserId.name}`);
     return await this.authRepository.getUserDtoBySocialUserId(socialUserId, socialType);
   }
 
   async logout(res: Response, user: UserSessionDto): Promise<void> {
+    this.logger.debug(`Called ${this.logout.name}`);
     const url = 'https://kapi.kakao.com/v1/user/logout';
     const headersRequest = {
       'Content-Type': 'application/x-www-form-urlencoded',

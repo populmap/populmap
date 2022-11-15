@@ -1,4 +1,4 @@
-import { Controller, Get, Res, UseGuards } from '@nestjs/common';
+import { Controller, Get, Logger, Res, UseGuards } from '@nestjs/common';
 import { Response } from 'express';
 import { User } from 'src/decorator/user.decorator';
 import { UserSessionDto } from 'src/dto/user.session.dto';
@@ -10,6 +10,7 @@ import { KakaoGuard } from './kakao/guard/kakao.guard';
 
 @Controller('auth/kakao')
 export class AuthKakaoController {
+  private logger = new Logger(AuthKakaoController.name);
   constructor(
     private authService: AuthService,
     ){}
@@ -17,14 +18,13 @@ export class AuthKakaoController {
   @Get('/login')
   @UseGuards(KakaoGuard)
   async login() {
-    console.log('login success!');
+    this.logger.log('Try login...');
   }
 
   @Get('/login/callback')
   @UseGuards(KakaoGuard, JWTSignGuard)
-  async loginCallback(@Res() res: Response, @User() user: UserSessionDto) {
-    console.log('callback success!');
-    console.log(user);
+  async loginCallback(@Res() res: Response) {
+    this.logger.log('login success!');
     return res.redirect('/');
   }
 

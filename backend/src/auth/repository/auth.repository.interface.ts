@@ -29,12 +29,6 @@ export interface IAuthRepository {
   insertAuthSocial(userId: number, user: UserSessionDto): Promise<void>;
 
   /**
-   * userId로 userName을 얻는다.
-   * @param userId
-   */
-  getUserNameById(userId: number): Promise<string>;
-
-  /**
    * socialUserId와 socialType으로 userDto를 얻는다.
    * 존재하지 않으면 null을 반환한다.
    * @param socialUserId

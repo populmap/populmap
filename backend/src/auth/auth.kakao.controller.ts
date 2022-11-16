@@ -30,7 +30,7 @@ export class AuthKakaoController {
   @Get('/logout')
   @UseGuards(JwtAuthGuard)
   async logout(@Res() res: Response, @User() user: UserSessionDto) {
-    await this.authService.logout(res, user);
+    await this.authService.logoutKakao(res, user);
     return res.redirect('/');
   }
 }

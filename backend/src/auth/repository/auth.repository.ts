@@ -1,13 +1,12 @@
-import { IAuthRepository } from "./auth.repository.interface";
+import { IAuthRepository } from './auth.repository.interface';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from "typeorm";
-import User from "src/entities/user.entity";
-import AuthSocial from "src/entities/auth.social.entity";
-import LoginType from "src/enums/login.type.enum";
-import { UserSessionDto } from "src/dto/user.session.dto";
-import SocialType from "src/enums/social.type.enum";
-import { UserDto } from "src/dto/user.dto";
-
+import { Repository } from 'typeorm';
+import User from 'src/entities/user.entity';
+import AuthSocial from 'src/entities/auth.social.entity';
+import LoginType from 'src/enums/login.type.enum';
+import { UserSessionDto } from 'src/dto/user.session.dto';
+import SocialType from 'src/enums/social.type.enum';
+import { UserDto } from 'src/dto/user.dto';
 
 export class AuthRepository implements IAuthRepository {
   constructor(
@@ -17,11 +16,11 @@ export class AuthRepository implements IAuthRepository {
     private userRepository: Repository<User>,
   ) {}
 
-  async findUserByEmail(email: string): Promise<Boolean> {
+  async findUserByEmail(email: string): Promise<boolean> {
     const result = await this.userRepository.findOne({
       where: {
         email: email,
-      }
+      },
     });
     if (!result) {
       return false;
@@ -29,7 +28,10 @@ export class AuthRepository implements IAuthRepository {
     return true;
   }
 
-  async findSocialUserByUserId(socialUserId: string, socialType: SocialType): Promise<Boolean> {
+  async findSocialUserByUserId(
+    socialUserId: string,
+    socialType: SocialType,
+  ): Promise<boolean> {
     const result = await this.authSocialRepository.findOne({
       where: {
         socialUserId: socialUserId,
@@ -62,14 +64,17 @@ export class AuthRepository implements IAuthRepository {
     });
   }
 
-  async getUserDtoBySocialUserId(socialUserId: string, socialType: SocialType): Promise<UserDto> {
+  async getUserDtoBySocialUserId(
+    socialUserId: string,
+    socialType: SocialType,
+  ): Promise<UserDto> {
     const result = await this.authSocialRepository.findOne({
       relations: ['user'],
       select: {
         user: {
           userId: true,
           userName: true,
-        }
+        },
       },
       where: {
         socialUserId: socialUserId,
@@ -84,13 +89,12 @@ export class AuthRepository implements IAuthRepository {
     // .where('authSocial.socialUserId = :socialUserId', { socialUserId: socialUserId })
     // .andWhere('authSocial.socialType = :socialType', { socialType: socialType })
     // .getOne();
-    console.log(result);
     if (!result) {
       return null;
     }
     return {
       userId: result.user.userId,
       userName: result.user.userName,
-    }
+    };
   }
 }

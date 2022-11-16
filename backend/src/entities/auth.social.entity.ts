@@ -1,6 +1,13 @@
-import SocialType from "src/enums/social.type.enum";
-import { Column, CreateDateColumn, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from "typeorm";
-import User from "./user.entity";
+import SocialType from 'src/enums/social.type.enum';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  JoinColumn,
+  OneToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
+import User from './user.entity';
 
 @Entity('auth_social')
 export default class AuthSocial {

@@ -17,7 +17,6 @@ import { GoogleStrategy } from './google/google.strategy';
 import { AuthGoogleController } from './google/auth.google.controller';
 import { AuthController } from './auth.controller';
 
-
 const repo = {
   provide: 'IAuthRepository',
   useClass: AuthRepository,
@@ -37,8 +36,20 @@ const repo = {
     TypeOrmModule.forFeature([User, AuthSocial, AuthSite]),
     HttpModule,
   ],
-  providers: [KakaoStrategy, NaverStrategy, GoogleStrategy, JwtStrategy, AuthService, repo],
-  controllers: [AuthController, AuthKakaoController, AuthNaverController, AuthGoogleController],
+  providers: [
+    KakaoStrategy,
+    NaverStrategy,
+    GoogleStrategy,
+    JwtStrategy,
+    AuthService,
+    repo,
+  ],
+  controllers: [
+    AuthController,
+    AuthKakaoController,
+    AuthNaverController,
+    AuthGoogleController,
+  ],
   exports: [],
 })
 export class AuthModule {}

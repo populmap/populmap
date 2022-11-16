@@ -1,19 +1,13 @@
-import { Controller, Get, Logger, Res, UseGuards } from "@nestjs/common";
-import { Response } from "express";
-import { User } from "src/decorator/user.decorator";
-import { UserSessionDto } from "src/dto/user.session.dto";
-import { AuthService } from "../auth.service";
-import { JwtAuthGuard } from "../jwt/guard/jwt.auth.guard";
-import { JWTSignGuard } from "../jwt/guard/jwt.sign.guard";
-import { NaverGuard } from "./guard/naver.guard";
-
+import { Controller, Get, Logger, Res, UseGuards } from '@nestjs/common';
+import { Response } from 'express';
+import { AuthService } from '../auth.service';
+import { JWTSignGuard } from '../jwt/guard/jwt.sign.guard';
+import { NaverGuard } from './guard/naver.guard';
 
 @Controller('auth/naver')
 export class AuthNaverController {
   private logger = new Logger(AuthNaverController.name);
-  constructor(
-    private authService: AuthService,
-    ){}
+  constructor(private authService: AuthService) {}
 
   @Get('/login')
   @UseGuards(NaverGuard)

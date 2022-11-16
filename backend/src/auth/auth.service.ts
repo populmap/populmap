@@ -13,13 +13,15 @@ export class AuthService {
     @Inject('IAuthRepository') private authRepository: IAuthRepository,
   ) {}
 
-  async addSocialUserIfNotExists(user: UserSessionDto): Promise<UserDto> {
-    this.logger.debug(`Called ${this.addSocialUserIfNotExists.name}`);
-    // user 테이블에서 userId로 auth_social에서 유저 조회.
+  async createSocialUserIfNotExists(user: UserSessionDto): Promise<UserDto> {
+    this.logger.debug(`Called ${this.createSocialUserIfNotExists.name}`);
+    // user 테이블에서 email로 유저 조회.
     // 이미 존재하는 유저라면 null return
     if (await this.authRepository.findUserByEmail(user.email)) {
       return null;
     }
+    // user 테이블에서 userId로 auth_social에서 유저 조회.
+    // 이미 존재하는 유저라면 null return
     if (
       await this.authRepository.findSocialUserByUserId(
         user.socialUserId,
@@ -31,7 +33,7 @@ export class AuthService {
     // 없었던 유저라면 랜덤 userName을 생성.
     const userName = uuid();
     // user 테이블에 삽입.
-    const userId = await this.authRepository.addSocialUser(
+    const userId = await this.authRepository.createSocialUser(
       userName,
       user.email,
     );

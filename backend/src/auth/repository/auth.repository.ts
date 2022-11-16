@@ -44,7 +44,7 @@ export class AuthRepository implements IAuthRepository {
     return true;
   }
 
-  async addSocialUser(userName: string, email: string): Promise<number> {
+  async createSocialUser(userName: string, email: string): Promise<number> {
     const result = await this.userRepository.insert({
       userName: userName,
       email: email,

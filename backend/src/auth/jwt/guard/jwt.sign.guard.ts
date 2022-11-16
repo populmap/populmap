@@ -36,7 +36,7 @@ export class JWTSignGuard implements CanActivate {
     }
     this.logger.log('jwt sign guard generateJWTToken');
     if (user.loginType === LoginType.SOCIAL) {
-      const generatedUser = await this.authService.addSocialUserIfNotExists(
+      const generatedUser = await this.authService.createSocialUserIfNotExists(
         user,
       );
       if (generatedUser) {

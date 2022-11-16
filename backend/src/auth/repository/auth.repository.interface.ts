@@ -25,7 +25,7 @@ export interface IAuthRepository {
    * @param email
    * @return user_id
    */
-  addSocialUser(userName: string, email: string): Promise<number>;
+  createSocialUser(userName: string, email: string): Promise<number>;
 
   /**
    * auth.social 테이블에 새 유저 정보를 추가한다.

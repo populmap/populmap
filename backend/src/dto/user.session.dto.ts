@@ -8,5 +8,5 @@ export class UserSessionDto extends UserDto {
   socialUserId?: string;
   accessToken: string;
   iat?: number;
-  exp?: number;
+  ext?: number;
 }

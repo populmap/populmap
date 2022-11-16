@@ -40,27 +40,6 @@ export class AuthService {
     return await this.authRepository.getUserDtoBySocialUserId(socialUserId, socialType);
   }
 
-  async logoutKakao(res: Response, user: UserSessionDto): Promise<void> {
-    this.logger.debug(`Called ${this.logoutKakao.name}`);
-    const url = 'https://kapi.kakao.com/v1/user/logout';
-    const headersRequest = {
-      'Content-Type': 'application/x-www-form-urlencoded',
-      Authorization: `Bearer ${user.accessToken}`,
-    };
-    await firstValueFrom(
-      this.httpService
-        .get(url, { headers: headersRequest })
-        .pipe(map((res) => res.data)),
-      )
-      .then((data) => {
-        res.clearCookie('populmap_token');
-        this.logger.log('logout success!');
-      })
-      .catch((err) => {
-        throw err;
-      });
-  }
-
   async logout(res: Response, user: UserSessionDto): Promise<void> {
     this.logger.debug(`Called ${this.logout.name}`);
     res.clearCookie('populmap_token');

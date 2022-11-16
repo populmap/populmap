@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
 import { HttpModule } from '@nestjs/axios';
-import { AuthKakaoController } from './auth.kakao.controller';
+import { AuthKakaoController } from './kakao/auth.kakao.controller';
 import { KakaoStrategy } from './kakao/kakao.strategy';
 import { AuthService } from './auth.service';
 import { AuthRepository } from './repository/auth.repository';
@@ -11,10 +11,11 @@ import AuthSocial from 'src/entities/auth.social.entity';
 import AuthSite from 'src/entities/auth.site.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { JwtStrategy } from './jwt/jwt.strategy';
-import { AuthNaverController } from './auth.naver.controller';
+import { AuthNaverController } from './naver/auth.naver.controller';
 import { NaverStrategy } from './naver/naver.strategy';
 import { GoogleStrategy } from './google/google.strategy';
-import { AuthGoogleController } from './auth.google.controller';
+import { AuthGoogleController } from './google/auth.google.controller';
+import { AuthController } from './auth.controller';
 
 
 const repo = {
@@ -37,7 +38,7 @@ const repo = {
     HttpModule,
   ],
   providers: [KakaoStrategy, NaverStrategy, GoogleStrategy, JwtStrategy, AuthService, repo],
-  controllers: [AuthKakaoController, AuthNaverController, AuthGoogleController],
+  controllers: [AuthController, AuthKakaoController, AuthNaverController, AuthGoogleController],
   exports: [],
 })
 export class AuthModule {}

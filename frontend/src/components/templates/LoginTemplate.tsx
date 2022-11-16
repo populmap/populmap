@@ -1,23 +1,18 @@
 import styled from "@emotion/styled";
 import LoginForm from "../organisms/LoginForm";
+import LoginNav from "../organisms/LoginNav";
 
-const TitleSection = styled.header``;
-const LoginSection = styled.section``;
-const NavSection = styled.nav``;
+const LoginSection = styled.section`
+  height: 90vh;
+  text-align: center;
+`;
 
 const LoginTemplate = (): JSX.Element => {
   return (
-    <>
-      <TitleSection>
-        <h1>populmap</h1>
-      </TitleSection>
-      <LoginSection>
-        <LoginForm />
-      </LoginSection>
-      <NavSection>
-        <h1> Login Nav </h1>
-      </NavSection>
-    </>
+    <LoginSection>
+      <LoginForm />
+      <LoginNav />
+    </LoginSection>
   );
 };
 

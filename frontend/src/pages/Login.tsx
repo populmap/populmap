@@ -1,15 +1,13 @@
 import LoginTemplate from "../components/templates/LoginTemplate";
-import ContentTemplate from "../components/templates/ContentTemplate";
 import FooterTemplate from "../components/templates/FooterTemplate";
+import ContentTemplate from "../components/templates/ContentTemplate";
 
 const Login = (): JSX.Element => {
   return (
-    <>
-      <ContentTemplate>
-        <LoginTemplate />
-      </ContentTemplate>
+    <ContentTemplate>
+      <LoginTemplate />
       <FooterTemplate />
-    </>
+    </ContentTemplate>
   );
 };
 

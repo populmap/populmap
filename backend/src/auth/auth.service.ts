@@ -5,6 +5,8 @@ import { UserSessionDto } from 'src/dto/user.session.dto';
 import { UserDto } from 'src/dto/user.dto';
 import SocialType from 'src/enums/social.type.enum';
 import { Response } from 'express';
+import { UserRegisterRequestDto } from 'src/dto/request/user.register.request.dto';
+import bcrypt from 'bcrypt';
 
 @Injectable()
 export class AuthService {
@@ -51,6 +53,18 @@ export class AuthService {
       socialUserId,
       socialType,
     );
+  }
+
+  async createSiteUser(user: UserRegisterRequestDto): Promise<void> {
+    if (await this.authRepository.findUserByEmail(user.email)) {
+      return null;
+    }
+    if (await this.authRepository.findUserByUserName(user.userName)) {
+      return null;
+    }
+    const hashedPassword = await bcrypt.hash(user.password, 12);
+    const userId = await this.authRepository.createSiteUser(user.userName, user.email);
+    await this.authRepository.insertAuthSite(userId, hashedPassword);
   }
 
   async logout(res: Response, user: UserSessionDto): Promise<void> {

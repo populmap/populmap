@@ -7,11 +7,15 @@ import LoginType from 'src/enums/login.type.enum';
 import { UserSessionDto } from 'src/dto/user.session.dto';
 import SocialType from 'src/enums/social.type.enum';
 import { UserDto } from 'src/dto/user.dto';
+import { UserRegisterRequestDto } from 'src/dto/request/user.register.request.dto';
+import AuthSite from 'src/entities/auth.site.entity';
 
 export class AuthRepository implements IAuthRepository {
   constructor(
     @InjectRepository(AuthSocial)
     private authSocialRepository: Repository<AuthSocial>,
+    @InjectRepository(AuthSite)
+    private authSiteRepository: Repository<AuthSite>,
     @InjectRepository(User)
     private userRepository: Repository<User>,
   ) {}
@@ -20,6 +24,18 @@ export class AuthRepository implements IAuthRepository {
     const result = await this.userRepository.findOne({
       where: {
         email: email,
+      },
+    });
+    if (!result) {
+      return false;
+    }
+    return true;
+  }
+
+  async findUserByUserName(userName: string): Promise<boolean> {
+    const result = await this.userRepository.findOne({
+      where: {
+        userName: userName,
       },
     });
     if (!result) {
@@ -53,12 +69,30 @@ export class AuthRepository implements IAuthRepository {
     return result.identifiers.pop()['userId'];
   }
 
+
   async insertAuthSocial(userId: number, user: UserSessionDto): Promise<void> {
     await this.authSocialRepository.insert({
       userId: userId,
       socialUserId: user.socialUserId,
       socialType: user.socialType,
       accessToken: user.accessToken,
+      firstLogin: new Date(),
+      lastLogin: new Date(),
+    });
+  }
+  async createSiteUser(userName: string, email: string): Promise<number> {
+    const result = await this.userRepository.insert({
+      userName: userName,
+      email: email,
+      loginType: LoginType.SITE,
+    });
+    return result.identifiers.pop()['userId'];
+  }
+
+  async insertAuthSite(userId: number, password: string): Promise<void> {
+    await this.authSiteRepository.insert({
+      siteUserId: userId,
+      password: password,
       firstLogin: new Date(),
       lastLogin: new Date(),
     });

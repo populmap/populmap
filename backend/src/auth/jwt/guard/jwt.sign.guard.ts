@@ -29,7 +29,7 @@ export class JWTSignGuard implements CanActivate {
       this.logger.debug(`can't generate JWTToken`);
       return false;
     }
-    console.log('jwt sign guard generateJWTToken');
+    this.logger.log('jwt sign guard generateJWTToken');
     if (user.loginType === LoginType.SOCIAL) {
       const generatedUser = await this.authService.addSocialUserIfNotExists(user);
       if (generatedUser) {
@@ -39,7 +39,9 @@ export class JWTSignGuard implements CanActivate {
     } else {
       // await this.authService.addSiteUserIfNotExists(user);
     }
+    console.log(user);
     const token = this.jwtService.sign(user);
+    console.log(token);
     response.cookie('populmap_token', token);
     return true;
   }

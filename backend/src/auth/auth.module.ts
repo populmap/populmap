@@ -13,6 +13,9 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { JwtStrategy } from './jwt/jwt.strategy';
 import { AuthNaverController } from './auth.naver.controller';
 import { NaverStrategy } from './naver/naver.strategy';
+import { GoogleStrategy } from './google/google.strategy';
+import { AuthGoogleController } from './auth.google.controller';
+
 
 const repo = {
   provide: 'IAuthRepository',
@@ -33,8 +36,8 @@ const repo = {
     TypeOrmModule.forFeature([User, AuthSocial, AuthSite]),
     HttpModule,
   ],
-  providers: [KakaoStrategy, NaverStrategy, JwtStrategy, AuthService, repo],
-  controllers: [AuthKakaoController, AuthNaverController],
+  providers: [KakaoStrategy, NaverStrategy, GoogleStrategy, JwtStrategy, AuthService, repo],
+  controllers: [AuthKakaoController, AuthNaverController, AuthGoogleController],
   exports: [],
 })
 export class AuthModule {}

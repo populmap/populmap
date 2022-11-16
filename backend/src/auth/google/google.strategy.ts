@@ -1,22 +1,23 @@
 import { Injectable } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import { PassportStrategy } from "@nestjs/passport";
-import { Strategy } from "passport-naver";
+import { Strategy } from "passport-google-oauth20";
 import { UserSessionDto } from "src/dto/user.session.dto";
 import LoginType from "src/enums/login.type.enum";
 import SocialType from "src/enums/social.type.enum";
 import { AuthService } from "../auth.service";
 
 @Injectable()
-export class NaverStrategy extends PassportStrategy(Strategy, 'naver') {
+export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
   constructor(
     private readonly configService: ConfigService,
     private readonly authService: AuthService,
     ) {
     super({
-      clientID: configService.get<string>('naver.clientID'),
-      clientSecret: configService.get<string>('naver.clientSecret'),
-      callbackURL: configService.get<string>('naver.callbackURL'),
+      clientID: configService.get<string>('google.clientID'),
+      clientSecret: configService.get<string>('google.clientSecret'),
+      callbackURL: configService.get<string>('google.callbackURL'),
+      scope: ['email', 'profile'],
     });
   }
 
@@ -26,7 +27,7 @@ export class NaverStrategy extends PassportStrategy(Strategy, 'naver') {
       userName: undefined,
       email: profile.emails[0].value,
       loginType: LoginType.SOCIAL,
-      socialType: SocialType.NAVER,
+      socialType: SocialType.GOOGLE,
       socialUserId: profile.id,
       accessToken: accessToken,
     };

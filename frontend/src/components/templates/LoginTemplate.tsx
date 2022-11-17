@@ -3,8 +3,9 @@ import LoginForm from "../organisms/LoginForm";
 import LoginNav from "../organisms/LoginNav";
 
 const LoginSection = styled.section`
-  height: 90vh;
   text-align: center;
+  width: 100%;
+  background-color: #fafafa;
 `;
 
 const LoginTemplate = (): JSX.Element => {

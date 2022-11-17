@@ -10,7 +10,7 @@ const LoginButton = (props: LoginButtonProps): JSX.Element => {
     console.log("clicked");
   };
   return (
-    <Button onClick={handleClick} variant="contained">
+    <Button onClick={handleClick} style={{ width: "60%" }} variant="contained">
       로그인
     </Button>
   );

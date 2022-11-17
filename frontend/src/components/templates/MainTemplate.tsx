@@ -1,7 +1,7 @@
-import InitMap from "../map/InitMap";
+import MarkedMap from "../organisms/MarkedMap";
 
 const MainTemplate = (): JSX.Element => {
-  return <InitMap />;
+  return <MarkedMap />;
 };
 
 export default MainTemplate;

@@ -14,7 +14,7 @@ const LoginTemplate = (): JSX.Element => {
     <LoginSection>
       <LoginForm />
       <LoginNav />
-      <OauthLoginNav />
+      {/* <OauthLoginNav /> */}
     </LoginSection>
   );
 };

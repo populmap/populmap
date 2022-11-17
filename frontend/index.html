@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <link rel="icon" href="/img/logo.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>populmap</title>
   </head>
@@ -11,7 +11,7 @@
     <script type="module" src="/src/main.tsx"></script>
     <script
       type="text/javascript"
-      src="//dapi.kakao.com/v2/maps/sdk.js?appkey=680002d71784e0ac826a9c3b97340634&libraries=services,clusterer"
+      src="//dapi.kakao.com/v2/maps/sdk.js?appkey=import.meta.env.VITE_KAKAO_MAP_KEY&libraries=services,clusterer"
     ></script>
   </body>
 </html>

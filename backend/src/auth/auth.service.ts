@@ -5,21 +5,44 @@ import { UserSessionDto } from 'src/dto/user.session.dto';
 import { UserDto } from 'src/dto/user.dto';
 import SocialType from 'src/enums/social.type.enum';
 import { Response } from 'express';
+import { UserRegisterRequestDto } from 'src/dto/request/user.register.request.dto';
+import * as bcrypt from 'bcrypt';
+import { JwtService } from '@nestjs/jwt';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class AuthService {
   private logger = new Logger(AuthService.name);
   constructor(
     @Inject('IAuthRepository') private authRepository: IAuthRepository,
+    private jwtService: JwtService,
+    private configService: ConfigService,
   ) {}
 
-  async addSocialUserIfNotExists(user: UserSessionDto): Promise<UserDto> {
-    this.logger.debug(`Called ${this.addSocialUserIfNotExists.name}`);
-    // user 테이블에서 userId로 auth_social에서 유저 조회.
+  async validateSiteUser(id: string, password: string): Promise<UserDto> {
+    let user = await this.authRepository.getSiteUserByEmail(id);
+    if (!user) {
+      user = await this.authRepository.getSiteUserByUserName(id);
+    }
+    if (!user) {
+      return null;
+    }
+    const result = await bcrypt.compare(password, user.password);
+    if (result) {
+      return user;
+    }
+    return null;
+  }
+
+  async createSocialUserIfNotExists(user: UserSessionDto): Promise<UserDto> {
+    this.logger.debug(`Called ${this.createSocialUserIfNotExists.name}`);
+    // user 테이블에서 email로 유저 조회.
     // 이미 존재하는 유저라면 null return
     if (await this.authRepository.findUserByEmail(user.email)) {
       return null;
     }
+    // user 테이블에서 userId로 auth_social에서 유저 조회.
+    // 이미 존재하는 유저라면 null return
     if (
       await this.authRepository.findSocialUserByUserId(
         user.socialUserId,
@@ -31,7 +54,7 @@ export class AuthService {
     // 없었던 유저라면 랜덤 userName을 생성.
     const userName = uuid();
     // user 테이블에 삽입.
-    const userId = await this.authRepository.addSocialUser(
+    const userId = await this.authRepository.createSocialUser(
       userName,
       user.email,
     );
@@ -51,9 +74,35 @@ export class AuthService {
     );
   }
 
-  async logout(res: Response, user: UserSessionDto): Promise<void> {
+  async createSiteUserIfNotExists(
+    user: UserRegisterRequestDto,
+  ): Promise<UserDto> {
+    this.logger.debug(`Called ${this.createSiteUserIfNotExists.name}`);
+    if (await this.authRepository.findUserByEmail(user.email)) {
+      return null;
+    }
+    if (await this.authRepository.findUserByUserName(user.userName)) {
+      return null;
+    }
+    const hashedPassword = await bcrypt.hash(user.password, 12);
+    const userId = await this.authRepository.createSiteUser(
+      user.userName,
+      user.email,
+    );
+    await this.authRepository.insertAuthSite(userId, hashedPassword);
+    return { userId, userName: user.userName };
+  }
+
+  async logout(res: Response): Promise<void> {
     this.logger.debug(`Called ${this.logout.name}`);
     res.clearCookie('populmap_token');
     this.logger.log('logout success!');
+  }
+
+  async getCookieWithJwtToken(user: UserSessionDto) {
+    const token = this.jwtService.sign(user);
+    return `Authentication=${token}; HttpOnly; Path=/; Max-Age=${this.configService.get(
+      'jwt.expiresIn',
+    )}`;
   }
 }

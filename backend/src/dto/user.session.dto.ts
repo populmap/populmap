@@ -6,7 +6,7 @@ export class UserSessionDto extends UserDto {
   loginType: LoginType;
   socialType?: SocialType;
   socialUserId?: string;
-  accessToken: string;
+  accessToken?: string;
   iat?: number;
   ext?: number;
 }

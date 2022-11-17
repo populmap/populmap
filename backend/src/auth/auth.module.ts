@@ -16,6 +16,8 @@ import { NaverStrategy } from './naver/naver.strategy';
 import { GoogleStrategy } from './google/google.strategy';
 import { AuthGoogleController } from './google/auth.google.controller';
 import { AuthController } from './auth.controller';
+import { LocalStrategy } from './site/local.strategy';
+import { PassportModule } from '@nestjs/passport';
 
 const repo = {
   provide: 'IAuthRepository',
@@ -35,11 +37,13 @@ const repo = {
     }),
     TypeOrmModule.forFeature([User, AuthSocial, AuthSite]),
     HttpModule,
+    PassportModule,
   ],
   providers: [
     KakaoStrategy,
     NaverStrategy,
     GoogleStrategy,
+    LocalStrategy,
     JwtStrategy,
     AuthService,
     repo,

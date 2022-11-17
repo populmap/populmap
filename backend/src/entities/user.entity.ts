@@ -1,5 +1,7 @@
 import LoginType from 'src/enums/login.type.enum';
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import AuthSite from './auth.site.entity';
+import AuthSocial from './auth.social.entity';
 
 @Entity('user')
 export default class User {
@@ -30,4 +32,10 @@ export default class User {
     enum: LoginType,
   })
   loginType: LoginType;
+
+  @OneToOne(() => AuthSite, (authSite) => authSite.user)
+  authSite: AuthSite | null;
+
+  @OneToOne(() => AuthSocial, (authSocial) => authSocial.user)
+  authSocial: AuthSocial | null;
 }

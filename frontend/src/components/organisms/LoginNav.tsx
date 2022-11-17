@@ -12,7 +12,7 @@ const LoginNav = (): JSX.Element => {
     <NavSection>
       <SignupButton />
       <FindUserInfoButton type="id" />
-      <FindUserInfoButton type="passwd" />
+      <FindUserInfoButton type="password" />
     </NavSection>
   );
 };

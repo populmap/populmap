@@ -8,7 +8,7 @@ import { Response } from 'express';
 import { UserRegisterRequestDto } from 'src/dto/request/user.register.request.dto';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
-import { ConfigService } from '@nestjs/config';
+import LoginType from 'src/enums/login.type.enum';
 
 @Injectable()
 export class AuthService {
@@ -16,10 +16,10 @@ export class AuthService {
   constructor(
     @Inject('IAuthRepository') private authRepository: IAuthRepository,
     private jwtService: JwtService,
-    private configService: ConfigService,
   ) {}
 
   async validateSiteUser(id: string, password: string): Promise<UserDto> {
+    this.logger.debug(`Called ${this.validateSiteUser.name}`);
     let user = await this.authRepository.getSiteUserByEmail(id);
     if (!user) {
       user = await this.authRepository.getSiteUserByUserName(id);
@@ -93,16 +93,29 @@ export class AuthService {
     return { userId, userName: user.userName };
   }
 
+  async register(user: UserRegisterRequestDto, res: Response): Promise<void> {
+    const userDto = await this.createSiteUserIfNotExists(user);
+    const userSessionDto: UserSessionDto = {
+      loginType: LoginType.SITE,
+      userId: userDto.userId,
+      userName: userDto.userName,
+      email: userDto.email,
+    };
+    const token = this.jwtService.sign(userSessionDto);
+    res.cookie('populmap_token', token);
+    this.logger.log('registered!');
+  }
+
+  async login(user: UserSessionDto, res: Response): Promise<void> {
+    this.logger.debug(`Called ${this.login.name}`);
+    const token = this.jwtService.sign(user);
+    res.cookie('populmap_token', token);
+    this.logger.log(`login success!`);
+  }
+
   async logout(res: Response): Promise<void> {
     this.logger.debug(`Called ${this.logout.name}`);
     res.clearCookie('populmap_token');
     this.logger.log('logout success!');
-  }
-
-  async getCookieWithJwtToken(user: UserSessionDto) {
-    const token = this.jwtService.sign(user);
-    return `Authentication=${token}; HttpOnly; Path=/; Max-Age=${this.configService.get(
-      'jwt.expiresIn',
-    )}`;
   }
 }

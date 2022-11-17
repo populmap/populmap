@@ -135,6 +135,7 @@ export class AuthRepository implements IAuthRepository {
       lastLogin: new Date(),
     });
   }
+
   async createSiteUser(userName: string, email: string): Promise<number> {
     const result = await this.userRepository.insert({
       userName: userName,
@@ -158,7 +159,9 @@ export class AuthRepository implements IAuthRepository {
     socialType: SocialType,
   ): Promise<UserDto> {
     const result = await this.authSocialRepository.findOne({
-      relations: ['user'],
+      relations: {
+        user: true,
+      },
       select: {
         user: {
           userId: true,
@@ -170,14 +173,6 @@ export class AuthRepository implements IAuthRepository {
         socialType: socialType,
       },
     });
-    // const result = await this.authSocialRepository.createQueryBuilder()
-    // .select('user.userId', 'userId')
-    // .addSelect('user.userName', 'userName')
-    // .from(User, 'user')
-    // .innerJoin(AuthSocial, 'authSocial', 'user.userId = authSocial.userId')
-    // .where('authSocial.socialUserId = :socialUserId', { socialUserId: socialUserId })
-    // .andWhere('authSocial.socialType = :socialType', { socialType: socialType })
-    // .getOne();
     if (!result) {
       return null;
     }

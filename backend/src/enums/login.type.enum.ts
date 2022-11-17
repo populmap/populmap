@@ -1,4 +1,3 @@
-
 enum LoginType {
   SOCIAL = 'SOCIAL',
   SITE = 'SITE',

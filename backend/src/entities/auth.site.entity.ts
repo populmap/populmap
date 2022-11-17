@@ -1,12 +1,19 @@
-import { Column, CreateDateColumn, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from "typeorm";
-import User from "./user.entity";
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  JoinColumn,
+  OneToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
+import User from './user.entity';
 
-@Entity('auth.site')
+@Entity('auth_site')
 export default class AuthSite {
   @PrimaryGeneratedColumn({
-    name: 'siteId',
+    name: 'site_id',
   })
-  site_id: number;
+  siteId: number;
 
   @Column({
     name: 'site_user_id',
@@ -34,7 +41,7 @@ export default class AuthSite {
 
   @OneToOne(() => User)
   @JoinColumn({
-    name: 'user_id',
+    name: 'site_user_id',
   })
   user: User;
 }

@@ -1,6 +1,5 @@
-import LoginType from "src/enums/login.type.enum";
-import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from "typeorm";
-import AuthSocial from "./auth.social.entity";
+import LoginType from 'src/enums/login.type.enum';
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity('user')
 export default class User {

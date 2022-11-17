@@ -1,8 +1,15 @@
-import SocialType from "src/enums/social.type.enum";
-import { Column, CreateDateColumn, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from "typeorm";
-import User from "./user.entity";
+import SocialType from 'src/enums/social.type.enum';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  JoinColumn,
+  OneToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
+import User from './user.entity';
 
-@Entity('auth.social')
+@Entity('auth_social')
 export default class AuthSocial {
   @PrimaryGeneratedColumn({
     name: 'social_id',
@@ -11,10 +18,17 @@ export default class AuthSocial {
 
   @Column({
     name: 'social_user_id',
-    unique: true,
-    type: 'int',
+    type: 'varchar',
+    length: 64,
+    nullable: true,
   })
-  socialUserId: number;
+  socialUserId: string;
+
+  @Column({
+    name: 'user_id',
+    unique: true,
+  })
+  userId: number;
 
   @Column({
     name: 'social_type',

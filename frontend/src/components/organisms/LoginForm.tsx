@@ -3,36 +3,29 @@ import { useState } from "react";
 import LoginButton from "../atoms/buttons/LoginButton";
 import LoginInput from "../atoms/inputs/LoginInput";
 
-const TitleSection = styled.section`
-  margin-top: 3rem;
+const Form = styled.section`
+  margin-top: 6rem;
+  margin-bottom: 1rem;
 `;
-
-const TitleSpan = styled.span``;
 
 const InputSection = styled.section`
-  margin-top: 1rem;
+  margin: 1rem 0;
 `;
-const SubmitSection = styled.section`
-  margin-top: 1rem;
-`;
+const SubmitSection = styled.section``;
 
 const LoginForm = (): JSX.Element => {
   const [userId, setUserId] = useState<string>("");
   const [userPasswd, setUserPasswd] = useState<string>("");
 
   return (
-    <>
-      <TitleSection>
-        <TitleSpan>populmap</TitleSpan>
-      </TitleSection>
+    <Form>
+      <h2>로그인</h2>
       <InputSection>
-        <LoginInput placeholder="아이디를 입력하세요" />
-        <LoginInput placeholder="비밀번호를 입력하세요" />
+        <LoginInput title="아이디" placeholder="아이디를 입력하세요" />
+        <LoginInput title="비밀번호" placeholder="비밀번호를 입력하세요" />
       </InputSection>
-      <SubmitSection>
-        <LoginButton userId={userId} userPasswd={userPasswd} />
-      </SubmitSection>
-    </>
+      <LoginButton userId={userId} userPasswd={userPasswd} />
+    </Form>
   );
 };
 

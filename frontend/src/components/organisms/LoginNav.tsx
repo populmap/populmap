@@ -4,7 +4,7 @@ import FindUserInfoButton from "../atoms/buttons/FindUserInfoButton";
 
 const NavSection = styled.div`
   display: flex;
-  margin-top: 1rem;
+  justify-content: center;
 `;
 
 const LoginNav = (): JSX.Element => {

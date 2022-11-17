@@ -7,7 +7,6 @@ import LoginType from 'src/enums/login.type.enum';
 import { UserSessionDto } from 'src/dto/user.session.dto';
 import SocialType from 'src/enums/social.type.enum';
 import { UserDto } from 'src/dto/user.dto';
-import { UserRegisterRequestDto } from 'src/dto/request/user.register.request.dto';
 import AuthSite from 'src/entities/auth.site.entity';
 import { UserValidateDto } from 'src/dto/user.validate.dto';
 
@@ -56,7 +55,7 @@ export class AuthRepository implements IAuthRepository {
         userName: true,
         authSite: {
           password: true,
-        }
+        },
       },
       where: {
         email: email,
@@ -84,7 +83,7 @@ export class AuthRepository implements IAuthRepository {
         userName: true,
         authSite: {
           password: true,
-        }
+        },
       },
       where: {
         userName: userName,
@@ -125,7 +124,6 @@ export class AuthRepository implements IAuthRepository {
     });
     return result.identifiers.pop()['userId'];
   }
-
 
   async insertAuthSocial(userId: number, user: UserSessionDto): Promise<void> {
     await this.authSocialRepository.insert({

@@ -1,9 +1,9 @@
-import { Injectable, UnauthorizedException } from "@nestjs/common";
-import { PassportStrategy } from "@nestjs/passport";
-import { Strategy } from "passport-local";
-import { UserSessionDto } from "src/dto/user.session.dto";
-import LoginType from "src/enums/login.type.enum";
-import { AuthService } from "../auth.service";
+import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { PassportStrategy } from '@nestjs/passport';
+import { Strategy } from 'passport-local';
+import { UserSessionDto } from 'src/dto/user.session.dto';
+import LoginType from 'src/enums/login.type.enum';
+import { AuthService } from '../auth.service';
 
 @Injectable()
 export class LocalStrategy extends PassportStrategy(Strategy) {
@@ -14,7 +14,11 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
     });
   }
 
-  async validate(username: string, password: string, callback: CallableFunction) {
+  async validate(
+    username: string,
+    password: string,
+    callback: CallableFunction,
+  ) {
     const userDto = await this.authService.validateSiteUser(username, password);
     if (!userDto) {
       throw new UnauthorizedException('존재하지 않는 유저입니다.');

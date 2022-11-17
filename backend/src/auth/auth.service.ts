@@ -29,7 +29,7 @@ export class AuthService {
     }
     const result = await bcrypt.compare(password, user.password);
     if (result) {
-        return user;
+      return user;
     }
     return null;
   }
@@ -74,7 +74,9 @@ export class AuthService {
     );
   }
 
-  async createSiteUserIfNotExists(user: UserRegisterRequestDto): Promise<UserDto> {
+  async createSiteUserIfNotExists(
+    user: UserRegisterRequestDto,
+  ): Promise<UserDto> {
     this.logger.debug(`Called ${this.createSiteUserIfNotExists.name}`);
     if (await this.authRepository.findUserByEmail(user.email)) {
       return null;
@@ -83,12 +85,15 @@ export class AuthService {
       return null;
     }
     const hashedPassword = await bcrypt.hash(user.password, 12);
-    const userId = await this.authRepository.createSiteUser(user.userName, user.email);
+    const userId = await this.authRepository.createSiteUser(
+      user.userName,
+      user.email,
+    );
     await this.authRepository.insertAuthSite(userId, hashedPassword);
     return { userId, userName: user.userName };
   }
 
-  async logout(res: Response, user: UserSessionDto): Promise<void> {
+  async logout(res: Response): Promise<void> {
     this.logger.debug(`Called ${this.logout.name}`);
     res.clearCookie('populmap_token');
     this.logger.log('logout success!');
@@ -96,6 +101,8 @@ export class AuthService {
 
   async getCookieWithJwtToken(user: UserSessionDto) {
     const token = this.jwtService.sign(user);
-    return `Authentication=${token}; HttpOnly; Path=/; Max-Age=${this.configService.get('jwt.expiresIn')}`;
+    return `Authentication=${token}; HttpOnly; Path=/; Max-Age=${this.configService.get(
+      'jwt.expiresIn',
+    )}`;
   }
 }

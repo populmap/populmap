@@ -1,4 +1,3 @@
-import { UserRegisterRequestDto } from 'src/dto/request/user.register.request.dto';
 import { UserDto } from 'src/dto/user.dto';
 import { UserSessionDto } from 'src/dto/user.session.dto';
 import { UserValidateDto } from 'src/dto/user.validate.dto';

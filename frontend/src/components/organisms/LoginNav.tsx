@@ -10,9 +10,9 @@ const NavSection = styled.div`
 const LoginNav = (): JSX.Element => {
   return (
     <NavSection>
-      <SignupButton />
-      <FindUserInfoButton type="id" />
-      <FindUserInfoButton type="password" />
+      <SignupButton value="회원가입" />
+      <FindUserInfoButton type="id" value="계정 찾기" />
+      <FindUserInfoButton type="password" value="비밀번호 찾기" />
     </NavSection>
   );
 };

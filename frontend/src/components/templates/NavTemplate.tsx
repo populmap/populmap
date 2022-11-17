@@ -17,7 +17,8 @@ const NavSection = styled.section`
 `;
 
 const BottomNavigationStyle = {
-  borderRadius: "1rem",
+  borderRadius: "0.7rem",
+  width: "27rem",
 };
 
 const NavTemplate = (): JSX.Element => {

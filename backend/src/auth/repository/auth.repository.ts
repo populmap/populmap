@@ -9,6 +9,7 @@ import SocialType from 'src/enums/social.type.enum';
 import { UserDto } from 'src/dto/user.dto';
 import { UserRegisterRequestDto } from 'src/dto/request/user.register.request.dto';
 import AuthSite from 'src/entities/auth.site.entity';
+import { UserValidateDto } from 'src/dto/user.validate.dto';
 
 export class AuthRepository implements IAuthRepository {
   constructor(
@@ -42,6 +43,62 @@ export class AuthRepository implements IAuthRepository {
       return false;
     }
     return true;
+  }
+
+  async getSiteUserByEmail(email: string): Promise<UserValidateDto> {
+    const result = await this.userRepository.findOne({
+      relations: {
+        authSite: true,
+      },
+      select: {
+        userId: true,
+        email: true,
+        userName: true,
+        authSite: {
+          password: true,
+        }
+      },
+      where: {
+        email: email,
+      },
+    });
+    if (!result) {
+      return null;
+    }
+    return {
+      userId: result.userId,
+      email: result.email,
+      userName: result.userName,
+      password: result.authSite.password,
+    };
+  }
+
+  async getSiteUserByUserName(userName: string): Promise<UserValidateDto> {
+    const result = await this.userRepository.findOne({
+      relations: {
+        authSite: true,
+      },
+      select: {
+        userId: true,
+        email: true,
+        userName: true,
+        authSite: {
+          password: true,
+        }
+      },
+      where: {
+        userName: userName,
+      },
+    });
+    if (!result) {
+      return null;
+    }
+    return {
+      userId: result.userId,
+      email: result.email,
+      userName: result.userName,
+      password: result.authSite.password,
+    };
   }
 
   async findSocialUserByUserId(

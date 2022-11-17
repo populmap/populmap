@@ -1,6 +1,7 @@
 import { UserRegisterRequestDto } from 'src/dto/request/user.register.request.dto';
 import { UserDto } from 'src/dto/user.dto';
 import { UserSessionDto } from 'src/dto/user.session.dto';
+import { UserValidateDto } from 'src/dto/user.validate.dto';
 import SocialType from 'src/enums/social.type.enum';
 
 export interface IAuthRepository {
@@ -15,6 +16,18 @@ export interface IAuthRepository {
    * @param userName
    */
   findUserByUserName(userName: string): Promise<boolean>;
+
+  /**
+   * email로 해당 site 유저 정보를 얻는다.
+   * @param email
+   */
+  getSiteUserByEmail(email: string): Promise<UserValidateDto>;
+
+  /**
+   * userName으로 해당 site 유저 정보를 얻는다.
+   * @param userName
+   */
+  getSiteUserByUserName(userName: string): Promise<UserValidateDto>;
 
   /**
    * socialUserId으로 해당 소셜 플랫폼의 유저가 존재하는지 확인한다.

@@ -6,14 +6,33 @@ import { UserDto } from 'src/dto/user.dto';
 import SocialType from 'src/enums/social.type.enum';
 import { Response } from 'express';
 import { UserRegisterRequestDto } from 'src/dto/request/user.register.request.dto';
-import bcrypt from 'bcrypt';
+import * as bcrypt from 'bcrypt';
+import { JwtService } from '@nestjs/jwt';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class AuthService {
   private logger = new Logger(AuthService.name);
   constructor(
     @Inject('IAuthRepository') private authRepository: IAuthRepository,
+    private jwtService: JwtService,
+    private configService: ConfigService,
   ) {}
+
+  async validateSiteUser(id: string, password: string): Promise<UserDto> {
+    let user = await this.authRepository.getSiteUserByEmail(id);
+    if (!user) {
+      user = await this.authRepository.getSiteUserByUserName(id);
+    }
+    if (!user) {
+      return null;
+    }
+    const result = await bcrypt.compare(password, user.password);
+    if (result) {
+        return user;
+    }
+    return null;
+  }
 
   async createSocialUserIfNotExists(user: UserSessionDto): Promise<UserDto> {
     this.logger.debug(`Called ${this.createSocialUserIfNotExists.name}`);
@@ -55,7 +74,8 @@ export class AuthService {
     );
   }
 
-  async createSiteUser(user: UserRegisterRequestDto): Promise<void> {
+  async createSiteUserIfNotExists(user: UserRegisterRequestDto): Promise<UserDto> {
+    this.logger.debug(`Called ${this.createSiteUserIfNotExists.name}`);
     if (await this.authRepository.findUserByEmail(user.email)) {
       return null;
     }
@@ -65,11 +85,17 @@ export class AuthService {
     const hashedPassword = await bcrypt.hash(user.password, 12);
     const userId = await this.authRepository.createSiteUser(user.userName, user.email);
     await this.authRepository.insertAuthSite(userId, hashedPassword);
+    return { userId, userName: user.userName };
   }
 
   async logout(res: Response, user: UserSessionDto): Promise<void> {
     this.logger.debug(`Called ${this.logout.name}`);
     res.clearCookie('populmap_token');
     this.logger.log('logout success!');
+  }
+
+  async getCookieWithJwtToken(user: UserSessionDto) {
+    const token = this.jwtService.sign(user);
+    return `Authentication=${token}; HttpOnly; Path=/; Max-Age=${this.configService.get('jwt.expiresIn')}`;
   }
 }

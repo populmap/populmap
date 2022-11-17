@@ -43,8 +43,6 @@ export class JWTSignGuard implements CanActivate {
         user.userId = generatedUser.userId;
         user.userName = generatedUser.userName;
       }
-    } else {
-      // await this.authService.addSiteUserIfNotExists(user);
     }
     const token = this.jwtService.sign(user);
     response.cookie('populmap_token', token);

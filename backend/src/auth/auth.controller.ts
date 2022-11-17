@@ -22,6 +22,7 @@ export class AuthController {
 
   @Post('/register')
   async register(@Body() user: UserRegisterRequestDto, @Res() res: Response) {
+    this.logger.debug(`Called ${this.register.name}`);
     await this.authService.register(user, res);
     return res.redirect('/');
   }
@@ -29,6 +30,7 @@ export class AuthController {
   @Get('/login')
   @UseGuards(LocalAuthGuard)
   async login(@Res() res: Response, @User() user: UserSessionDto) {
+    this.logger.debug(`Called ${this.login.name}`);
     await this.authService.login(user, res);
     return res.redirect('/');
   }
@@ -36,6 +38,7 @@ export class AuthController {
   @Get('/logout')
   @UseGuards(JwtAuthGuard)
   async logout(@Res() res: Response) {
+    this.logger.debug(`Called ${this.logout.name}`);
     await this.authService.logout(res);
     return res.redirect('/');
   }

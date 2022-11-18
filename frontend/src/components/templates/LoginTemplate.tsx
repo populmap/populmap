@@ -4,7 +4,9 @@ import LoginNav from "../organisms/LoginNav";
 import OauthLoginNav from "../organisms/OauthLoginNav";
 
 const LoginSection = styled.section`
+  position: absolute;
   text-align: center;
+  top: 10%;
   width: 100%;
   background-color: #fafafa;
 `;

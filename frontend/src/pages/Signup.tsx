@@ -6,14 +6,12 @@ import FooterTemplate from "../components/templates/FooterTemplate";
 
 const Signup = (): JSX.Element => {
   return (
-    <>
+    <ContentTemplate>
       <HeaderTemplate />
-      <ContentTemplate>
-        <SignupTemplate />
-        <NavTemplate />
-        <FooterTemplate />
-      </ContentTemplate>
-    </>
+      <SignupTemplate />
+      <NavTemplate />
+      <FooterTemplate />
+    </ContentTemplate>
   );
 };
 

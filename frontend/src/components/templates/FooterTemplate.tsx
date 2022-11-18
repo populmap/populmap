@@ -6,6 +6,7 @@ const Footer = style.footer`
   position: absolute;
   top: 95%;
   left: 50%;
+  width: 100%;
   transform: translate(-50%, 0%);
 `;
 

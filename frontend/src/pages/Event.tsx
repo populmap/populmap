@@ -5,13 +5,11 @@ import FooterTemplate from "../components/templates/FooterTemplate";
 
 const Event = (): JSX.Element => {
   return (
-    <>
+    <ContentTemplate>
       <HeaderTemplate />
-      <ContentTemplate>
-        <NavTemplate />
-        <FooterTemplate />
-      </ContentTemplate>
-    </>
+      <NavTemplate />
+      <FooterTemplate />
+    </ContentTemplate>
   );
 };
 

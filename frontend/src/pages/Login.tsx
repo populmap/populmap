@@ -6,14 +6,12 @@ import FooterTemplate from "../components/templates/FooterTemplate";
 
 const Login = (): JSX.Element => {
   return (
-    <>
+    <ContentTemplate>
       <HeaderTemplate />
-      <ContentTemplate>
-        <LoginTemplate />
-        <NavTemplate />
-        <FooterTemplate />
-      </ContentTemplate>
-    </>
+      <LoginTemplate />
+      <NavTemplate />
+      <FooterTemplate />
+    </ContentTemplate>
   );
 };
 

@@ -29,6 +29,7 @@ module.exports = {
     "react/react-in-jsx-scope": "off",
     "react/function-component-definition": 0,
     "no-shadow": 0,
+    "no-param-reassign": 0,
     "import/no-extraneous-dependencies": 0,
     "import/no-unresolved": [2, { caseSensitive: false }],
     "import/extensions": [

@@ -3,12 +3,11 @@ import { useAppSelector } from "../../redux/hook";
 
 const LoadMap = (): JSX.Element => {
   const mapState = useAppSelector((state) => state.map);
-  console.log(mapState);
   return (
     <Map
       center={{
-        lat: mapState.userLat,
-        lng: mapState.userLng,
+        lat: mapState.center.lat,
+        lng: mapState.center.lng,
       }}
       style={{
         width: "100%",

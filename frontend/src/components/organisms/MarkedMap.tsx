@@ -1,5 +1,8 @@
 import { Map, MapMarker, Circle, CustomOverlayMap } from "react-kakao-maps-sdk";
 import { useState, useEffect } from "react";
+import AddIcon from "@mui/icons-material/Add";
+import RemoveIcon from "@mui/icons-material/Remove";
+import MyLocationButton from "../atoms/buttons/MyLocationButton";
 
 const MarkedMap = (): JSX.Element => {
   const [state, setState] = useState({
@@ -90,6 +93,9 @@ const MarkedMap = (): JSX.Element => {
           </div>
         </CustomOverlayMap>
       )}
+      <AddIcon />
+      <RemoveIcon />
+      <MyLocationButton />
     </Map>
   );
 };

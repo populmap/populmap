@@ -12,6 +12,10 @@ export default defineConfig({
       compiler: true,
     }),
   ],
+
+  build: {
+    outDir: "build",
+  },
   server: {
     host: "0.0.0.0",
     port: 4242,

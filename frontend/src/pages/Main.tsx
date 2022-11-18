@@ -1,13 +1,18 @@
-import InitMap from "../components/map/InitMap";
-import Marker from "../components/map/Marker";
-import GeolocationMap from "../components/map/GeolocationMap";
+import HeaderTemplate from "../components/templates/HeaderTemplate";
+import ContentTemplate from "../components/templates/ContentTemplate";
+import MainTemplate from "../components/templates/MainTemplate";
+import NavTemplate from "../components/templates/NavTemplate";
+import FooterTemplate from "../components/templates/FooterTemplate";
 
 const Main = (): JSX.Element => {
   return (
     <>
-      {/* <InitMap /> */}
-      <Marker />
-      {/* <GeolocationMap /> */}
+      <HeaderTemplate />
+      <ContentTemplate>
+        <MainTemplate />
+        <NavTemplate />
+        <FooterTemplate />
+      </ContentTemplate>
     </>
   );
 };

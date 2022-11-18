@@ -1,0 +1,16 @@
+version: '3'
+
+services:
+  populmap_mariadb:
+    container_name: populmap_mariadb
+    build: ./
+    restart: always
+    environment:
+      MARIADB_DATABASE_HOST: ${DATABASE_HOST}
+      MARIADB_DATABASE: ${DATABASE}
+      MARIADB_USER: ${DATABASE_USER}
+      MARIADB_PASSWORD: ${DATABASE_PASSWORD}
+    ports:
+      - "3309:3306"
+    tty:
+      true

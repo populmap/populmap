@@ -1,5 +1,18 @@
+import HeaderTemplate from "../components/templates/HeaderTemplate";
+import ContentTemplate from "../components/templates/ContentTemplate";
+import NavTemplate from "../components/templates/NavTemplate";
+import FooterTemplate from "../components/templates/FooterTemplate";
+
 const Event = (): JSX.Element => {
-  return <div> 행사 목록을 보여주는 페이지 입니다. </div>;
+  return (
+    <>
+      <HeaderTemplate />
+      <ContentTemplate>
+        <NavTemplate />
+        <FooterTemplate />
+      </ContentTemplate>
+    </>
+  );
 };
 
 export default Event;

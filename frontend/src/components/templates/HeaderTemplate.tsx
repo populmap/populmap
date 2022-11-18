@@ -9,7 +9,11 @@ const Header = styled.header`
 `;
 
 const HeaderTemplate = (): JSX.Element => {
-  return <Header>populmap</Header>;
+  return (
+    <Header>
+      <span>populmap</span>
+    </Header>
+  );
 };
 
 export default HeaderTemplate;

@@ -1,17 +1,27 @@
 import { useNavigate } from "react-router-dom";
-import styled from "@emotion/styled";
+import Button from "@mui/material/Button";
 
-const Button = styled.button`
-  border: 0;
-  background-color: transparent;
-`;
-const SignupButton = (): JSX.Element => {
+const ButtonStyle = {
+  border: 0,
+  color: "black",
+  backgroundColor: "transparent",
+};
+
+interface SignupButtonProps {
+  value: string;
+}
+const SignupButton = (props: SignupButtonProps): JSX.Element => {
   const navigate = useNavigate();
+  const { value } = props;
   const handleClick = (): void => {
     navigate("/signup");
   };
 
-  return <Button onClick={handleClick}>회원가입</Button>;
+  return (
+    <Button style={ButtonStyle} onClick={handleClick}>
+      {value}
+    </Button>
+  );
 };
 
 export default SignupButton;

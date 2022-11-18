@@ -1,6 +1,7 @@
 import styled from "@emotion/styled";
 import LoginForm from "../organisms/LoginForm";
 import LoginNav from "../organisms/LoginNav";
+import OauthLoginNav from "../organisms/OauthLoginNav";
 
 const LoginSection = styled.section`
   text-align: center;
@@ -13,6 +14,7 @@ const LoginTemplate = (): JSX.Element => {
     <LoginSection>
       <LoginForm />
       <LoginNav />
+      {/* <OauthLoginNav /> */}
     </LoginSection>
   );
 };

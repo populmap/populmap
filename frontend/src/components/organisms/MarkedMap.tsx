@@ -1,4 +1,4 @@
-import { Map, MapMarker } from "react-kakao-maps-sdk";
+import { Map, MapMarker, Circle, CustomOverlayMap } from "react-kakao-maps-sdk";
 import { useState, useEffect } from "react";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
@@ -12,6 +12,11 @@ const MarkedMap = (): JSX.Element => {
     },
     errMsg: null,
     isLoading: true,
+  });
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [mousePosition, setMousePosition] = useState({
+    lat: 0,
+    lng: 0,
   });
 
   useEffect(() => {
@@ -28,19 +33,18 @@ const MarkedMap = (): JSX.Element => {
           }));
         },
         (err) => {
-          //   setState((prev) => ({
-          //     ...prev,
-          //     errMsg: err.message,
-          //     isLoading: false,
-          //   }));
+          // setState((prev) => ({
+          //   errMsg: err.message,
+          //   isLoading: false,
+          // }));
         }
       );
     } else {
-      //   setState((prev) => ({
-      //     ...prev,
-      //     errMsg: "geolocation을 사용할수 없어요..",
-      //     isLoading: false,
-      //   }));
+      // setState((prev) => ({
+      //   ...prev,
+      //   errMsg: "geolocation을 사용할수 없어요..",
+      //   isLoading: false,
+      // }));
     }
   }, []);
 
@@ -54,13 +58,40 @@ const MarkedMap = (): JSX.Element => {
         zIndex: "0",
       }}
       level={3}
+      onMouseMove={(map, mouseEvent): void => {
+        setMousePosition({
+          lat: mouseEvent.latLng.getLat(),
+          lng: mouseEvent.latLng.getLng(),
+        });
+      }}
     >
       {!state.isLoading && (
-        <MapMarker position={state.center}>
-          <div style={{ padding: "0.5rem", color: "#000" }}>
-            {state.errMsg ? state.errMsg : "여기에 계신가요?!"}
+        <Circle
+          center={{
+            lat: state.center.lat, // 위도
+            lng: state.center.lng, // 경도
+          }}
+          onMouseover={() => {
+            if (!isOpen) setIsOpen(true);
+          }}
+          onMouseout={() => setIsOpen(false)}
+          radius={50}
+          strokeWeight={0} // 선의 두께입니다
+          strokeColor="#75B8FA" // 선의 색깔입니다
+          strokeOpacity={0} // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
+          strokeStyle="dash" // 선의 스타일 입니다
+          fillColor="#CFE7FF" // 채우기 색깔입니다
+          fillOpacity={0.9} // 채우기 불투명도 입니다
+        />
+      )}
+      {isOpen && (
+        <CustomOverlayMap position={mousePosition}>
+          <div
+            style={{ width: "5rem", height: "5rem", backgroundColor: "white" }}
+          >
+            hello
           </div>
-        </MapMarker>
+        </CustomOverlayMap>
       )}
       <AddIcon />
       <RemoveIcon />

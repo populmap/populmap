@@ -1,11 +1,11 @@
 import styled from "@emotion/styled";
 
 const Header = styled.header`
-  height: 5vh;
-  width: 100vw;
-  max-width: 30rem;
-  max-height: 60rem;
-  text-align: center;
+  position: absolute;
+  top: 2%;
+  left: 50%;
+  width: 100%;
+  transform: translate(-50%, 0%);
 `;
 
 const HeaderTemplate = (): JSX.Element => {

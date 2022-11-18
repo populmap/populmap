@@ -13,6 +13,9 @@ const NavSection = styled.section`
   position: absolute;
   top: 86%;
   left: 50%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
   transform: translate(-50%, 0%);
 `;
 

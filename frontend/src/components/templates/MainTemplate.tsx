@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 import { useInjectKakaoMapApi } from "react-kakao-maps-sdk";
-import LoadMap from "../atoms/map/LoadMap";
+import LoadMap from "../organisms/LoadMap";
 import MapNav from "../organisms/MapNav";
 
 const MainSection = styled.section`

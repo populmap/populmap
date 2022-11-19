@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 import { useInjectKakaoMapApi } from "react-kakao-maps-sdk";
-import UserMarker from "../atoms/map/userMarker";
+// import UserMarker from "../atoms/map/userMarker";
 import LoadMap from "../organisms/LoadMap";
 import MapNav from "../organisms/MapNav";
 import { useAppSelector } from "../../redux/hook";
@@ -20,11 +20,9 @@ const MainTemplate = (): JSX.Element => {
   return (
     <MainSection>
       {loading ? null : (
-        <LoadMap>
-          {/* <UserMarker center={mapState.center} /> */}
-          <MapNav />
-        </LoadMap>
+        <LoadMap>{/* <UserMarker center={mapState.center} /> */}</LoadMap>
       )}
+      <MapNav />
     </MainSection>
   );
 };

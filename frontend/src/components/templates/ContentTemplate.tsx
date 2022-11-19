@@ -13,7 +13,7 @@ const ContentSection = styled.article`
 `;
 
 const ContentTemplate = ({ children }: PropsWithChildren): JSX.Element => {
-  return <ContentSection id="content">{children}</ContentSection>;
+  return <ContentSection>{children}</ContentSection>;
 };
 
 export default ContentTemplate;

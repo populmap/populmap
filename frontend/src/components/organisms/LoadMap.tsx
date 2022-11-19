@@ -1,7 +1,8 @@
 import { Map } from "react-kakao-maps-sdk";
+import { PropsWithChildren } from "react";
 import { useAppSelector } from "../../redux/hook";
 
-const LoadMap = (): JSX.Element => {
+const LoadMap = ({ children }: PropsWithChildren): JSX.Element => {
   const mapState = useAppSelector((state) => state.map);
   return (
     <Map
@@ -16,7 +17,9 @@ const LoadMap = (): JSX.Element => {
         zIndex: "0",
       }}
       level={mapState.level}
-    />
+    >
+      {children}
+    </Map>
   );
 };
 

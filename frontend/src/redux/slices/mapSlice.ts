@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-interface mapStateType {
+export interface mapStateType {
   center: {
     lat: number;
     lng: number;
@@ -34,12 +34,26 @@ export const mapSlice = createSlice({
     mapLevelDown: (state) => {
       state.level -= 1;
     },
-    // mapDetectGeolocation: (state, action: PayloadAction<>) => {},
+    mapLevelSelect: (state, action: PayloadAction<number>) => {
+      state.level = action.payload;
+    },
+    mapGeolocationDetect: (
+      state,
+      action: PayloadAction<mapStateType["center"]>
+    ) => {
+      state.center = action.payload;
+    },
     mapInitialize: (state) => {
       return initialState;
     },
   },
 });
 
-export const { mapLevelUp, mapLevelDown, mapInitialize } = mapSlice.actions;
+export const {
+  mapLevelUp,
+  mapLevelDown,
+  mapLevelSelect,
+  mapGeolocationDetect,
+  mapInitialize,
+} = mapSlice.actions;
 export default mapSlice.reducer;

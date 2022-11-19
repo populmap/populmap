@@ -6,14 +6,12 @@ import FooterTemplate from "../components/templates/FooterTemplate";
 
 const Main = (): JSX.Element => {
   return (
-    <>
+    <ContentTemplate>
+      <MainTemplate />
       <HeaderTemplate />
-      <ContentTemplate>
-        <MainTemplate />
-        <NavTemplate />
-        <FooterTemplate />
-      </ContentTemplate>
-    </>
+      <NavTemplate />
+      <FooterTemplate />
+    </ContentTemplate>
   );
 };
 

@@ -3,8 +3,6 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { join } from 'path';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import configuration from './config/configuration';
 import TypeOrmConfigService from './config/typeorm.config';
@@ -26,8 +24,8 @@ import { SessionMiddleware } from './middleware/session.middleware';
       exclude: ['/api/(.*)', '/auth/(.*)'],
     })
   ],
-  controllers: [AppController],
-  providers: [AppService, SessionMiddleware],
+  controllers: [],
+  providers: [SessionMiddleware],
 })
 export class AppModule implements NestModule {
   constructor(public sessionMiddleware: SessionMiddleware) {}

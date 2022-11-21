@@ -7,6 +7,7 @@ import { AuthModule } from './auth/auth.module';
 import configuration from './config/configuration';
 import TypeOrmConfigService from './config/typeorm.config';
 import { SessionMiddleware } from './middleware/session.middleware';
+import { UtilsModule } from './utils/utils.module';
 
 @Module({
   imports: [
@@ -18,11 +19,12 @@ import { SessionMiddleware } from './middleware/session.middleware';
       imports: [ConfigModule],
       useClass: TypeOrmConfigService,
     }),
-    AuthModule,
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '../../', 'frontend/build'),
       exclude: ['/api/(.*)', '/auth/(.*)'],
-    })
+    }),
+    AuthModule,
+    UtilsModule,
   ],
   controllers: [],
   providers: [SessionMiddleware],

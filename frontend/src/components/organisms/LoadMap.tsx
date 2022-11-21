@@ -1,8 +1,14 @@
 import { Map } from "react-kakao-maps-sdk";
-import { PropsWithChildren } from "react";
 import { useAppSelector } from "../../redux/hook";
+import { EventBasicInfoResponseDto } from "../../types/dto/EventBasicInfoResponse.dto";
+import EventMarker from "../atoms/map/EventMarker";
 
-const LoadMap = ({ children }: PropsWithChildren): JSX.Element => {
+interface LoadMapProps {
+  eventMarkers: EventBasicInfoResponseDto[];
+}
+
+const LoadMap = (props: LoadMapProps): JSX.Element => {
+  const { eventMarkers } = props;
   const mapState = useAppSelector((state) => state.map);
   return (
     <Map
@@ -18,7 +24,9 @@ const LoadMap = ({ children }: PropsWithChildren): JSX.Element => {
       }}
       level={mapState.level}
     >
-      {children}
+      {eventMarkers.map((eventInfo) => {
+        return <EventMarker key={eventInfo.eventId} eventInfo={eventInfo} />;
+      })}
     </Map>
   );
 };

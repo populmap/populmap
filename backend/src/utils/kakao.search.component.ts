@@ -40,7 +40,7 @@ export class KakaoSearch {
           lat: Number(result.x),
           lng: Number(result.y),
         };
-        await this.eventService.something(searchByPlace);
+        // await this.eventService.something(searchByPlace);
       })
       .catch((err) => {
         throw err;

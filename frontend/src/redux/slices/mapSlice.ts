@@ -29,10 +29,10 @@ export const mapSlice = createSlice({
   initialState,
   reducers: {
     mapLevelUp: (state) => {
-      state.level += 1;
+      if (state.level > 1) state.level -= 1;
     },
     mapLevelDown: (state) => {
-      state.level -= 1;
+      if (state.level <= 12) state.level += 1;
     },
     mapLevelSelect: (state, action: PayloadAction<number>) => {
       state.level = action.payload;

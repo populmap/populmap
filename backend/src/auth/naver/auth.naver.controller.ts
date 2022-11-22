@@ -6,7 +6,6 @@ import { NaverGuard } from './guard/naver.guard';
 @Controller('auth/naver')
 export class AuthNaverController {
   private logger = new Logger(AuthNaverController.name);
-  constructor() {}
 
   @Get('/login')
   @UseGuards(NaverGuard)

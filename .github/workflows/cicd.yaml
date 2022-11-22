@@ -21,7 +21,7 @@ jobs:
         if: steps.cache.outputs.cache-hit != 'true'
         run: npm install --production --prefix backend
       - name: 설치 모듈 확인
-        run: pwd
+        run: pwd && ls -a && npm ls
       - name: lint 체크
         run: npm run lint --prefix backend
       - name: 빌드 체크

@@ -21,9 +21,9 @@ jobs:
         if: steps.cache.outputs.cache-hit != 'true'
         run: npm install --production --prefix backend
       - name: lint 체크
-        run: npm run lint --prefix backend
+        run: npm run lint src
       - name: 빌드 체크
-        run: npm run build --prefix backend
+        run: npm run build
 
   frontend-CI:
     runs-on: ubuntu-latest
@@ -43,8 +43,6 @@ jobs:
       - name: 종속 모듈들 설치
         if: steps.cache.outputs.cache-hit != 'true'
         run: npm install --production --prefix frontend
-      - name: lint 체크
-        run: npm run lint --prefix frontend
       - name: 빌드 체크
         run: npm run build --prefix frontend
 

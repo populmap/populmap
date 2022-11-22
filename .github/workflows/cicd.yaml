@@ -21,9 +21,9 @@ jobs:
         if: steps.cache.outputs.cache-hit != 'true'
         run: npm install --production --prefix backend
       - name: lint 체크
-        run: npm run lint src
+        run: npm run lint --prefix backend
       - name: 빌드 체크
-        run: npm run build
+        run: npm run build --prefix backend
 
   frontend-CI:
     runs-on: ubuntu-latest

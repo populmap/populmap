@@ -16,7 +16,7 @@ export class SeoulEventInfo {
     private eventService: EventService,
   ) {}
 
-  @Cron(CronExpression.EVERY_10_SECONDS)
+  @Cron(CronExpression.EVERY_DAY_AT_4AM)
   async requestSeoulEventInfoTrigger() {
     this.logger.debug(
       `Called ${SeoulEventInfo.name} ${this.requestSeoulEventInfoTrigger.name}`,

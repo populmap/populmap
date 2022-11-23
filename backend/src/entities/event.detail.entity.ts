@@ -1,6 +1,11 @@
-import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from "typeorm";
-import Event from "./event.entity";
-
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  OneToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
+import Event from './event.entity';
 
 @Entity('event_detail')
 export default class EventDetail {

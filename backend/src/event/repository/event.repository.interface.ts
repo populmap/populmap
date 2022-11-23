@@ -1,4 +1,4 @@
-import { SearchByPlaceDto } from "src/dto/search.by.place.dto";
+import { SearchByPlaceDto } from 'src/dto/search.by.place.dto';
 
 export interface IEventRepository {
   /**
@@ -8,7 +8,10 @@ export interface IEventRepository {
    * @param event
    * @param searchByPlace
    */
-  insertToEventIfExists(event, searchByPlace: SearchByPlaceDto): Promise<{ title: string, endDate: Date }>;
+  insertToEventIfExists(
+    event,
+    searchByPlace: SearchByPlaceDto,
+  ): Promise<{ title: string; endDate: Date }>;
 
   /**
    * 행사 정보를 event 테이블에서 삭제한다.

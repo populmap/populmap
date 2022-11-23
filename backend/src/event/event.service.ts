@@ -4,7 +4,6 @@ import { EventTimer } from 'src/utils/event.timer.component';
 import { KakaoSearch } from 'src/utils/kakao.search.component';
 import { IEventRepository } from './repository/event.repository.interface';
 
-
 @Injectable()
 export class EventService {
   private logger = new Logger(EventService.name);
@@ -17,29 +16,25 @@ export class EventService {
   ) {}
 
   async addNewEvent(event) {
-    this.logger.debug(
-      `Called ${EventService.name} ${this.addNewEvent.name}`,
-    );
-      await this.kakaoSearch.requestSearchByPlace(event)
-      .catch((err) => {
-        this.logger.warn(err);
-      });
+    this.logger.debug(`Called ${EventService.name} ${this.addNewEvent.name}`);
+    await this.kakaoSearch.requestSearchByPlace(event).catch((err) => {
+      this.logger.warn(err);
+    });
   }
 
   async insertToEvent(event, searchByPlace: SearchByPlaceDto) {
-    this.logger.debug(
-      `Called ${EventService.name} ${this.insertToEvent.name}`,
+    this.logger.debug(`Called ${EventService.name} ${this.insertToEvent.name}`);
+    const result = await this.eventRepository.insertToEventIfExists(
+      event,
+      searchByPlace,
     );
-    const result = await this.eventRepository.insertToEventIfExists(event, searchByPlace);
     if (result) {
       await this.eventTimer.setDeleteEventTimer(result.title, result.endDate);
     }
   }
 
   async deleteEvent(title: string): Promise<void> {
-    this.logger.debug(
-      `Called ${EventService.name} ${this.deleteEvent.name}`,
-    );
+    this.logger.debug(`Called ${EventService.name} ${this.deleteEvent.name}`);
     await this.eventRepository.deleteEvent(title);
   }
 }

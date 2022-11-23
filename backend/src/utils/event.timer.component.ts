@@ -1,6 +1,6 @@
-import { forwardRef, Inject, Injectable, Logger } from "@nestjs/common";
-import { SchedulerRegistry } from "@nestjs/schedule";
-import { EventService } from "src/event/event.service";
+import { forwardRef, Inject, Injectable, Logger } from '@nestjs/common';
+import { SchedulerRegistry } from '@nestjs/schedule';
+import { EventService } from 'src/event/event.service';
 
 @Injectable()
 export class EventTimer {

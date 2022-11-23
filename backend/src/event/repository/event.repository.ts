@@ -1,9 +1,9 @@
-import { InjectRepository } from "@nestjs/typeorm";
-import { SearchByPlaceDto } from "src/dto/search.by.place.dto";
-import EventDetail from "src/entities/event.detail.entity";
-import Event from "src/entities/event.entity";
-import { Repository } from "typeorm";
-import { IEventRepository } from "./event.repository.interface";
+import { InjectRepository } from '@nestjs/typeorm';
+import { SearchByPlaceDto } from 'src/dto/search.by.place.dto';
+import EventDetail from 'src/entities/event.detail.entity';
+import Event from 'src/entities/event.entity';
+import { Repository } from 'typeorm';
+import { IEventRepository } from './event.repository.interface';
 
 export class EventRepository implements IEventRepository {
   constructor(
@@ -13,7 +13,10 @@ export class EventRepository implements IEventRepository {
     private eventDetailRepository: Repository<EventDetail>,
   ) {}
 
-  async insertToEventIfExists(event, searchByPlace: SearchByPlaceDto): Promise<{ title: string, endDate: Date }> {
+  async insertToEventIfExists(
+    event,
+    searchByPlace: SearchByPlaceDto,
+  ): Promise<{ title: string; endDate: Date }> {
     const found = await this.eventRepository.findOne({
       where: {
         title: event.TITLE,
@@ -25,7 +28,8 @@ export class EventRepository implements IEventRepository {
         endDate: found.eventDetail.endDate,
       };
     }
-    const result = await this.eventRepository.createQueryBuilder()
+    const result = await this.eventRepository
+      .createQueryBuilder()
       .insert()
       .into(Event)
       .values({
@@ -37,7 +41,8 @@ export class EventRepository implements IEventRepository {
         lng: searchByPlace.lng,
       })
       .execute();
-    await this.eventDetailRepository.createQueryBuilder()
+    await this.eventDetailRepository
+      .createQueryBuilder()
       .insert()
       .into(EventDetail)
       .values({

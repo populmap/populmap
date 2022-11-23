@@ -19,6 +19,10 @@ export default () => ({
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     callbackURL: process.env.GOOGLE_CALLBACK_URL,
   },
+  seoul: {
+    eventSecret: process.env.SEOUL_EVENT_SECRET,
+    densitySecret: process.env.SEOUL_DENSITY_SECRET,
+  },
   database: {
     database: process.env.DATABASE,
     host: process.env.DATABASE_HOST,

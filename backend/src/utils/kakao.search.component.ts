@@ -1,8 +1,9 @@
 import { HttpService } from '@nestjs/axios';
-import { Inject, Injectable, Logger } from '@nestjs/common';
+import { forwardRef, Inject, Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { firstValueFrom, map } from 'rxjs';
 import { SearchByPlaceDto } from 'src/dto/search.by.place.dto';
+import { EventService } from 'src/event/event.service';
 
 @Injectable()
 export class KakaoSearch {
@@ -11,11 +12,13 @@ export class KakaoSearch {
   constructor(
     @Inject(ConfigService) private configService: ConfigService,
     private readonly httpService: HttpService,
+    @Inject(forwardRef(() => EventService))
+    private eventService: EventService,
   ) {
     this.appkey = configService.get<string>('kakao.clientID');
   }
 
-  async requestSearchByPlace(place: string) {
+  async requestSearchByPlace(event) {
     this.logger.debug(
       `Called ${KakaoSearch.name} ${this.requestSearchByPlace.name}`,
     );
@@ -23,9 +26,10 @@ export class KakaoSearch {
     const headersRequest = {
       Authorization: `KakaoAK ${this.appkey}`,
     };
-    const params = { query: `${place}` };
+    const params = { query: `${event.PLACE}` };
     const config = { params, headers: headersRequest };
     this.logger.debug(`Request url: ${url}`);
+    this.logger.debug(`Request queru: ${event.PLACE}`);
     await firstValueFrom(
       this.httpService.get(url, config).pipe(map((res) => res.data)),
     )
@@ -36,7 +40,7 @@ export class KakaoSearch {
           lat: Number(result.x),
           lng: Number(result.y),
         };
-        // await this.eventService.something(searchByPlace);
+        await this.eventService.insertToEvent(event, searchByPlace);
       })
       .catch((err) => {
         throw err;

@@ -3,6 +3,7 @@ import { Inject, Injectable, Logger } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import { Cron, CronExpression } from "@nestjs/schedule";
 import { firstValueFrom, map } from "rxjs";
+import { EventService } from "src/event/event.service";
 
 @Injectable()
 export class SeoulEventInfo {
@@ -12,9 +13,10 @@ export class SeoulEventInfo {
   constructor(
     @Inject(ConfigService) private configService: ConfigService,
     private readonly httpService: HttpService,
+    private eventService: EventService,
   ) {}
 
-  @Cron(CronExpression.EVERY_5_SECONDS)
+  @Cron(CronExpression.EVERY_10_SECONDS)
   async requestSeoulEventInfoTrigger() {
     this.logger.debug(
       `Called ${SeoulEventInfo.name} ${this.requestSeoulEventInfoTrigger.name}`,
@@ -35,9 +37,8 @@ export class SeoulEventInfo {
     await firstValueFrom(
       this.httpService.get(url).pipe(map((res) => res.data)),
     )
-    .then(async (data) => {
+    .then((data) => {
       this.totalCount = data.culturalEventInfo.list_total_count;
-        // console.log('call add new event');
     })
     .catch((err) => {
       throw err;
@@ -54,8 +55,8 @@ export class SeoulEventInfo {
       this.httpService.get(url).pipe(map((res) => res.data)),
     )
     .then(async (data) => {
-      for await (const event of data.culturalEventInfo.row) {
-        // this.eventService.addNewEvent(event);
+      for (const event of data.culturalEventInfo.row) {
+        await this.eventService.addNewEvent(event);
       }
     })
     .catch((err) => {

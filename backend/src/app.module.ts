@@ -6,6 +6,7 @@ import { join } from 'path';
 import { AuthModule } from './auth/auth.module';
 import configuration from './config/configuration';
 import TypeOrmConfigService from './config/typeorm.config';
+import { EventModule } from './event/event.module';
 import { SessionMiddleware } from './middleware/session.middleware';
 import { UtilsModule } from './utils/utils.module';
 
@@ -24,6 +25,7 @@ import { UtilsModule } from './utils/utils.module';
       exclude: ['/api/(.*)', '/auth/(.*)'],
     }),
     AuthModule,
+    EventModule,
     UtilsModule,
   ],
   controllers: [],

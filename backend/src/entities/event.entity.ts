@@ -1,5 +1,5 @@
 import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from "typeorm";
-import EventDetail from "./event.detail";
+import EventDetail from "./event.detail.entity";
 
 @Entity('event')
 export default class Event {
@@ -40,13 +40,13 @@ export default class Event {
     name: 'lat',
     type: 'double',
   })
-  lat: string;
+  lat: number;
 
   @Column({
     name: 'lng',
     type: 'double',
   })
-  lng: string;
+  lng: number;
 
   @OneToOne(() => EventDetail, (eventDetail) => eventDetail.event)
   eventDetail: EventDetail;

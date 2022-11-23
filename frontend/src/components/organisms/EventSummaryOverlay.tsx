@@ -9,6 +9,10 @@ interface EventSummaryOverlayProps {
 
 const EventSummaryOverlay = (props: EventSummaryOverlayProps): JSX.Element => {
   const { position } = props;
+
+  const handleClick = (): void => {
+    console.log("clicked");
+  };
   return (
     <CustomOverlayMap
       position={{
@@ -16,11 +20,8 @@ const EventSummaryOverlay = (props: EventSummaryOverlayProps): JSX.Element => {
         lng: position.lng,
       }}
     >
-      <div style={{ backgroundColor: "white" }}>
-        <div>
-          <p>test</p>
-          <button>자세히보기</button>
-        </div>
+      <div>
+        <span>1234</span>
       </div>
     </CustomOverlayMap>
   );

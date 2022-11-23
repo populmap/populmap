@@ -1,5 +1,5 @@
-import { Controller, Get } from "@nestjs/common";
-import { KakaoSearch } from "./kakao.search.component";
+import { Controller, Get } from '@nestjs/common';
+import { KakaoSearch } from './kakao.search.component';
 
 @Controller('/api/test')
 export class TestController {

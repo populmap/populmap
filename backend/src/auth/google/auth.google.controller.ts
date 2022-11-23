@@ -6,7 +6,6 @@ import { JWTSignGuard } from '../jwt/guard/jwt.sign.guard';
 @Controller('auth/google')
 export class AuthGoogleController {
   private logger = new Logger(AuthGoogleController.name);
-  constructor() {}
 
   @Get('/login')
   @UseGuards(GoogleGuard)

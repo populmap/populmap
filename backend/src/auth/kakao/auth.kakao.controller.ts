@@ -6,7 +6,6 @@ import { KakaoGuard } from './guard/kakao.guard';
 @Controller('auth/kakao')
 export class AuthKakaoController {
   private logger = new Logger(AuthKakaoController.name);
-  constructor() {}
 
   @Get('/login')
   @UseGuards(KakaoGuard)

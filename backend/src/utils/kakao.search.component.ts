@@ -1,8 +1,8 @@
-import { HttpService } from "@nestjs/axios";
-import { Inject, Injectable, Logger } from "@nestjs/common";
-import { ConfigService } from "@nestjs/config";
-import { firstValueFrom, map } from "rxjs";
-import { SearchByPlaceDto } from "src/dto/search.by.place.dto";
+import { HttpService } from '@nestjs/axios';
+import { Inject, Injectable, Logger } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
+import { firstValueFrom, map } from 'rxjs';
+import { SearchByPlaceDto } from 'src/dto/search.by.place.dto';
 
 @Injectable()
 export class KakaoSearch {
@@ -20,19 +20,16 @@ export class KakaoSearch {
     this.logger.debug(
       `Called ${KakaoSearch.name} ${this.requestSearchByPlace.name}`,
     );
-    let searchByPlace: SearchByPlaceDto;
     const url = `https://dapi.kakao.com/v2/local/search/keyword.json`;
     const headersRequest = {
       Authorization: `KakaoAK ${this.appkey}`,
     };
-    const params = { query: `${place}`};
+    const params = { query: `${place}` };
     const config = { params, headers: headersRequest };
     this.logger.debug(`Request url: ${url}`);
     await firstValueFrom(
-      this.httpService
-        .get(url, config)
-        .pipe(map((res) => res.data)),
-      )
+      this.httpService.get(url, config).pipe(map((res) => res.data)),
+    )
       .then(async (data) => {
         const result = data.documents[0];
         const searchByPlace: SearchByPlaceDto = {

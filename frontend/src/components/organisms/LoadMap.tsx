@@ -2,7 +2,7 @@ import { Map } from "react-kakao-maps-sdk";
 import { useState } from "react";
 import { useAppSelector } from "../../redux/hook";
 import { EventBasicInfoResponseDto } from "../../types/dto/EventBasicInfoResponse.dto";
-import EventMarker from "../atoms/map/EventMarker";
+import EventMarker from "./EventMarker";
 
 interface LoadMapProps {
   eventMarkers: EventBasicInfoResponseDto[];
@@ -26,9 +26,6 @@ const LoadMap = (props: LoadMapProps): JSX.Element => {
         zIndex: "0",
       }}
       level={mapState.level}
-      onClick={(): void => {
-        setCurrentMarker(-1);
-      }}
     >
       {eventMarkers.map((eventInfo) => {
         return (

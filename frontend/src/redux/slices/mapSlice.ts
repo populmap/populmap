@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import mapEnum from "../../types/enum/map.level.enum";
 
 export interface mapStateType {
   center: {
@@ -14,14 +15,14 @@ export interface mapStateType {
 
 const initialState: mapStateType = {
   center: {
-    lat: 37.4882,
-    lng: 127.0648,
+    lat: mapEnum.DEFAULT_LAT,
+    lng: mapEnum.DEFAULT_LNG,
   },
   mousePosition: {
     lat: 0,
     lng: 0,
   },
-  level: 3,
+  level: mapEnum.DEFAULT_MAP_LEVEL,
 };
 
 export const mapSlice = createSlice({
@@ -29,10 +30,10 @@ export const mapSlice = createSlice({
   initialState,
   reducers: {
     mapLevelUp: (state) => {
-      if (state.level > 1) state.level -= 1;
+      if (state.level > mapEnum.MIN_LEVEL) state.level -= 1;
     },
     mapLevelDown: (state) => {
-      if (state.level <= 12) state.level += 1;
+      if (state.level <= mapEnum.MAX_LEVEL) state.level += 1;
     },
     mapLevelSelect: (state, action: PayloadAction<number>) => {
       state.level = action.payload;
@@ -43,7 +44,7 @@ export const mapSlice = createSlice({
     ) => {
       state.center = action.payload;
     },
-    mapInitialize: (state) => {
+    mapInitialize: () => {
       return initialState;
     },
   },

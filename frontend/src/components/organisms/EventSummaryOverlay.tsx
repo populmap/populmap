@@ -1,27 +1,34 @@
 import { CustomOverlayMap } from "react-kakao-maps-sdk";
+import { EventBasicInfoResponseDto } from "../../types/dto/EventBasicInfoResponse.dto";
 
 interface EventSummaryOverlayProps {
-  position: {
-    lat: number;
-    lng: number;
-  };
+  eventInfo: EventBasicInfoResponseDto;
 }
 
 const EventSummaryOverlay = (props: EventSummaryOverlayProps): JSX.Element => {
-  const { position } = props;
+  const { eventInfo } = props;
 
+  // navigate event Id
   const handleClick = (): void => {
-    console.log("clicked");
+    console.log("click");
   };
   return (
     <CustomOverlayMap
       position={{
-        lat: position.lat,
-        lng: position.lng,
+        lat: eventInfo.lat,
+        lng: eventInfo.lng,
       }}
+      clickable
     >
-      <div>
-        <span>1234</span>
+      <div
+        role="presentation"
+        onClick={(e): void => {
+          e.stopPropagation();
+        }}
+      >
+        <p>{eventInfo.title}</p>
+        <p>{eventInfo.address}</p>
+        <button onClick={handleClick}>자세히보기</button>
       </div>
     </CustomOverlayMap>
   );

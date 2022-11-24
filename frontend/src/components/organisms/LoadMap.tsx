@@ -26,6 +26,9 @@ const LoadMap = (props: LoadMapProps): JSX.Element => {
         zIndex: "0",
       }}
       level={mapState.level}
+      onClick={(): void => {
+        setCurrentMarker(-1);
+      }}
     >
       {eventMarkers.map((eventInfo) => {
         return (

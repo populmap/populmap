@@ -25,12 +25,7 @@ const EventMarker = (props: EventMarkerProps): JSX.Element => {
         }}
       />
       {currentMarker === eventInfo.eventId && (
-        <EventSummaryOverlay
-          position={{
-            lat: eventInfo.lat,
-            lng: eventInfo.lng,
-          }}
-        />
+        <EventSummaryOverlay eventInfo={eventInfo} />
       )}
     </>
   );

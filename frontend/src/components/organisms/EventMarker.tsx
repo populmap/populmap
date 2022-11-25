@@ -1,16 +1,16 @@
 import { MapMarker, useMap } from "react-kakao-maps-sdk";
 import { SetStateAction, Dispatch } from "react";
 import EventSummaryOverlay from "./EventSummaryOverlay";
-import { EventBasicInfoResponseDto } from "../../types/dto/EventBasicInfoResponse.dto";
+import { EventSummaryResponseDto } from "../../types/dto/EventSummaryResponse.dto";
 
 interface EventMarkerProps {
-  eventInfo: EventBasicInfoResponseDto;
-  currentMarker: number;
+  eventInfo: EventSummaryResponseDto;
   setCurrentMarker: Dispatch<SetStateAction<number>>;
+  isShow: boolean;
 }
 
 const EventMarker = (props: EventMarkerProps): JSX.Element => {
-  const { eventInfo, currentMarker, setCurrentMarker } = props;
+  const { eventInfo, setCurrentMarker, isShow } = props;
   const map = useMap();
   return (
     <>
@@ -24,9 +24,7 @@ const EventMarker = (props: EventMarkerProps): JSX.Element => {
           setCurrentMarker(eventInfo.eventId);
         }}
       />
-      {currentMarker === eventInfo.eventId && (
-        <EventSummaryOverlay eventInfo={eventInfo} />
-      )}
+      {isShow && <EventSummaryOverlay eventInfo={eventInfo} />}
     </>
   );
 };

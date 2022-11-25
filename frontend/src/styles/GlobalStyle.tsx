@@ -17,6 +17,15 @@ const style = css`
     max-height: 60rem;
     font-family: "EliceDigitalBaeum_Regular";
   }
+
+  input,
+  button {
+    font-family: inherit;
+  }
+  input {
+    outline-style: none;
+    -webkit-appearance: none;
+  }
 `;
 
 export default function GlobalStyle(): JSX.Element {

@@ -16,6 +16,7 @@ const FooterTemplate = (): JSX.Element => {
       <section>
         <a
           target="_blank"
+          style={{ color: "black", textDecorationLine: "none" }}
           rel="noopener noreferrer"
           href="https://github.com/populmap/populmap"
         >

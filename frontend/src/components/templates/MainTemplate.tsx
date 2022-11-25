@@ -1,17 +1,16 @@
 import styled from "@emotion/styled";
 import { useInjectKakaoMapApi } from "react-kakao-maps-sdk";
-import { useAppSelector } from "../../redux/hook";
 import LoadMap from "../organisms/LoadMap";
 import MapNav from "../organisms/MapNav";
 
 const MainSection = styled.section`
   position: relative;
-  height: 100%;
+  top: 10%;
+  height: 90%;
   width: 100%;
 `;
 
 const MainTemplate = (): JSX.Element => {
-  // KAKAO MAP API 호출
   const mockData = [
     {
       title: "크리스마스 행사 1",
@@ -58,8 +57,9 @@ const MainTemplate = (): JSX.Element => {
   ];
   const { loading, error } = useInjectKakaoMapApi({
     appkey: `${import.meta.env.VITE_KAKAO_MAP_KEY}`,
+    libraries: ["services"],
   });
-  const mapState = useAppSelector((state) => state.map);
+
   return (
     <MainSection>
       {loading ? null : <LoadMap eventMarkers={mockData} />}

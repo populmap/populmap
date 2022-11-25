@@ -4,12 +4,16 @@ const muiCustomTheme = createTheme({
   typography: {
     fontFamily: ["EliceDigitalBaeum_Regular", "sans-serif"].join(","),
   },
-  // 색상 설정 시 생성
-  //   palette: {
-  //     primary: {
-  //       main: "#5657a5",
-
-  //     },
+  components: {
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          color: "black",
+          textTransform: "unset",
+        },
+      },
+    },
+  },
 });
 
 export default muiCustomTheme;

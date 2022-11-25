@@ -23,7 +23,7 @@ module.exports = {
     "@typescript-eslint/interface-name-prefix": 0,
     "@typescript-eslint/explicit-function-return-type": 1,
     "@typescript-eslint/explicit-module-boundary-types": 0,
-    "@typescript-eslint/no-explicit-any": 2,
+    "@typescript-eslint/no-explicit-any": 1,
     "react/button-has-type": 0,
     "react/jsx-filename-extension": 0,
     "react/react-in-jsx-scope": "off",

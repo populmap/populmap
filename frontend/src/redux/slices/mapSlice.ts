@@ -10,6 +10,7 @@ export interface mapStateType {
     lng: number;
   };
   level: number;
+  search: string;
 }
 
 const initialState: mapStateType = {
@@ -22,6 +23,7 @@ const initialState: mapStateType = {
     lng: 0,
   },
   level: 3,
+  search: "",
 };
 
 export const mapSlice = createSlice({
@@ -32,18 +34,21 @@ export const mapSlice = createSlice({
       if (state.level > 1) state.level -= 1;
     },
     mapLevelDown: (state) => {
-      if (state.level <= 12) state.level += 1;
+      if (state.level < 12) state.level += 1;
     },
     mapLevelSelect: (state, action: PayloadAction<number>) => {
       state.level = action.payload;
     },
-    mapGeolocationDetect: (
+    mapLocationChange: (
       state,
       action: PayloadAction<mapStateType["center"]>
     ) => {
       state.center = action.payload;
     },
-    mapInitialize: (state) => {
+    mapSearch: (state, action: PayloadAction<string>) => {
+      state.search = action.payload;
+    },
+    mapInitialize: () => {
       return initialState;
     },
   },
@@ -53,7 +58,8 @@ export const {
   mapLevelUp,
   mapLevelDown,
   mapLevelSelect,
-  mapGeolocationDetect,
+  mapLocationChange,
   mapInitialize,
+  mapSearch,
 } = mapSlice.actions;
 export default mapSlice.reducer;

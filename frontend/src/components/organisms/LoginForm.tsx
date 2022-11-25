@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 import { useState } from "react";
-import LoginButton from "../atoms/buttons/LoginButton";
+import LoginSubmitButton from "../atoms/buttons/LoginSumbitButton";
 import InputInstance from "../atoms/inputs/InputInstance";
 
 const Form = styled.form`
@@ -35,7 +35,11 @@ const LoginForm = (): JSX.Element => {
           setValue={setUserPassword}
         />
       </InputSection>
-      <LoginButton userId={userId} userPassword={userPassword} value="로그인" />
+      <LoginSubmitButton
+        userId={userId}
+        userPassword={userPassword}
+        value="로그인"
+      />
     </Form>
   );
 };

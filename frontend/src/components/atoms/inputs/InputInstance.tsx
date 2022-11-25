@@ -1,7 +1,7 @@
 import { SetStateAction, Dispatch } from "react";
 
 interface InputInstanceProps {
-  title: string | null;
+  title?: string;
   placeholder: string;
   setValue: Dispatch<SetStateAction<string>>;
 }
@@ -28,6 +28,10 @@ const InputInstance = (props: InputInstanceProps): JSX.Element => {
       />
     </div>
   );
+};
+
+InputInstance.defaultProps = {
+  title: null,
 };
 
 export default InputInstance;

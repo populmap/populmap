@@ -10,6 +10,7 @@ const muiCustomTheme = createTheme({
         root: {
           color: "black",
           textTransform: "unset",
+          minWidth: 0,
         },
       },
     },

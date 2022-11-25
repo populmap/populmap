@@ -4,8 +4,9 @@ import SignupForm from "../organisms/SignupForm";
 const SignupSection = styled.section`
   position: absolute;
   text-align: center;
-  top: 10%;
+  top: 5%;
   width: 100%;
+  height: 95%;
   background-color: #fafafa;
 `;
 

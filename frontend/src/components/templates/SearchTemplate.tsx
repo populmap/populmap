@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import SearchInput from "../atoms/inputs/SearchInput";
+import SearchBar from "../organisms/SearchBar";
 
 const BarSection = styled.section`
   position: absolute;
@@ -13,7 +13,7 @@ const BarSection = styled.section`
 const SearchTemplate = (): JSX.Element => {
   return (
     <BarSection>
-      <SearchInput />
+      <SearchBar />
     </BarSection>
   );
 };

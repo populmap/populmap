@@ -18,7 +18,6 @@ const LoadMap = (props: LoadMapProps): JSX.Element => {
   const geocoder = new kakao.maps.services.Geocoder();
 
   const callback = (result: any, status: string): void => {
-    console.log(result, status);
     if (status === "OK")
       dispatch(
         mapLocationChange({

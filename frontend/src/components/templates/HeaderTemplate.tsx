@@ -17,9 +17,9 @@ const Header = styled.header`
 const HeaderTemplate = (): JSX.Element => {
   return (
     <Header>
-      <PageNavigateButton text="My" route="/my" />
-      <PageNavigateButton text="populmap" route="/" />
-      <PageNavigateButton text="Login" route="/login" />
+      <PageNavigateButton value="My" route="/my" />
+      <PageNavigateButton value="populmap" route="/" />
+      <PageNavigateButton value="Login" route="/login" />
     </Header>
   );
 };

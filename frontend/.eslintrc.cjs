@@ -20,6 +20,7 @@ module.exports = {
     es2021: true,
   },
   rules: {
+    "no-useless-catch": 0,
     "@typescript-eslint/interface-name-prefix": 0,
     "@typescript-eslint/explicit-function-return-type": 1,
     "@typescript-eslint/explicit-module-boundary-types": 0,

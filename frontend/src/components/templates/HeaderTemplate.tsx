@@ -1,5 +1,4 @@
 import styled from "@emotion/styled";
-import HomeButton from "../atoms/buttons/HomeButton";
 import PageNavigateButton from "../atoms/buttons/PageNavigateButton";
 
 const Header = styled.header`

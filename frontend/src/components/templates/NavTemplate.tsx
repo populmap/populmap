@@ -1,12 +1,11 @@
-import BottomNavigation from "@mui/material/BottomNavigation";
-import BottomNavigationAction from "@mui/material/BottomNavigationAction";
-import EventIcon from "@mui/icons-material/Event";
-import HomeIcon from "@mui/icons-material/Home";
-import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
-import LoginIcon from "@mui/icons-material/Login";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "@emotion/styled";
+import BottomNavigation from "@mui/material/BottomNavigation";
+import BottomNavigationAction from "@mui/material/BottomNavigationAction";
+import EventIcon from "@mui/icons-material/Event";
+import RoofingIcon from "@mui/icons-material/Roofing";
+import BookmarkIcon from "@mui/icons-material/Bookmark";
 
 // TODO: handleClick 함수를 통해 navigate되도록 수정 필요.
 const NavSection = styled.section`
@@ -42,17 +41,12 @@ const NavTemplate = (): JSX.Element => {
         <BottomNavigationAction
           onClick={(): void => navigate("/")}
           label="Home"
-          icon={<HomeIcon />}
+          icon={<RoofingIcon />}
         />
         <BottomNavigationAction
           onClick={(): void => navigate("/bookmark")}
           label="Bookmark"
-          icon={<BookmarkBorderIcon />}
-        />
-        <BottomNavigationAction
-          onClick={(): void => navigate("/login")}
-          label="Login"
-          icon={<LoginIcon />}
+          icon={<BookmarkIcon />}
         />
       </BottomNavigation>
     </NavSection>

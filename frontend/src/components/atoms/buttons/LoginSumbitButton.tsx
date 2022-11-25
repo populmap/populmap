@@ -1,13 +1,13 @@
 import Button from "@mui/material/Button";
 
-interface LoginButtonProps {
+interface LoginSumbitButtonProps {
   userId: string;
   userPassword: string;
   value: string;
 }
 
 // TODO: handleClick을 통해 login API 요청
-const LoginButton = (props: LoginButtonProps): JSX.Element => {
+const LoginSumbitButton = (props: LoginSumbitButtonProps): JSX.Element => {
   const { userId, userPassword, value } = props;
   const handleClick = (): void => {
     console.log(userId, userPassword);
@@ -20,4 +20,4 @@ const LoginButton = (props: LoginButtonProps): JSX.Element => {
   );
 };
 
-export default LoginButton;
+export default LoginSumbitButton;

@@ -1,5 +1,4 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import mapEnum from "../../types/enum/map.level.enum";
 
 export interface mapStateType {
   center: {
@@ -11,18 +10,20 @@ export interface mapStateType {
     lng: number;
   };
   level: number;
+  search: string;
 }
 
 const initialState: mapStateType = {
   center: {
-    lat: mapEnum.DEFAULT_LAT,
-    lng: mapEnum.DEFAULT_LNG,
+    lat: 37.4882,
+    lng: 127.0648,
   },
   mousePosition: {
     lat: 0,
     lng: 0,
   },
-  level: mapEnum.DEFAULT_MAP_LEVEL,
+  level: 3,
+  search: "",
 };
 
 export const mapSlice = createSlice({
@@ -30,19 +31,22 @@ export const mapSlice = createSlice({
   initialState,
   reducers: {
     mapLevelUp: (state) => {
-      if (state.level > mapEnum.MIN_LEVEL) state.level -= 1;
+      if (state.level > 1) state.level -= 1;
     },
     mapLevelDown: (state) => {
-      if (state.level <= mapEnum.MAX_LEVEL) state.level += 1;
+      if (state.level < 12) state.level += 1;
     },
     mapLevelSelect: (state, action: PayloadAction<number>) => {
       state.level = action.payload;
     },
-    mapGeolocationDetect: (
+    mapLocationChange: (
       state,
       action: PayloadAction<mapStateType["center"]>
     ) => {
       state.center = action.payload;
+    },
+    mapSearch: (state, action: PayloadAction<string>) => {
+      state.search = action.payload;
     },
     mapInitialize: () => {
       return initialState;
@@ -54,7 +58,8 @@ export const {
   mapLevelUp,
   mapLevelDown,
   mapLevelSelect,
-  mapGeolocationDetect,
+  mapLocationChange,
   mapInitialize,
+  mapSearch,
 } = mapSlice.actions;
 export default mapSlice.reducer;

@@ -1,22 +1,18 @@
 import MyLocationIcon from "@mui/icons-material/MyLocation";
 import Button from "@mui/material/Button";
 import { useAppDispatch } from "../../../redux/hook";
-import {
-  mapGeolocationDetect,
-  mapLevelSelect,
-} from "../../../redux/slices/mapSlice";
+import { mapLocationChange } from "../../../redux/slices/mapSlice";
 
 const MyLocationButton = (): JSX.Element => {
   const dispatch = useAppDispatch();
   const handleClick = (): void => {
     navigator.geolocation.getCurrentPosition((position) => {
       dispatch(
-        mapGeolocationDetect({
+        mapLocationChange({
           lat: position.coords.latitude,
           lng: position.coords.longitude,
         })
       );
-      dispatch(mapLevelSelect(3));
     });
   };
   return (

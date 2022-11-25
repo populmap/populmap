@@ -1,6 +1,7 @@
 import { Map } from "react-kakao-maps-sdk";
-import { useState } from "react";
-import { useAppSelector } from "../../redux/hook";
+import { useEffect, useState } from "react";
+import { useAppSelector, useAppDispatch } from "../../redux/hook";
+import { mapLocationChange } from "../../redux/slices/mapSlice";
 import { EventBasicInfoResponseDto } from "../../types/dto/EventBasicInfoResponse.dto";
 import EventMarker from "./EventMarker";
 
@@ -12,6 +13,25 @@ const LoadMap = (props: LoadMapProps): JSX.Element => {
   const { eventMarkers } = props;
   const mapState = useAppSelector((state) => state.map);
   const [currentMarker, setCurrentMarker] = useState<number>(-1);
+
+  const dispatch = useAppDispatch();
+  const geocoder = new kakao.maps.services.Geocoder();
+
+  const callback = (result: any, status: string): void => {
+    console.log(result, status);
+    if (status === "OK")
+      dispatch(
+        mapLocationChange({
+          lat: result[0].y,
+          lng: result[0].x,
+        })
+      );
+  };
+
+  useEffect(() => {
+    if (mapState.search !== "")
+      geocoder.addressSearch(`${mapState.search}`, callback);
+  }, [mapState.search]);
 
   return (
     <Map

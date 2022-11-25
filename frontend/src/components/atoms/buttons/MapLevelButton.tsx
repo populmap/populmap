@@ -17,7 +17,15 @@ const MapLevelButton = (props: MapLevelButtonProps): JSX.Element => {
   };
 
   return (
-    <Button onClick={handleClick}>
+    <Button
+      style={{
+        height: "2rem",
+        width: "2rem",
+        backgroundColor: "#fff",
+        color: "#0000008A",
+      }}
+      onClick={handleClick}
+    >
       {type === "up" ? <AddIcon /> : <RemoveIcon />}
     </Button>
   );

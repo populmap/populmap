@@ -29,7 +29,7 @@ const EventSummaryOverlay = (props: EventSummaryOverlayProps): JSX.Element => {
   return (
     <CustomOverlayMap
       position={{
-        lat: eventInfo.lat + 0.001,
+        lat: eventInfo.lat,
         lng: eventInfo.lng,
       }}
       clickable

@@ -3,7 +3,7 @@ import styled from "@emotion/styled";
 import { EventSummaryResponseDto } from "../../types/dto/EventSummaryResponse.dto";
 import PageNavigateButton from "../atoms/buttons/PageNavigateButton";
 import BookmarkApiButton from "../atoms/buttons/BookmarkApiButton";
-import { axiosBookmarkPost } from "../../network/axios/axios.custom";
+import { axiosEventBookmarkPost } from "../../network/axios/axios.event";
 
 interface EventSummaryOverlayProps {
   eventInfo: EventSummaryResponseDto;
@@ -56,7 +56,7 @@ const EventSummaryOverlay = (props: EventSummaryOverlayProps): JSX.Element => {
           style={ButtonStyle}
           param={eventInfo.eventId}
           value="북마크 추가"
-          api={axiosBookmarkPost}
+          api={axiosEventBookmarkPost}
         />
       </SummaryBox>
     </CustomOverlayMap>

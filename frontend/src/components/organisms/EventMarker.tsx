@@ -1,5 +1,7 @@
 import { MapMarker, useMap } from "react-kakao-maps-sdk";
 import { SetStateAction, Dispatch } from "react";
+import { useAppDispatch } from "../../redux/hook";
+import { mapLocationChange } from "../../redux/slices/mapSlice";
 import EventSummaryOverlay from "./EventSummaryOverlay";
 import { EventSummaryResponseDto } from "../../types/dto/EventSummaryResponse.dto";
 
@@ -11,6 +13,7 @@ interface EventMarkerProps {
 
 const EventMarker = (props: EventMarkerProps): JSX.Element => {
   const { eventInfo, setCurrentMarker, isShow } = props;
+  const dispatch = useAppDispatch();
   const map = useMap();
   return (
     <>
@@ -21,6 +24,12 @@ const EventMarker = (props: EventMarkerProps): JSX.Element => {
         }}
         onClick={(marker): void => {
           map.panTo(marker.getPosition());
+          dispatch(
+            mapLocationChange({
+              lat: marker.getPosition().getLat(),
+              lng: marker.getPosition().getLng(),
+            })
+          );
           setCurrentMarker(eventInfo.eventId);
         }}
       />

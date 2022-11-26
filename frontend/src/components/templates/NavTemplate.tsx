@@ -10,7 +10,7 @@ import BookmarkIcon from "@mui/icons-material/Bookmark";
 // TODO: handleClick 함수를 통해 navigate되도록 수정 필요.
 const NavSection = styled.section`
   position: absolute;
-  top: 86%;
+  top: 80%;
   left: 50%;
   width: 100%;
   display: flex;

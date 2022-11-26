@@ -53,7 +53,8 @@ const MainTemplate = (): JSX.Element => {
       progress: "진행중",
     },
     {
-      title: "크리스마스 행사 6",
+      title:
+        "크리스마스 행사 6 타이틀이 길면 어떻게 될까욜ㅇㄹㅇㄹㅇㄹㅇㄹㅇㄹㅇㄹㅇㄹㅇㄹ",
       address: "서울시 성동구",
       lat: 37.4822,
       lng: 127.0588,

@@ -16,8 +16,18 @@ const MyLocationButton = (): JSX.Element => {
     });
   };
   return (
-    <Button onClick={handleClick}>
-      <MyLocationIcon />
+    <Button
+      style={{
+        borderRadius: "1rem",
+        height: "2rem",
+        width: "2rem",
+        backgroundColor: "#fff",
+        color: "#0000008A",
+        marginBottom: "0.5rem",
+      }}
+      onClick={handleClick}
+    >
+      <MyLocationIcon style={{ height: "1rem" }} />
     </Button>
   );
 };

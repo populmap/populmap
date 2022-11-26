@@ -18,6 +18,7 @@ const MainTemplate = (): JSX.Element => {
       lat: 37.4872,
       lng: 127.0638,
       eventId: 1,
+      progress: "진행중",
     },
     {
       title: "크리스마스 행사 2",
@@ -25,6 +26,7 @@ const MainTemplate = (): JSX.Element => {
       lat: 37.4862,
       lng: 127.0628,
       eventId: 2,
+      progress: "진행중",
     },
     {
       title: "크리스마스 행사 3",
@@ -32,6 +34,7 @@ const MainTemplate = (): JSX.Element => {
       lat: 37.4852,
       lng: 127.0618,
       eventId: 3,
+      progress: "진행중",
     },
     {
       title: "크리스마스 행사 4",
@@ -39,6 +42,7 @@ const MainTemplate = (): JSX.Element => {
       lat: 37.4842,
       lng: 127.0608,
       eventId: 4,
+      progress: "진행중",
     },
     {
       title: "크리스마스 행사 5",
@@ -46,6 +50,7 @@ const MainTemplate = (): JSX.Element => {
       lat: 37.4832,
       lng: 127.0598,
       eventId: 5,
+      progress: "진행중",
     },
     {
       title: "크리스마스 행사 6",
@@ -53,6 +58,7 @@ const MainTemplate = (): JSX.Element => {
       lat: 37.4822,
       lng: 127.0588,
       eventId: 6,
+      progress: "진행중",
     },
   ];
   const { loading, error } = useInjectKakaoMapApi({

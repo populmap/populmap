@@ -22,6 +22,7 @@ const style = css`
   button {
     font-family: inherit;
   }
+
   input {
     outline-style: none;
     -webkit-appearance: none;

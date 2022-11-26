@@ -1,12 +1,12 @@
 import { Map } from "react-kakao-maps-sdk";
 import { useEffect, useState } from "react";
 import { useAppSelector, useAppDispatch } from "../../redux/hook";
-import { mapLocationChange } from "../../redux/slices/mapSlice";
-import { EventBasicInfoResponseDto } from "../../types/dto/EventBasicInfoResponse.dto";
+import { mapLocationChange, mapLevelSelect } from "../../redux/slices/mapSlice";
+import { EventSummaryResponseDto } from "../../types/dto/EventSummaryResponse.dto";
 import EventMarker from "./EventMarker";
 
 interface LoadMapProps {
-  eventMarkers: EventBasicInfoResponseDto[];
+  eventMarkers: EventSummaryResponseDto[];
 }
 
 const LoadMap = (props: LoadMapProps): JSX.Element => {
@@ -48,13 +48,16 @@ const LoadMap = (props: LoadMapProps): JSX.Element => {
       onClick={(): void => {
         setCurrentMarker(-1);
       }}
+      onZoomChanged={(map): void => {
+        dispatch(mapLevelSelect(map.getLevel()));
+      }}
     >
       {eventMarkers.map((eventInfo) => {
         return (
           <EventMarker
             key={eventInfo.eventId}
             eventInfo={eventInfo}
-            currentMarker={currentMarker}
+            isShow={currentMarker === eventInfo.eventId}
             setCurrentMarker={setCurrentMarker}
           />
         );

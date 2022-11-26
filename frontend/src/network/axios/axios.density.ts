@@ -3,7 +3,7 @@ import instance from "./axios.instance";
 const axiosDensityPeopleUrl = "/api/density/people";
 export const axiosDensityPeople = async (): Promise<any> => {
   try {
-    const response = await instance.get(`${axiosDensityPeopleUrl}}`);
+    const response = await instance.get(axiosDensityPeopleUrl);
     return response;
   } catch (error) {
     throw error;
@@ -13,7 +13,17 @@ export const axiosDensityPeople = async (): Promise<any> => {
 const axiosDensityRoadUrl = "/api/density/road";
 export const axiosDensityRoad = async (): Promise<any> => {
   try {
-    const response = await instance.get(`${axiosDensityRoadUrl}}`);
+    const response = await instance.get(axiosDensityRoadUrl);
+    return response;
+  } catch (error) {
+    throw error;
+  }
+};
+
+const axiosAccidentUrl = "/api/accident";
+export const axiosAccident = async (): Promise<any> => {
+  try {
+    const response = await instance.get(axiosAccidentUrl);
     return response;
   } catch (error) {
     throw error;

@@ -51,6 +51,7 @@ const LoadMap = (props: LoadMapProps): JSX.Element => {
       onZoomChanged={(map): void => {
         dispatch(mapLevelSelect(map.getLevel()));
       }}
+      isPanto
     >
       {eventMarkers.map((eventInfo) => {
         return (

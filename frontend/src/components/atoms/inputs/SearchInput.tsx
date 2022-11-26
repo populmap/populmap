@@ -11,6 +11,7 @@ const SearchInputStyle = {
   border: 0,
   width: "80%",
   height: "100%",
+  marginLeft: "1rem",
   backgroundColor: "transparent",
 };
 

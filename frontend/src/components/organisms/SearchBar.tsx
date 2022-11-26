@@ -13,6 +13,8 @@ const SearchBarDiv = styled.div`
 const InputDiv = styled.div`
   width: 70%;
   height: 80%;
+  display: flex;
+  justify-content: left;
   background-color: #fafafa;
   border-radius: 0.3rem;
 `;

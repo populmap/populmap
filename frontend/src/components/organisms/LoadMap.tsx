@@ -16,6 +16,7 @@ const LoadMap = (props: LoadMapProps): JSX.Element => {
 
   const dispatch = useAppDispatch();
   const geocoder = new kakao.maps.services.Geocoder();
+  const ps = new kakao.maps.services.Places();
 
   const callback = (result: any, status: string): void => {
     if (status === "OK")
@@ -25,11 +26,18 @@ const LoadMap = (props: LoadMapProps): JSX.Element => {
           lng: result[0].x,
         })
       );
+    else alert("검색결과가 없습니다.");
   };
 
   useEffect(() => {
     if (mapState.search !== "")
-      geocoder.addressSearch(`${mapState.search}`, callback);
+      geocoder.addressSearch(
+        `${mapState.search}`,
+        (result: any, status: string) => {
+          if (status === "OK") callback(result, status);
+          else ps.keywordSearch(`${mapState.search}`, callback);
+        }
+      );
   }, [mapState.search]);
 
   return (

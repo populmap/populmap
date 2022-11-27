@@ -68,16 +68,6 @@ export interface IAuthRepository {
   insertAuthSite(userId: number, password: string): Promise<void>;
 
   /**
-   * socialUserId와 socialType으로 userDto를 얻는다.
-   * 존재하지 않으면 null을 반환한다.
-   * @param socialUserId
-   */
-  getUserDtoBySocialUserId(
-    socialUserId: string,
-    socailType: SocialType,
-  ): Promise<UserDto>;
-
-  /**
    * userId에 해당하는 유저를 삭제한다.
    * @param userId
    */

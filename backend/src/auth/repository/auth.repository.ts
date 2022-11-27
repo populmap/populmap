@@ -154,34 +154,6 @@ export class AuthRepository implements IAuthRepository {
     });
   }
 
-  async getUserDtoBySocialUserId(
-    socialUserId: string,
-    socialType: SocialType,
-  ): Promise<UserDto> {
-    const result = await this.authSocialRepository.findOne({
-      relations: {
-        user: true,
-      },
-      select: {
-        user: {
-          userId: true,
-          userName: true,
-        },
-      },
-      where: {
-        socialUserId: socialUserId,
-        socialType: socialType,
-      },
-    });
-    if (!result) {
-      return null;
-    }
-    return {
-      userId: result.user.userId,
-      userName: result.user.userName,
-    };
-  }
-
   async deleteUser(userId: number): Promise<void> {
     await this.userRepository.delete({
       userId: userId,

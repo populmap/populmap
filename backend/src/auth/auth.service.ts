@@ -68,17 +68,6 @@ export class AuthService {
     return { userId, userName };
   }
 
-  async getUserDtoBySocialUserId(
-    socialUserId: string,
-    socialType: SocialType,
-  ): Promise<UserDto> {
-    this.logger.debug(`Called ${this.getUserDtoBySocialUserId.name}`);
-    return await this.authRepository.getUserDtoBySocialUserId(
-      socialUserId,
-      socialType,
-    );
-  }
-
   async createSiteUserIfNotExists(
     user: UserRegisterRequestDto,
   ): Promise<UserDto> {
@@ -140,9 +129,10 @@ export class AuthService {
     const config = { headers: headersRequest };
     this.logger.debug(`Request url: ${url}`);
     await firstValueFrom(
-      this.httpService.get(url, config).pipe(map((res) => res.data)),
+      this.httpService.post(url, config).pipe(map((res) => res.data)),
       )
       .then(async (data) => {
+        this.logger.debug(`Response data: ${JSON.stringify(data)}`);
         await this.withdraw(user.userId, res);
       })
       .catch((err) => {

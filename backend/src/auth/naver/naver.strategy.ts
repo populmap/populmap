@@ -5,13 +5,10 @@ import { Strategy } from 'passport-naver';
 import { UserSessionDto } from 'src/dto/user.session.dto';
 import LoginType from 'src/enums/login.type.enum';
 import SocialType from 'src/enums/social.type.enum';
-import { AuthService } from '../auth.service';
 
 @Injectable()
 export class NaverStrategy extends PassportStrategy(Strategy, 'naver') {
-  constructor(
-    private readonly configService: ConfigService,
-  ) {
+  constructor(private readonly configService: ConfigService) {
     super({
       clientID: configService.get<string>('naver.clientID'),
       clientSecret: configService.get<string>('naver.clientSecret'),

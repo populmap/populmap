@@ -5,13 +5,10 @@ import { Strategy } from 'passport-google-oauth20';
 import { UserSessionDto } from 'src/dto/user.session.dto';
 import LoginType from 'src/enums/login.type.enum';
 import SocialType from 'src/enums/social.type.enum';
-import { AuthService } from '../auth.service';
 
 @Injectable()
 export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
-  constructor(
-    private readonly configService: ConfigService,
-  ) {
+  constructor(private readonly configService: ConfigService) {
     super({
       clientID: configService.get<string>('google.clientID'),
       clientSecret: configService.get<string>('google.clientSecret'),

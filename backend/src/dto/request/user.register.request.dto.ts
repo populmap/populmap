@@ -10,7 +10,6 @@ export class UserRegisterRequestDto {
       password: 'test123!@',
     },
   })
-
   @IsEmail()
   readonly email: string;
 

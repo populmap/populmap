@@ -3,14 +3,13 @@ import { IAuthRepository } from './repository/auth.repository.interface';
 import { v4 as uuid } from 'uuid';
 import { UserSessionDto } from 'src/dto/user.session.dto';
 import { UserDto } from 'src/dto/user.dto';
-import SocialType from 'src/enums/social.type.enum';
 import { Response } from 'express';
 import { UserRegisterRequestDto } from 'src/dto/request/user.register.request.dto';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import LoginType from 'src/enums/login.type.enum';
 import { ConfigService } from '@nestjs/config';
-import { firstValueFrom, map, tap } from 'rxjs';
+import { firstValueFrom, map } from 'rxjs';
 import { HttpService } from '@nestjs/axios';
 
 @Injectable()
@@ -45,7 +44,10 @@ export class AuthService {
     // throw new ConflictException('이미 존재하는 유저입니다.');
     if (
       (userDto = await this.authRepository.getUserByEmail(user.email)) ||
-      (userDto = await this.authRepository.getSocialUserByUserId(user.socialUserId, user.socialType))
+      (userDto = await this.authRepository.getSocialUserByUserId(
+        user.socialUserId,
+        user.socialType,
+      ))
     ) {
       return userDto;
     }
@@ -98,9 +100,7 @@ export class AuthService {
 
   async socialRegister(user: UserSessionDto, res: Response): Promise<void> {
     this.logger.debug(`Called ${this.socialRegister.name}`);
-    const userDto = await this.createSocialUserIfNotExists(
-      user,
-    );
+    const userDto = await this.createSocialUserIfNotExists(user);
     user.userId = userDto.userId;
     user.userName = userDto.userName;
     const token = this.jwtService.sign(user);
@@ -139,10 +139,8 @@ export class AuthService {
     const config = { headers: headersRequest };
     this.logger.debug(`Request url: ${url}`);
     await firstValueFrom(
-      this.httpService.post(url, null, config)
-      .pipe(
-        map((res) => res.data),
-        ))
+      this.httpService.post(url, null, config).pipe(map((res) => res.data)),
+    )
       .then(async (data) => {
         this.logger.debug(`Response data: ${JSON.stringify(data)}`);
       })
@@ -164,10 +162,8 @@ export class AuthService {
     const config = { params };
     this.logger.debug(`Request url: ${url}`);
     await firstValueFrom(
-      this.httpService.post(url, null, config)
-      .pipe(
-        map((res) => res.data),
-      ))
+      this.httpService.post(url, null, config).pipe(map((res) => res.data)),
+    )
       .then(async (data) => {
         this.logger.debug(`Response data: ${JSON.stringify(data)}`);
       })

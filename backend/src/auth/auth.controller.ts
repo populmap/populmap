@@ -22,7 +22,15 @@ import SocialType from 'src/enums/social.type.enum';
 import { AuthService } from './auth.service';
 import { JwtAuthGuard } from './jwt/guard/jwt.auth.guard';
 import { LocalAuthGuard } from './site/guard/local.guard';
-import { ApiOperation, ApiFoundResponse, ApiCreatedResponse, ApiUnauthorizedResponse, ApiOkResponse, ApiConflictResponse, ApiNoContentResponse, ApiTags } from '@nestjs/swagger';
+import {
+  ApiOperation,
+  ApiCreatedResponse,
+  ApiUnauthorizedResponse,
+  ApiOkResponse,
+  ApiConflictResponse,
+  ApiNoContentResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 
 @ApiTags('Auth')
 @Controller('auth')
@@ -39,11 +47,15 @@ export class AuthController {
     description: '회원가입 성공 시, 201 Created를 응답받습니다.',
   })
   @ApiConflictResponse({
-    description: '이미 아이디나 이메일이 존재하는 경우, 409 Conflict를 응답받습니다.',
+    description:
+      '이미 아이디나 이메일이 존재하는 경우, 409 Conflict를 응답받습니다.',
   })
   @Post('/register')
   @HttpCode(HttpStatus.CONFLICT)
-  async register(@Body(new ValidationPipe()) user: UserRegisterRequestDto, @Res() res: Response) {
+  async register(
+    @Body(new ValidationPipe()) user: UserRegisterRequestDto,
+    @Res() res: Response,
+  ) {
     this.logger.debug(`Called ${this.register.name}`);
     try {
       await this.authService.register(user, res);
@@ -69,7 +81,8 @@ export class AuthController {
     description: '로그인 성공 시, 200 OK를 응답받습니다.',
   })
   @ApiUnauthorizedResponse({
-    description: '아이디/이메일 혹은 비밀번호가 틀린 경우, 401 Unauthorized를 응답받습니다.',
+    description:
+      '아이디/이메일 혹은 비밀번호가 틀린 경우, 401 Unauthorized를 응답받습니다.',
   })
   @Get('/login')
   @HttpCode(HttpStatus.OK)
@@ -93,8 +106,7 @@ export class AuthController {
 
   @ApiOperation({
     summary: '로그아웃 요청',
-    description:
-      '로그아웃 요청을 합니다. 성공 시, accessToken을 삭제합니다.',
+    description: '로그아웃 요청을 합니다. 성공 시, accessToken을 삭제합니다.',
   })
   @ApiOkResponse({
     description: '로그아웃 성공 시, 200 OK를 응답받습니다.',
@@ -137,10 +149,10 @@ export class AuthController {
         switch (user.socialType) {
           case SocialType.KAKAO:
             await this.authService.unlinkKakao(user);
-            break ;
+            break;
           case SocialType.NAVER:
             await this.authService.unlinkNaver(user);
-            break ;
+            break;
         }
       }
       await this.authService.withdraw(user.userId, res);

@@ -8,9 +8,7 @@ import SocialType from 'src/enums/social.type.enum';
 
 @Injectable()
 export class KakaoStrategy extends PassportStrategy(Strategy, 'kakao') {
-  constructor(
-    private readonly configService: ConfigService,
-  ) {
+  constructor(private readonly configService: ConfigService) {
     super({
       clientID: configService.get<string>('kakao.clientID'),
       clientSecret: configService.get<string>('kakao.clientSecret'),

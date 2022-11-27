@@ -1,4 +1,14 @@
-import { Controller, Get, HttpCode, HttpException, HttpStatus, InternalServerErrorException, Logger, Res, UseGuards } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  HttpCode,
+  HttpException,
+  HttpStatus,
+  InternalServerErrorException,
+  Logger,
+  Res,
+  UseGuards,
+} from '@nestjs/common';
 import { ApiFoundResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
 import { User } from 'src/decorator/user.decorator';
@@ -34,8 +44,7 @@ export class AuthGoogleController {
       '구글 로그인 시도 후 OAuth 인증이 완료되면 해당 URI로 자동으로 리다이렉트 됩니다. 유저가 존재하지 않으면 유저를 생성하고, JWT 토큰을 발급 후 쿠키에 저장합니다.',
   })
   @ApiFoundResponse({
-    description:
-      '정상적으로 인증이 완료되었다면 main으로 리다이렉트 합니다.',
+    description: '정상적으로 인증이 완료되었다면 main으로 리다이렉트 합니다.',
   })
   @Get('/login/callback')
   @HttpCode(HttpStatus.FOUND)

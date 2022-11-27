@@ -18,18 +18,18 @@ const LoadMap = (props: LoadMapProps): JSX.Element => {
   const geocoder = new kakao.maps.services.Geocoder();
   const ps = new kakao.maps.services.Places();
 
-  const callback = (result: any, status: string): void => {
-    if (status === "OK")
-      dispatch(
-        mapLocationChange({
-          lat: result[0].y,
-          lng: result[0].x,
-        })
-      );
-    else alert("검색결과가 없습니다.");
-  };
-
   useEffect(() => {
+    const callback = (result: any, status: string): void => {
+      if (status === "OK")
+        dispatch(
+          mapLocationChange({
+            lat: result[0].y,
+            lng: result[0].x,
+          })
+        );
+      else alert("검색결과가 없습니다.");
+    };
+
     if (mapState.search !== "")
       geocoder.addressSearch(
         `${mapState.search}`,

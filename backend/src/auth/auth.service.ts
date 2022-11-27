@@ -10,7 +10,7 @@ import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import LoginType from 'src/enums/login.type.enum';
 import { ConfigService } from '@nestjs/config';
-import { firstValueFrom, map } from 'rxjs';
+import { firstValueFrom, map, tap } from 'rxjs';
 import { HttpService } from '@nestjs/axios';
 
 @Injectable()
@@ -128,7 +128,7 @@ export class AuthService {
     this.logger.log('withdraw success!');
   }
 
-  async unlinkKakao(user: UserSessionDto, res: Response) {
+  async unlinkKakao(user: UserSessionDto) {
     this.logger.debug(`Called ${this.unlinkKakao.name}`);
     const url = `https://kapi.kakao.com/v1/user/unlink`;
     const headersRequest = {
@@ -139,18 +139,19 @@ export class AuthService {
     const config = { headers: headersRequest };
     this.logger.debug(`Request url: ${url}`);
     await firstValueFrom(
-      this.httpService.post(url, null, config).pipe(map((res) => res.data)),
-      )
+      this.httpService.post(url, null, config)
+      .pipe(
+        map((res) => res.data),
+        ))
       .then(async (data) => {
         this.logger.debug(`Response data: ${JSON.stringify(data)}`);
-        // await this.withdraw(user.userId, res);
       })
       .catch((err) => {
         throw err;
       });
   }
 
-  async unlinkNaver(user: UserSessionDto, res: Response) {
+  async unlinkNaver(user: UserSessionDto) {
     this.logger.debug(`Called ${this.unlinkNaver.name}`);
     const url = `https://nid.naver.com/oauth2.0/token`;
     const params = {
@@ -158,35 +159,17 @@ export class AuthService {
       client_id: this.configService.get<string>('naver.clientID'),
       client_secret: this.configService.get<string>('naver.clientSecret'),
       access_token: user.accessToken,
+      service_provider: 'NAVER',
     };
     const config = { params };
     this.logger.debug(`Request url: ${url}`);
     await firstValueFrom(
-      this.httpService.post(url, null, config).pipe(map((res) => res.data)),
-      )
+      this.httpService.post(url, null, config)
+      .pipe(
+        map((res) => res.data),
+      ))
       .then(async (data) => {
         this.logger.debug(`Response data: ${JSON.stringify(data)}`);
-        // await this.withdraw(user.userId, res);
-      })
-      .catch((err) => {
-        throw err;
-      });
-  }
-
-  async unlinkGoogle(user: UserSessionDto, res: Response) {
-    this.logger.debug(`Called ${this.unlinkGoogle.name}`);
-    const url = `https://accounts.google.com/o/oauth2/revoke`;
-    const params = {
-      token: user.accessToken,
-    };
-    const config = { params };
-    this.logger.debug(`Request url: ${url}`);
-    await firstValueFrom(
-      this.httpService.delete(url, config).pipe(map((res) => res.data)),
-      )
-      .then(async (data) => {
-        this.logger.debug(`Response data: ${JSON.stringify(data)}`);
-        // await this.withdraw(user.userId, res);
       })
       .catch((err) => {
         throw err;

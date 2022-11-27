@@ -136,13 +136,10 @@ export class AuthController {
       if (user.loginType === LoginType.SOCIAL) {
         switch (user.socialType) {
           case SocialType.KAKAO:
-            await this.authService.unlinkKakao(user, res);
+            await this.authService.unlinkKakao(user);
             break ;
           case SocialType.NAVER:
-            await this.authService.unlinkNaver(user, res);
-            break ;
-          case SocialType.GOOGLE:
-            await this.authService.unlinkGoogle(user, res);
+            await this.authService.unlinkNaver(user);
             break ;
         }
       }

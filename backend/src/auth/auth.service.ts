@@ -124,12 +124,55 @@ export class AuthService {
     this.logger.debug(`Called ${this.unlinkKakao.name}`);
     const url = `https://kapi.kakao.com/v1/user/unlink`;
     const headersRequest = {
-      Authorization: `Bearer ${user.accessToken}/KakaoAK ${this.configService.get<string>('kakaoAdminKey')}`,
+      Authorization: `Bearer ${user.accessToken}/KakaoAK ${this.configService.get<string>('kakao.adminKey')}`,
     };
     const config = { headers: headersRequest };
     this.logger.debug(`Request url: ${url}`);
     await firstValueFrom(
       this.httpService.post(url, config).pipe(map((res) => res.data)),
+      )
+      .then(async (data) => {
+        this.logger.debug(`Response data: ${JSON.stringify(data)}`);
+        await this.withdraw(user.userId, res);
+      })
+      .catch((err) => {
+        throw err;
+      });
+  }
+
+  async unlinkNaver(user: UserSessionDto, res: Response) {
+    this.logger.debug(`Called ${this.unlinkKakao.name}`);
+    const url = `https://nid.naver.com/oauth2.0/token`;
+    const params = {
+      grant_type: 'delete',
+      client_id: this.configService.get<string>('naver.clientID'),
+      client_secret: this.configService.get<string>('naver.clientSecret'),
+      access_token: user.accessToken,
+    };
+    const config = { params };
+    this.logger.debug(`Request url: ${url}`);
+    await firstValueFrom(
+      this.httpService.post(url, config).pipe(map((res) => res.data)),
+      )
+      .then(async (data) => {
+        this.logger.debug(`Response data: ${JSON.stringify(data)}`);
+        await this.withdraw(user.userId, res);
+      })
+      .catch((err) => {
+        throw err;
+      });
+  }
+
+  async unlinkGoogle(user: UserSessionDto, res: Response) {
+    this.logger.debug(`Called ${this.unlinkKakao.name}`);
+    const url = `https://accounts.google.com/o/oauth2/revoke`;
+    const params = {
+      token: user.accessToken,
+    };
+    const config = { params };
+    this.logger.debug(`Request url: ${url}`);
+    await firstValueFrom(
+      this.httpService.delete(url, config).pipe(map((res) => res.data)),
       )
       .then(async (data) => {
         this.logger.debug(`Response data: ${JSON.stringify(data)}`);

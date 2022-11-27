@@ -6,7 +6,7 @@ export class UserRegisterRequestDto {
     description: '회원가입 폼',
     example: {
       email: 'test123@naver.com',
-      username: 'test123',
+      userName: 'test123',
       password: 'test123!@',
     },
   })

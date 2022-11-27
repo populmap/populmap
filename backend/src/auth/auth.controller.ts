@@ -35,6 +35,8 @@ import {
   ApiTags,
   ApiNotFoundResponse,
   ApiBadRequestResponse,
+  ApiBody,
+  ApiConsumes,
 } from '@nestjs/swagger';
 import { EmailSender } from 'src/utils/email.sender.component';
 import { IdBodyRequestDto } from 'src/dto/request/id.body.request.dto';
@@ -60,6 +62,31 @@ export class AuthController {
   @ApiConflictResponse({
     description:
       '이미 아이디나 이메일이 존재하는 경우, 409 Conflict를 응답받습니다.',
+  })
+  @ApiConsumes('application/x-www-form-urlencoded')
+  @ApiBody({
+    schema: {
+      type: 'object',
+      properties: {
+        email: {
+          type: 'string',
+          description: '가입할 이메일',
+          format: 'email',
+          nullable: false,
+        },
+        userName: {
+          type: 'string',
+          description: '가입할 유저 이름',
+          nullable: false,
+        },
+        password: {
+          type: 'string',
+          description: '가입할 비밀번호',
+          format: 'password',
+          nullable: false,
+        },
+      },
+    },
   })
   @Post('/register')
   @HttpCode(HttpStatus.CONFLICT)
@@ -95,7 +122,26 @@ export class AuthController {
     description:
       '아이디/이메일 혹은 비밀번호가 틀린 경우, 401 Unauthorized를 응답받습니다.',
   })
-  @Get('/login')
+  @ApiConsumes('application/x-www-form-urlencoded')
+  @ApiBody({
+    schema: {
+      type: 'object',
+      properties: {
+        id: {
+          type: 'string',
+          description: '가입한 유저 이름 혹은 이메일',
+          nullable: false,
+        },
+        password: {
+          type: 'string',
+          description: '가입한 비밀번호',
+          format: 'password',
+          nullable: false,
+        },
+      },
+    },
+  })
+  @Post('/login')
   @HttpCode(HttpStatus.OK)
   @UseGuards(LocalAuthGuard)
   async login(@User() user: UserSessionDto, @Res() res: Response) {
@@ -197,6 +243,19 @@ export class AuthController {
     description:
       '아이디 혹은 이메일을 입력하지 않은 경우, 400 Bad Request를 응답받습니다.',
   })
+  @ApiConsumes('application/x-www-form-urlencoded')
+  @ApiBody({
+    schema: {
+      type: 'object',
+      properties: {
+        id: {
+          type: 'string',
+          description: '아이디 혹은 이메일',
+          nullable: false,
+        },
+      },
+    },
+  })
   @Patch('password/find')
   @UsePipes(new ValidationPipe({ transform: true }))
   @HttpCode(HttpStatus.NO_CONTENT)
@@ -232,6 +291,20 @@ export class AuthController {
   @ApiBadRequestResponse({
     description:
       '변경할 비밀번호를 입력하지 않은 경우, 400 Bad Request를 응답받습니다.',
+  })
+  @ApiConsumes('application/x-www-form-urlencoded')
+  @ApiBody({
+    schema: {
+      type: 'object',
+      properties: {
+        password: {
+          type: 'string',
+          description: '변경할 비밀번호',
+          format: 'password',
+          nullable: false,
+        },
+      },
+    },
   })
   @Patch('password/change')
   @UsePipes(new ValidationPipe({ transform: true }))

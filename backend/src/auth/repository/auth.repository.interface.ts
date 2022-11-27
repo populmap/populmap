@@ -5,16 +5,16 @@ import SocialType from 'src/enums/social.type.enum';
 
 export interface IAuthRepository {
   /**
-   * email로 해당 유저가 이미 존재하는지 확인한다.
+   * email로 해당 유저의 정보를 얻는다.
    * @param email
    */
-  findUserByEmail(email: string): Promise<boolean>;
+  getUserByEmail(email: string): Promise<UserDto>;
 
   /**
-   * userName으로 해당 유저가 이미 존재하는지 확인한다.
+   * userName으로 해당 유저의 정보를 얻는다.
    * @param userName
    */
-  findUserByUserName(userName: string): Promise<boolean>;
+  getUserByUserName(userName: string): Promise<UserDto>;
 
   /**
    * email로 해당 site 유저 정보를 얻는다.
@@ -29,14 +29,14 @@ export interface IAuthRepository {
   getSiteUserByUserName(userName: string): Promise<UserValidateDto>;
 
   /**
-   * socialUserId으로 해당 소셜 플랫폼의 유저가 존재하는지 확인한다.
+   * socialUserId으로 해당 소셜 플랫폼의 유저의 정보를 얻는다.
    * @param socialUserId
    * @param socialType
    */
-  findSocialUserByUserId(
+  getSocialUserByUserId(
     socialUserId: string,
     socialType: SocialType,
-  ): Promise<boolean>;
+  ): Promise<UserDto>;
 
   /**
    * 새로운 소셜 로그인 유저를 추가한다.
@@ -68,12 +68,8 @@ export interface IAuthRepository {
   insertAuthSite(userId: number, password: string): Promise<void>;
 
   /**
-   * socialUserId와 socialType으로 userDto를 얻는다.
-   * 존재하지 않으면 null을 반환한다.
-   * @param socialUserId
+   * userId에 해당하는 유저를 삭제한다.
+   * @param userId
    */
-  getUserDtoBySocialUserId(
-    socialUserId: string,
-    socailType: SocialType,
-  ): Promise<UserDto>;
+  deleteUser(userId: number): Promise<void>;
 }

@@ -7,6 +7,7 @@ export default () => ({
   kakao: {
     clientID: process.env.KAKAO_CLIENT_ID,
     clientSecret: process.env.KAKAO_CLIENT_SECRET,
+    adminKey: process.env.KAKAO_ADMIN_KEY,
     callbackURL: process.env.KAKAO_CALLBACK_URL,
   },
   naver: {

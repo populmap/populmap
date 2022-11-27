@@ -1,9 +1,12 @@
+import { MailerModule } from '@nestjs-modules/mailer';
 import { HttpModule } from '@nestjs/axios';
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from 'src/auth/auth.module';
+import MailerConfigService from 'src/config/mailer.config';
 import TypeOrmConfigService from 'src/config/typeorm.config';
+import { EmailSender } from './email.sender.component';
 import { KakaoSearch } from './kakao.search.component';
 import { TestController } from './test.controller';
 
@@ -13,10 +16,15 @@ import { TestController } from './test.controller';
       imports: [ConfigModule],
       useClass: TypeOrmConfigService,
     }),
+    MailerModule.forRootAsync({
+      imports: [ConfigModule],
+      useClass: MailerConfigService,
+    }),
     HttpModule,
-    AuthModule,
+    forwardRef(() => AuthModule),
   ],
   controllers: [TestController],
-  providers: [KakaoSearch],
+  providers: [KakaoSearch, EmailSender],
+  exports: [EmailSender],
 })
 export class UtilsModule {}

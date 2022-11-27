@@ -13,7 +13,6 @@ export class KakaoSearch {
     private readonly httpService: HttpService,
   ) {
     this.appkey = configService.get<string>('kakao.clientID');
-    console.log(this.appkey);
   }
 
   async requestSearchByPlace(place: string) {

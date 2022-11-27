@@ -5,13 +5,11 @@ import { Strategy } from 'passport-kakao';
 import { UserSessionDto } from 'src/dto/user.session.dto';
 import LoginType from 'src/enums/login.type.enum';
 import SocialType from 'src/enums/social.type.enum';
-import { AuthService } from '../auth.service';
 
 @Injectable()
 export class KakaoStrategy extends PassportStrategy(Strategy, 'kakao') {
   constructor(
     private readonly configService: ConfigService,
-    private readonly authService: AuthService,
   ) {
     super({
       clientID: configService.get<string>('kakao.clientID'),
@@ -32,14 +30,6 @@ export class KakaoStrategy extends PassportStrategy(Strategy, 'kakao') {
       socialUserId: String(profile.id),
       accessToken: accessToken,
     };
-    // const existingUser = await this.authService.getUserDtoBySocialUserId(
-    //   user.socialUserId,
-    //   user.socialType,
-    // );
-    // if (existingUser) {
-    //   user.userId = existingUser.userId;
-    //   user.userName = existingUser.userName;
-    // }
     callback(null, user);
   }
 }

@@ -11,7 +11,6 @@ import { AuthService } from '../auth.service';
 export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
   constructor(
     private readonly configService: ConfigService,
-    private readonly authService: AuthService,
   ) {
     super({
       clientID: configService.get<string>('google.clientID'),
@@ -31,14 +30,6 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
       socialUserId: profile.id,
       accessToken: accessToken,
     };
-    const existingUser = await this.authService.getUserDtoBySocialUserId(
-      user.socialUserId,
-      user.socialType,
-    );
-    if (existingUser) {
-      user.userId = existingUser.userId;
-      user.userName = existingUser.userName;
-    }
     callback(null, user);
   }
 }

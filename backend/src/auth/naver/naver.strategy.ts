@@ -11,7 +11,6 @@ import { AuthService } from '../auth.service';
 export class NaverStrategy extends PassportStrategy(Strategy, 'naver') {
   constructor(
     private readonly configService: ConfigService,
-    private readonly authService: AuthService,
   ) {
     super({
       clientID: configService.get<string>('naver.clientID'),
@@ -30,14 +29,6 @@ export class NaverStrategy extends PassportStrategy(Strategy, 'naver') {
       socialUserId: profile.id,
       accessToken: accessToken,
     };
-    const existingUser = await this.authService.getUserDtoBySocialUserId(
-      user.socialUserId,
-      user.socialType,
-    );
-    if (existingUser) {
-      user.userId = existingUser.userId;
-      user.userName = existingUser.userName;
-    }
     callback(null, user);
   }
 }

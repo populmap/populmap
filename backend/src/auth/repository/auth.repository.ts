@@ -100,6 +100,18 @@ export class AuthRepository implements IAuthRepository {
     };
   }
 
+  async updatePassword(userId: number, hashedPassword: string): Promise<void> {
+    await this.authSiteRepository.createQueryBuilder()
+      .update(AuthSite)
+      .set({
+        password: hashedPassword,
+      })
+      .where({
+        siteUserId: userId,
+      })
+      .execute();
+  }
+
   async getSocialUserByUserId(
     socialUserId: string,
     socialType: SocialType,

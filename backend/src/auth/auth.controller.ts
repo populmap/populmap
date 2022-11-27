@@ -8,6 +8,8 @@ import {
   HttpStatus,
   InternalServerErrorException,
   Logger,
+  NotFoundException,
+  Patch,
   Post,
   Res,
   UseGuards,
@@ -30,6 +32,7 @@ import {
   ApiConflictResponse,
   ApiNoContentResponse,
   ApiTags,
+  ApiNotFoundResponse,
 } from '@nestjs/swagger';
 
 @ApiTags('Auth')
@@ -158,6 +161,42 @@ export class AuthController {
       await this.authService.withdraw(user.userId, res);
       res.send();
     } catch (err) {
+      this.logger.error(err);
+      if (err instanceof HttpException) {
+        throw err;
+      } else {
+        throw new InternalServerErrorException(
+          `🚨 populmap 내부 서버 에러가 발생했습니다 🥲 🚨`,
+        );
+      }
+    }
+  }
+
+  @ApiOperation({
+    summary: '비밀번호 요청',
+    description:
+      '비밀번호 찾기 요청을 합니다. 아이디 혹은 이메일을 입력받습니다. 해당 유저가 존재하면, 임시 비밀번호를 생성하여 이메일로 전송합니다.',
+  })
+  @ApiNoContentResponse({
+    description: '임시 비밀번호 생성 및 이메일 발송 성공 시, 204 No Content를 응답받습니다.',
+  })
+  @ApiNotFoundResponse({
+    description: '해당 유저가 존재하지 않는 경우, 404 Not Found를 응답받습니다.',
+  })
+  @Patch('password/find')
+  @HttpCode(HttpStatus.NO_CONTENT)
+  async findPassword(@Body(new ValidationPipe()) id: string) {
+    this.logger.debug(`Called ${this.findPassword.name}`);
+    try {
+      const user = await this.authService.getSiteUserDto(id);
+      if (!user) {
+        throw new NotFoundException(`🚨 존재하지 않는 유저입니다. 🥲 🚨`);
+      }
+      const password = await this.authService.generatePasswordAndUpdate(user);
+      // TODO: 이메일 발송 컴포넌트 구현
+      // await this.authService.sendPasswordEmail(user, password);
+    }
+    catch (err) {
       this.logger.error(err);
       if (err instanceof HttpException) {
         throw err;

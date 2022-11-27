@@ -181,4 +181,10 @@ export class AuthRepository implements IAuthRepository {
       userName: result.user.userName,
     };
   }
+
+  async deleteUser(userId: number): Promise<void> {
+    await this.userRepository.delete({
+      userId: userId,
+    });
+  }
 }

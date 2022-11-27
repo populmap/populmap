@@ -76,4 +76,10 @@ export interface IAuthRepository {
     socialUserId: string,
     socailType: SocialType,
   ): Promise<UserDto>;
+
+  /**
+   * userId에 해당하는 유저를 삭제한다.
+   * @param userId
+   */
+  deleteUser(userId: number): Promise<void>;
 }

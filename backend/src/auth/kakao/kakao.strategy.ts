@@ -32,14 +32,14 @@ export class KakaoStrategy extends PassportStrategy(Strategy, 'kakao') {
       socialUserId: String(profile.id),
       accessToken: accessToken,
     };
-    const existingUser = await this.authService.getUserDtoBySocialUserId(
-      user.socialUserId,
-      user.socialType,
-    );
-    if (existingUser) {
-      user.userId = existingUser.userId;
-      user.userName = existingUser.userName;
-    }
+    // const existingUser = await this.authService.getUserDtoBySocialUserId(
+    //   user.socialUserId,
+    //   user.socialType,
+    // );
+    // if (existingUser) {
+    //   user.userId = existingUser.userId;
+    //   user.userName = existingUser.userName;
+    // }
     callback(null, user);
   }
 }

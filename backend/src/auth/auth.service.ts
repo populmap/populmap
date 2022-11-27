@@ -9,6 +9,9 @@ import { UserRegisterRequestDto } from 'src/dto/request/user.register.request.dt
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import LoginType from 'src/enums/login.type.enum';
+import { ConfigService } from '@nestjs/config';
+import { firstValueFrom, map } from 'rxjs';
+import { HttpService } from '@nestjs/axios';
 
 @Injectable()
 export class AuthService {
@@ -16,6 +19,8 @@ export class AuthService {
   constructor(
     @Inject('IAuthRepository') private authRepository: IAuthRepository,
     private jwtService: JwtService,
+    @Inject(ConfigService) private configService: ConfigService,
+    private readonly httpService: HttpService,
   ) {}
 
   async validateSiteUser(id: string, password: string): Promise<UserDto> {
@@ -117,5 +122,31 @@ export class AuthService {
     this.logger.debug(`Called ${this.logout.name}`);
     res.clearCookie('populmap_token');
     this.logger.log('logout success!');
+  }
+
+  async withdraw(userId: number, res: Response): Promise<void> {
+    this.logger.debug(`Called ${this.withdraw.name}`);
+    await this.authRepository.deleteUser(userId);
+    res.clearCookie('populmap_token');
+    this.logger.log('withdraw success!');
+  }
+
+  async unlinkKakao(user: UserSessionDto, res: Response) {
+    this.logger.debug(`Called ${this.unlinkKakao.name}`);
+    const url = `https://kapi.kakao.com/v1/user/unlink`;
+    const headersRequest = {
+      Authorization: `Bearer ${user.accessToken}/KakaoAK ${this.configService.get<string>('kakaoAdminKey')}`,
+    };
+    const config = { headers: headersRequest };
+    this.logger.debug(`Request url: ${url}`);
+    await firstValueFrom(
+      this.httpService.get(url, config).pipe(map((res) => res.data)),
+      )
+      .then(async (data) => {
+        await this.withdraw(user.userId, res);
+      })
+      .catch((err) => {
+        throw err;
+      });
   }
 }

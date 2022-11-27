@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
 import { HttpModule } from '@nestjs/axios';
@@ -18,6 +18,7 @@ import { AuthGoogleController } from './google/auth.google.controller';
 import { AuthController } from './auth.controller';
 import { LocalStrategy } from './site/local.strategy';
 import { PassportModule } from '@nestjs/passport';
+import { UtilsModule } from 'src/utils/utils.module';
 
 const repo = {
   provide: 'IAuthRepository',
@@ -38,6 +39,7 @@ const repo = {
     TypeOrmModule.forFeature([User, AuthSocial, AuthSite]),
     HttpModule,
     PassportModule,
+    forwardRef(() => UtilsModule),
   ],
   providers: [
     KakaoStrategy,

@@ -29,7 +29,7 @@ export class AuthRepository implements IAuthRepository {
     if (!result) {
       return null;
     }
-    return { userId: result.userId, userName: result.userName };
+    return { userId: result.userId, userName: result.userName, email: result.email };
   }
 
   async getUserByUserName(userName: string): Promise<UserDto> {
@@ -41,7 +41,7 @@ export class AuthRepository implements IAuthRepository {
     if (!result) {
       return null;
     }
-    return { userId: result.userId, userName: result.userName };
+    return { userId: result.userId, userName: result.userName, email: result.email };
   }
 
   async getSiteUserByEmail(email: string): Promise<UserValidateDto> {

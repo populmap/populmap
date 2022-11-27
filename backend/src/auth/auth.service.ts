@@ -59,6 +59,13 @@ export class AuthService {
     return password;
   }
 
+  async changePassword(userId: number, newPassword: string): Promise<void> {
+    this.logger.debug(`Called ${this.changePassword.name}`);
+    const hashedPassword = await bcrypt.hash(newPassword, 12);
+    await this.authRepository.updatePassword(userId, hashedPassword);
+    this.logger.log('password updated!');
+  }
+
   async createSocialUserIfNotExists(user: UserSessionDto): Promise<UserDto> {
     this.logger.debug(`Called ${this.createSocialUserIfNotExists.name}`);
     let userDto: UserDto;

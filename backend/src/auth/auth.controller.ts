@@ -13,6 +13,7 @@ import {
   Post,
   Res,
   UseGuards,
+  UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
 import { Response } from 'express';
@@ -33,13 +34,20 @@ import {
   ApiNoContentResponse,
   ApiTags,
   ApiNotFoundResponse,
+  ApiBadRequestResponse,
 } from '@nestjs/swagger';
+import { EmailSender } from 'src/utils/email.sender.component';
+import { IdBodyRequestDto } from 'src/dto/request/id.body.request.dto';
+import { PasswordBodyRequestDto } from 'src/dto/request/password.body.request.dto';
 
 @ApiTags('Auth')
 @Controller('auth')
 export class AuthController {
   private logger = new Logger(AuthController.name);
-  constructor(private authService: AuthService) {}
+  constructor(
+    private authService: AuthService,
+    private emailSender: EmailSender,
+    ) {}
 
   @ApiOperation({
     summary: '사이트 자체 회원가입 요청',
@@ -173,7 +181,7 @@ export class AuthController {
   }
 
   @ApiOperation({
-    summary: '비밀번호 요청',
+    summary: '비밀번호 찾기 요청',
     description:
       '비밀번호 찾기 요청을 합니다. 아이디 혹은 이메일을 입력받습니다. 해당 유저가 존재하면, 임시 비밀번호를 생성하여 이메일로 전송합니다.',
   })
@@ -183,18 +191,53 @@ export class AuthController {
   @ApiNotFoundResponse({
     description: '해당 유저가 존재하지 않는 경우, 404 Not Found를 응답받습니다.',
   })
+  @ApiBadRequestResponse({
+    description: '아이디 혹은 이메일을 입력하지 않은 경우, 400 Bad Request를 응답받습니다.',
+  })
   @Patch('password/find')
+  @UsePipes(new ValidationPipe({ transform: true }))
   @HttpCode(HttpStatus.NO_CONTENT)
-  async findPassword(@Body(new ValidationPipe()) id: string) {
+  async findPassword(@Body() idBody: IdBodyRequestDto) {
     this.logger.debug(`Called ${this.findPassword.name}`);
     try {
-      const user = await this.authService.getSiteUserDto(id);
+      const user = await this.authService.getSiteUserDto(idBody.id);
       if (!user) {
         throw new NotFoundException(`🚨 존재하지 않는 유저입니다. 🥲 🚨`);
       }
       const password = await this.authService.generatePasswordAndUpdate(user);
-      // TODO: 이메일 발송 컴포넌트 구현
-      // await this.authService.sendPasswordEmail(user, password);
+      this.emailSender.sendPasswordEmail(user.email, password);
+    }
+    catch (err) {
+      this.logger.error(err);
+      if (err instanceof HttpException) {
+        throw err;
+      } else {
+        throw new InternalServerErrorException(
+          `🚨 populmap 내부 서버 에러가 발생했습니다 🥲 🚨`,
+        );
+      }
+    }
+  }
+
+  @ApiOperation({
+    summary: '비밀번호 변경 요청',
+    description:
+      '비밀번호 변경 요청을 합니다. 변경할 비밀번호를 입력받습니다. 성공 시, DB에 저장된 비밀번호를 변경합니다.',
+  })
+  @ApiNoContentResponse({
+    description: '비밀번호 변경 성공 시, 204 No Content를 응답받습니다.',
+  })
+  @ApiBadRequestResponse({
+    description: '변경할 비밀번호를 입력하지 않은 경우, 400 Bad Request를 응답받습니다.',
+  })
+  @Patch('password/change')
+  @UsePipes(new ValidationPipe({ transform: true }))
+  @HttpCode(HttpStatus.NO_CONTENT)
+  @UseGuards(JwtAuthGuard)
+  async changePassword(@Body() passwordBody: PasswordBodyRequestDto, @User() user: UserSessionDto) {
+    this.logger.debug(`Called ${this.changePassword.name}`);
+    try {
+      await this.authService.changePassword(user.userId, passwordBody.newPassword);
     }
     catch (err) {
       this.logger.error(err);

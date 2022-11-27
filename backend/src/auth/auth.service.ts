@@ -162,7 +162,6 @@ export class AuthService {
       Authorization: `Bearer ${user.accessToken}`,
       'Content-Type': 'application/x-www-form-urlencoded',
     };
-    console.log(headersRequest);
     const config = { headers: headersRequest };
     this.logger.debug(`Request url: ${url}`);
     await firstValueFrom(

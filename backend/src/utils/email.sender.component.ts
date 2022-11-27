@@ -1,7 +1,6 @@
-import { MailerService } from "@nestjs-modules/mailer";
-import { Inject, Injectable, Logger } from "@nestjs/common";
-import { ConfigService } from "@nestjs/config";
-import { UserDto } from "src/dto/user.dto";
+import { MailerService } from '@nestjs-modules/mailer';
+import { Inject, Injectable, Logger } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class EmailSender {
@@ -13,9 +12,6 @@ export class EmailSender {
 
   sendPasswordEmail(email: string, password: string): void {
     const emailFrom = this.configService.get<string>('email.from');
-    console.log(emailFrom);
-    console.log(this.configService.get<string>('email.user'));
-    console.log(this.configService.get<string>('email.pass'));
     this.mailerService
       .sendMail({
         from: `populmap <${emailFrom}>`,

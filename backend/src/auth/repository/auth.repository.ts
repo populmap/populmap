@@ -29,7 +29,11 @@ export class AuthRepository implements IAuthRepository {
     if (!result) {
       return null;
     }
-    return { userId: result.userId, userName: result.userName, email: result.email };
+    return {
+      userId: result.userId,
+      userName: result.userName,
+      email: result.email,
+    };
   }
 
   async getUserByUserName(userName: string): Promise<UserDto> {
@@ -41,7 +45,11 @@ export class AuthRepository implements IAuthRepository {
     if (!result) {
       return null;
     }
-    return { userId: result.userId, userName: result.userName, email: result.email };
+    return {
+      userId: result.userId,
+      userName: result.userName,
+      email: result.email,
+    };
   }
 
   async getSiteUserByEmail(email: string): Promise<UserValidateDto> {
@@ -101,7 +109,8 @@ export class AuthRepository implements IAuthRepository {
   }
 
   async updatePassword(userId: number, hashedPassword: string): Promise<void> {
-    await this.authSiteRepository.createQueryBuilder()
+    await this.authSiteRepository
+      .createQueryBuilder()
       .update(AuthSite)
       .set({
         password: hashedPassword,

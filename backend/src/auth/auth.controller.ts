@@ -47,7 +47,7 @@ export class AuthController {
   constructor(
     private authService: AuthService,
     private emailSender: EmailSender,
-    ) {}
+  ) {}
 
   @ApiOperation({
     summary: '사이트 자체 회원가입 요청',
@@ -186,13 +186,16 @@ export class AuthController {
       '비밀번호 찾기 요청을 합니다. 아이디 혹은 이메일을 입력받습니다. 해당 유저가 존재하면, 임시 비밀번호를 생성하여 이메일로 전송합니다.',
   })
   @ApiNoContentResponse({
-    description: '임시 비밀번호 생성 및 이메일 발송 성공 시, 204 No Content를 응답받습니다.',
+    description:
+      '임시 비밀번호 생성 및 이메일 발송 성공 시, 204 No Content를 응답받습니다.',
   })
   @ApiNotFoundResponse({
-    description: '해당 유저가 존재하지 않는 경우, 404 Not Found를 응답받습니다.',
+    description:
+      '해당 유저가 존재하지 않는 경우, 404 Not Found를 응답받습니다.',
   })
   @ApiBadRequestResponse({
-    description: '아이디 혹은 이메일을 입력하지 않은 경우, 400 Bad Request를 응답받습니다.',
+    description:
+      '아이디 혹은 이메일을 입력하지 않은 경우, 400 Bad Request를 응답받습니다.',
   })
   @Patch('password/find')
   @UsePipes(new ValidationPipe({ transform: true }))
@@ -206,8 +209,7 @@ export class AuthController {
       }
       const password = await this.authService.generatePasswordAndUpdate(user);
       this.emailSender.sendPasswordEmail(user.email, password);
-    }
-    catch (err) {
+    } catch (err) {
       this.logger.error(err);
       if (err instanceof HttpException) {
         throw err;
@@ -228,18 +230,24 @@ export class AuthController {
     description: '비밀번호 변경 성공 시, 204 No Content를 응답받습니다.',
   })
   @ApiBadRequestResponse({
-    description: '변경할 비밀번호를 입력하지 않은 경우, 400 Bad Request를 응답받습니다.',
+    description:
+      '변경할 비밀번호를 입력하지 않은 경우, 400 Bad Request를 응답받습니다.',
   })
   @Patch('password/change')
   @UsePipes(new ValidationPipe({ transform: true }))
   @HttpCode(HttpStatus.NO_CONTENT)
   @UseGuards(JwtAuthGuard)
-  async changePassword(@Body() passwordBody: PasswordBodyRequestDto, @User() user: UserSessionDto) {
+  async changePassword(
+    @Body() passwordBody: PasswordBodyRequestDto,
+    @User() user: UserSessionDto,
+  ) {
     this.logger.debug(`Called ${this.changePassword.name}`);
     try {
-      await this.authService.changePassword(user.userId, passwordBody.newPassword);
-    }
-    catch (err) {
+      await this.authService.changePassword(
+        user.userId,
+        passwordBody.newPassword,
+      );
+    } catch (err) {
       this.logger.error(err);
       if (err instanceof HttpException) {
         throw err;

@@ -20,28 +20,28 @@ export class AuthRepository implements IAuthRepository {
     private userRepository: Repository<User>,
   ) {}
 
-  async findUserByEmail(email: string): Promise<boolean> {
+  async getUserByEmail(email: string): Promise<UserDto> {
     const result = await this.userRepository.findOne({
       where: {
         email: email,
       },
     });
     if (!result) {
-      return false;
+      return null;
     }
-    return true;
+    return { userId: result.userId, userName: result.userName };
   }
 
-  async findUserByUserName(userName: string): Promise<boolean> {
+  async getUserByUserName(userName: string): Promise<UserDto> {
     const result = await this.userRepository.findOne({
       where: {
         userName: userName,
       },
     });
     if (!result) {
-      return false;
+      return null;
     }
-    return true;
+    return { userId: result.userId, userName: result.userName };
   }
 
   async getSiteUserByEmail(email: string): Promise<UserValidateDto> {
@@ -100,20 +100,23 @@ export class AuthRepository implements IAuthRepository {
     };
   }
 
-  async findSocialUserByUserId(
+  async getSocialUserByUserId(
     socialUserId: string,
     socialType: SocialType,
-  ): Promise<boolean> {
+  ): Promise<UserDto> {
     const result = await this.authSocialRepository.findOne({
+      relations: {
+        user: true,
+      },
       where: {
         socialUserId: socialUserId,
         socialType: socialType,
       },
     });
     if (!result) {
-      return false;
+      return null;
     }
-    return true;
+    return { userId: result.userId, userName: result.user.userName };
   }
 
   async createSocialUser(userName: string, email: string): Promise<number> {
@@ -154,31 +157,9 @@ export class AuthRepository implements IAuthRepository {
     });
   }
 
-  async getUserDtoBySocialUserId(
-    socialUserId: string,
-    socialType: SocialType,
-  ): Promise<UserDto> {
-    const result = await this.authSocialRepository.findOne({
-      relations: {
-        user: true,
-      },
-      select: {
-        user: {
-          userId: true,
-          userName: true,
-        },
-      },
-      where: {
-        socialUserId: socialUserId,
-        socialType: socialType,
-      },
+  async deleteUser(userId: number): Promise<void> {
+    await this.userRepository.delete({
+      userId: userId,
     });
-    if (!result) {
-      return null;
-    }
-    return {
-      userId: result.user.userId,
-      userName: result.user.userName,
-    };
   }
 }

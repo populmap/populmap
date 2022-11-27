@@ -1,4 +1,4 @@
-import { Inject, Injectable, Logger } from '@nestjs/common';
+import { ConflictException, Inject, Injectable, Logger } from '@nestjs/common';
 import { IAuthRepository } from './repository/auth.repository.interface';
 import { v4 as uuid } from 'uuid';
 import { UserSessionDto } from 'src/dto/user.session.dto';
@@ -41,20 +41,13 @@ export class AuthService {
 
   async createSocialUserIfNotExists(user: UserSessionDto): Promise<UserDto> {
     this.logger.debug(`Called ${this.createSocialUserIfNotExists.name}`);
-    // user 테이블에서 email로 유저 조회.
-    // 이미 존재하는 유저라면 null return
-    if (await this.authRepository.findUserByEmail(user.email)) {
-      return null;
-    }
-    // user 테이블에서 userId로 auth_social에서 유저 조회.
-    // 이미 존재하는 유저라면 null return
+    let userDto: UserDto;
+    // throw new ConflictException('이미 존재하는 유저입니다.');
     if (
-      await this.authRepository.findSocialUserByUserId(
-        user.socialUserId,
-        user.socialType,
-      )
+      (userDto = await this.authRepository.getUserByEmail(user.email)) ||
+      (userDto = await this.authRepository.getSocialUserByUserId(user.socialUserId, user.socialType))
     ) {
-      return null;
+      return userDto;
     }
     // 없었던 유저라면 랜덤 userName을 생성.
     const userName = uuid();
@@ -72,10 +65,10 @@ export class AuthService {
     user: UserRegisterRequestDto,
   ): Promise<UserDto> {
     this.logger.debug(`Called ${this.createSiteUserIfNotExists.name}`);
-    if (await this.authRepository.findUserByEmail(user.email)) {
+    if (await this.authRepository.getUserByEmail(user.email)) {
       return null;
     }
-    if (await this.authRepository.findUserByUserName(user.userName)) {
+    if (await this.authRepository.getUserByUserName(user.userName)) {
       return null;
     }
     const hashedPassword = await bcrypt.hash(user.password, 12);
@@ -89,6 +82,9 @@ export class AuthService {
 
   async register(user: UserRegisterRequestDto, res: Response): Promise<void> {
     const userDto = await this.createSiteUserIfNotExists(user);
+    if (!userDto) {
+      throw new ConflictException('이미 존재하는 유저입니다.');
+    }
     const userSessionDto: UserSessionDto = {
       loginType: LoginType.SITE,
       userId: userDto.userId,
@@ -96,6 +92,18 @@ export class AuthService {
       email: userDto.email,
     };
     const token = this.jwtService.sign(userSessionDto);
+    res.cookie('populmap_token', token);
+    this.logger.log('registered!');
+  }
+
+  async socialRegister(user: UserSessionDto, res: Response): Promise<void> {
+    this.logger.debug(`Called ${this.socialRegister.name}`);
+    const userDto = await this.createSocialUserIfNotExists(
+      user,
+    );
+    user.userId = userDto.userId;
+    user.userName = userDto.userName;
+    const token = this.jwtService.sign(user);
     res.cookie('populmap_token', token);
     this.logger.log('registered!');
   }
@@ -124,16 +132,18 @@ export class AuthService {
     this.logger.debug(`Called ${this.unlinkKakao.name}`);
     const url = `https://kapi.kakao.com/v1/user/unlink`;
     const headersRequest = {
-      Authorization: `Bearer ${user.accessToken}/KakaoAK ${this.configService.get<string>('kakao.adminKey')}`,
+      Authorization: `Bearer ${user.accessToken}`,
+      'Content-Type': 'application/x-www-form-urlencoded',
     };
+    console.log(headersRequest);
     const config = { headers: headersRequest };
     this.logger.debug(`Request url: ${url}`);
     await firstValueFrom(
-      this.httpService.post(url, config).pipe(map((res) => res.data)),
+      this.httpService.post(url, null, config).pipe(map((res) => res.data)),
       )
       .then(async (data) => {
         this.logger.debug(`Response data: ${JSON.stringify(data)}`);
-        await this.withdraw(user.userId, res);
+        // await this.withdraw(user.userId, res);
       })
       .catch((err) => {
         throw err;
@@ -141,7 +151,7 @@ export class AuthService {
   }
 
   async unlinkNaver(user: UserSessionDto, res: Response) {
-    this.logger.debug(`Called ${this.unlinkKakao.name}`);
+    this.logger.debug(`Called ${this.unlinkNaver.name}`);
     const url = `https://nid.naver.com/oauth2.0/token`;
     const params = {
       grant_type: 'delete',
@@ -152,11 +162,11 @@ export class AuthService {
     const config = { params };
     this.logger.debug(`Request url: ${url}`);
     await firstValueFrom(
-      this.httpService.post(url, config).pipe(map((res) => res.data)),
+      this.httpService.post(url, null, config).pipe(map((res) => res.data)),
       )
       .then(async (data) => {
         this.logger.debug(`Response data: ${JSON.stringify(data)}`);
-        await this.withdraw(user.userId, res);
+        // await this.withdraw(user.userId, res);
       })
       .catch((err) => {
         throw err;
@@ -164,7 +174,7 @@ export class AuthService {
   }
 
   async unlinkGoogle(user: UserSessionDto, res: Response) {
-    this.logger.debug(`Called ${this.unlinkKakao.name}`);
+    this.logger.debug(`Called ${this.unlinkGoogle.name}`);
     const url = `https://accounts.google.com/o/oauth2/revoke`;
     const params = {
       token: user.accessToken,
@@ -176,7 +186,7 @@ export class AuthService {
       )
       .then(async (data) => {
         this.logger.debug(`Response data: ${JSON.stringify(data)}`);
-        await this.withdraw(user.userId, res);
+        // await this.withdraw(user.userId, res);
       })
       .catch((err) => {
         throw err;

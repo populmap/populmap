@@ -38,10 +38,37 @@ export class AuthService {
     return null;
   }
 
+  async getSiteUserDto(id: string): Promise<UserDto> {
+    this.logger.debug(`Called ${this.getSiteUserDto.name}`);
+    let user = await this.authRepository.getUserByEmail(id);
+    if (!user) {
+      user = await this.authRepository.getUserByUserName(id);
+    }
+    if (!user) {
+      return null;
+    }
+    return user;
+  }
+
+  async generatePasswordAndUpdate(user: UserDto): Promise<string> {
+    this.logger.debug(`Called ${this.generatePasswordAndUpdate.name}`);
+    const password = uuid();
+    const hashedPassword = await bcrypt.hash(password, 12);
+    await this.authRepository.updatePassword(user.userId, hashedPassword);
+    this.logger.log('password updated!');
+    return password;
+  }
+
+  async changePassword(userId: number, newPassword: string): Promise<void> {
+    this.logger.debug(`Called ${this.changePassword.name}`);
+    const hashedPassword = await bcrypt.hash(newPassword, 12);
+    await this.authRepository.updatePassword(userId, hashedPassword);
+    this.logger.log('password updated!');
+  }
+
   async createSocialUserIfNotExists(user: UserSessionDto): Promise<UserDto> {
     this.logger.debug(`Called ${this.createSocialUserIfNotExists.name}`);
     let userDto: UserDto;
-    // throw new ConflictException('이미 존재하는 유저입니다.');
     if (
       (userDto = await this.authRepository.getUserByEmail(user.email)) ||
       (userDto = await this.authRepository.getSocialUserByUserId(
@@ -135,7 +162,6 @@ export class AuthService {
       Authorization: `Bearer ${user.accessToken}`,
       'Content-Type': 'application/x-www-form-urlencoded',
     };
-    console.log(headersRequest);
     const config = { headers: headersRequest };
     this.logger.debug(`Request url: ${url}`);
     await firstValueFrom(

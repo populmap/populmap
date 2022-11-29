@@ -29,6 +29,13 @@ export interface IAuthRepository {
   getSiteUserByUserName(userName: string): Promise<UserValidateDto>;
 
   /**
+   * 유저의 비밀번호를 업데이트한다.
+   * @param userId
+   * @param password
+   */
+  updatePassword(userId: number, hashedPassword: string): Promise<void>;
+
+  /**
    * socialUserId으로 해당 소셜 플랫폼의 유저의 정보를 얻는다.
    * @param socialUserId
    * @param socialType

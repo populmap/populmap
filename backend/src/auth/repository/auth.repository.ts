@@ -29,7 +29,11 @@ export class AuthRepository implements IAuthRepository {
     if (!result) {
       return null;
     }
-    return { userId: result.userId, userName: result.userName };
+    return {
+      userId: result.userId,
+      userName: result.userName,
+      email: result.email,
+    };
   }
 
   async getUserByUserName(userName: string): Promise<UserDto> {
@@ -41,7 +45,11 @@ export class AuthRepository implements IAuthRepository {
     if (!result) {
       return null;
     }
-    return { userId: result.userId, userName: result.userName };
+    return {
+      userId: result.userId,
+      userName: result.userName,
+      email: result.email,
+    };
   }
 
   async getSiteUserByEmail(email: string): Promise<UserValidateDto> {
@@ -98,6 +106,19 @@ export class AuthRepository implements IAuthRepository {
       userName: result.userName,
       password: result.authSite.password,
     };
+  }
+
+  async updatePassword(userId: number, hashedPassword: string): Promise<void> {
+    await this.authSiteRepository
+      .createQueryBuilder()
+      .update(AuthSite)
+      .set({
+        password: hashedPassword,
+      })
+      .where({
+        siteUserId: userId,
+      })
+      .execute();
   }
 
   async getSocialUserByUserId(

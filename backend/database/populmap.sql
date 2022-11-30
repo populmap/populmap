@@ -25,13 +25,13 @@ DROP TABLE IF EXISTS `auth_site`;
 CREATE TABLE `auth_site` (
   `site_id` int(11) NOT NULL AUTO_INCREMENT,
   `site_user_id` int(11) NOT NULL,
-  `password` varchar(32) NOT NULL,
+  `password` varchar(128) NOT NULL,
   `first_login` datetime DEFAULT NULL,
   `last_login` datetime DEFAULT NULL,
   PRIMARY KEY (`site_id`),
   UNIQUE KEY `site_user_id` (`site_user_id`),
-  CONSTRAINT `site_user_id` FOREIGN KEY (`site_user_id`) REFERENCES `user` (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  CONSTRAINT `site_user_id` FOREIGN KEY (`site_user_id`) REFERENCES `user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -62,8 +62,8 @@ CREATE TABLE `auth_social` (
   UNIQUE KEY `access_token` (`access_token`),
   UNIQUE KEY `user_id` (`user_id`),
   UNIQUE KEY `social_id` (`social_id`),
-  CONSTRAINT `user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  CONSTRAINT `user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -90,7 +90,7 @@ CREATE TABLE `user` (
   PRIMARY KEY (`user_id`),
   UNIQUE KEY `email` (`email`),
   UNIQUE KEY `user_name` (`user_name`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -111,4 +111,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-11-15 14:43:42
+-- Dump completed on 2022-11-30 22:54:57

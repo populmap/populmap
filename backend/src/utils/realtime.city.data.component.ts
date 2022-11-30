@@ -4,7 +4,7 @@ import { Inject, Injectable, Logger } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import { firstValueFrom, map } from "rxjs";
 import { AreaList } from "src/constants/area.list.constant";
-import { ParamEncoder } from 'axios';
+import * as xmlParser from 'xml-js';
 
 Injectable()
 export class RealtimeCityDataComponent {
@@ -38,7 +38,8 @@ export class RealtimeCityDataComponent {
         this.httpService.get(url).pipe(map((res) => res.data)),
       )
       .then(async (data) => {
-        console.log(data);
+        const parsed = xmlParser.xml2json(data, { compact: true, spaces: 2 });
+        console.log(parsed);
       })
       .catch((err) => {
         throw err;

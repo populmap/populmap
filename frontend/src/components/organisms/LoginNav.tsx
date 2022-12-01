@@ -1,4 +1,5 @@
 import styled from "@emotion/styled";
+import { useState } from "react";
 import PageNavigateButton from "../atoms/buttons/PageNavigateButton";
 import FindUserInfoButton from "../atoms/buttons/FindUserInfoButton";
 
@@ -8,6 +9,8 @@ const NavSection = styled.div`
 `;
 
 const LoginNav = (): JSX.Element => {
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+
   return (
     <NavSection>
       <PageNavigateButton value="회원가입" route="/signup" />

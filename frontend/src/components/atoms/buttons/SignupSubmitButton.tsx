@@ -1,4 +1,5 @@
 import Button from "@mui/material/Button";
+import { axiosAuthRegister } from "../../../network/axios/axios.auth";
 
 interface SignupSubmitButtonProps {
   userEmail: string;
@@ -11,9 +12,11 @@ interface SignupSubmitButtonProps {
 const SignupSubmitButton = (props: SignupSubmitButtonProps): JSX.Element => {
   const { userEmail, userId, userPassword, value } = props;
   const handleClick = (): void => {
-    console.log(userEmail, userId, userPassword);
-    console.log("clicked");
+    axiosAuthRegister({ userEmail, userId, userPassword }).catch((error) =>
+      console.error(error)
+    );
   };
+
   return (
     <Button onClick={handleClick} style={{ width: "60%" }} variant="contained">
       {value}

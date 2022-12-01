@@ -17,7 +17,8 @@ const LoginTemplate = (): JSX.Element => {
     <LoginSection>
       <LoginForm />
       <LoginNav />
-      {/* <OauthLoginNav /> */}
+      <hr style={{ width: "60%" }} />
+      <OauthLoginNav />
     </LoginSection>
   );
 };

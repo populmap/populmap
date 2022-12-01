@@ -5,6 +5,9 @@ import { ConfigService } from "@nestjs/config";
 import { firstValueFrom, map } from "rxjs";
 import { AreaList } from "src/constants/area.list.constant";
 import * as xmlParser from 'xml-js';
+import { CityService } from "src/city/city.service";
+import { KakaoSearch } from "./kakao.search.component";
+import { CityPeoplePlaceDataDto } from "src/dto/city.people.place.data.dto";
 
 Injectable()
 export class RealtimeCityDataComponent {
@@ -12,10 +15,11 @@ export class RealtimeCityDataComponent {
   constructor(
     @Inject(ConfigService) private configService: ConfigService,
     private readonly httpService: HttpService,
+    private cityService: CityService,
   ) {}
 
   // @Cron(CronExpression.EVERY_HOUR)
-  @Timeout(5000)
+  // @Timeout(5000)
   async getRealtimeCityDataTrigger(): Promise<void> {
     this.logger.debug(
       `Called ${this.getRealtimeCityDataTrigger.name}`,
@@ -38,8 +42,8 @@ export class RealtimeCityDataComponent {
         this.httpService.get(url).pipe(map((res) => res.data)),
       )
       .then(async (data) => {
-        const parsed = xmlParser.xml2json(data, { compact: true, spaces: 2 });
-        console.log(parsed);
+        const parsed = JSON.parse(xmlParser.xml2json(data, { compact: true, spaces: 2 }));
+        await this.cityService.putRealtimeCityData(area, type, parsed);
       })
       .catch((err) => {
         throw err;

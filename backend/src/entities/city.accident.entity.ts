@@ -46,6 +46,27 @@ export default class CityAccident {
   })
   detailType: string;
 
+  @Column({
+    name: 'lat',
+    type: 'double',
+    nullable: true,
+  })
+  lat: number;
+
+  @Column({
+    name: 'lng',
+    type: 'double',
+    nullable: true,
+  })
+  lng: number;
+
+  @Column({
+    name: 'update_time',
+    type: 'datetime',
+    nullable: true,
+  })
+  updateTime: Date;
+
   @OneToOne(() => City)
   @JoinColumn({
     name: 'accident_city_id',

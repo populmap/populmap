@@ -40,6 +40,13 @@ export default class CityRoad {
   })
   speed: string;
 
+  @Column({
+    name: 'update_time',
+    type: 'datetime',
+    nullable: true,
+  })
+  updateTime: Date;
+
   @OneToOne(() => City)
   @JoinColumn({
     name: 'road_city_id',

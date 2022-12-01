@@ -74,6 +74,13 @@ export default class CityPeople {
   })
   lng: number;
 
+  @Column({
+    name: 'update_time',
+    type: 'datetime',
+    nullable: true,
+  })
+  updateTime: Date;
+
   @OneToOne(() => City)
   @JoinColumn({
     name: 'people_city_id',

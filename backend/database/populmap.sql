@@ -76,6 +76,121 @@ LOCK TABLES `auth_social` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `city`
+--
+
+DROP TABLE IF EXISTS `city`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `city` (
+  `city_id` int(11) NOT NULL AUTO_INCREMENT,
+  `place` varchar(64) NOT NULL COMMENT '장소명',
+  `type` varchar(64) NOT NULL COMMENT '장소 구분',
+  PRIMARY KEY (`city_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `city`
+--
+
+LOCK TABLES `city` WRITE;
+/*!40000 ALTER TABLE `city` DISABLE KEYS */;
+/*!40000 ALTER TABLE `city` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `city_accident`
+--
+
+DROP TABLE IF EXISTS `city_accident`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `city_accident` (
+  `accident_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '사고/행사 ID',
+  `accident_city_id` int(11) NOT NULL,
+  `begin_time` datetime DEFAULT NULL COMMENT '사고/행사 발생 시간',
+  `end_time` datetime DEFAULT NULL COMMENT '사고/행사 후 정상화 예상 시간',
+  `type` varchar(64) DEFAULT NULL COMMENT '사고/행사 유형',
+  `detail_type` varchar(64) DEFAULT NULL COMMENT '사고/행사 상세 유형',
+  PRIMARY KEY (`accident_id`),
+  KEY `accident_city_id` (`accident_city_id`),
+  CONSTRAINT `accident_city_id` FOREIGN KEY (`accident_city_id`) REFERENCES `city` (`city_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `city_accident`
+--
+
+LOCK TABLES `city_accident` WRITE;
+/*!40000 ALTER TABLE `city_accident` DISABLE KEYS */;
+/*!40000 ALTER TABLE `city_accident` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `city_people`
+--
+
+DROP TABLE IF EXISTS `city_people`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `city_people` (
+  `people_id` int(11) NOT NULL AUTO_INCREMENT,
+  `people_city_id` int(11) NOT NULL,
+  `density_level` varchar(64) NOT NULL COMMENT '밀집도 수준',
+  `message` varchar(1024) DEFAULT NULL COMMENT '밀집도 설명 메시지',
+  `density_min` int(11) DEFAULT NULL COMMENT '최소 인원',
+  `density_max` int(11) DEFAULT NULL COMMENT '최대 인원',
+  `resident_ratio` int(11) DEFAULT NULL COMMENT '상주 인구 비율',
+  `nonresident_ratio` int(11) DEFAULT NULL COMMENT '비상주 인구 비율',
+  `lat` double DEFAULT NULL COMMENT '위도',
+  `lng` double DEFAULT NULL COMMENT '경도',
+  `update_time` datetime DEFAULT NULL COMMENT '업데이트 시간',
+  PRIMARY KEY (`people_id`),
+  UNIQUE KEY `people_city_id` (`people_city_id`),
+  CONSTRAINT `people_city_id` FOREIGN KEY (`people_city_id`) REFERENCES `city` (`city_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `city_people`
+--
+
+LOCK TABLES `city_people` WRITE;
+/*!40000 ALTER TABLE `city_people` DISABLE KEYS */;
+/*!40000 ALTER TABLE `city_people` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `city_road`
+--
+
+DROP TABLE IF EXISTS `city_road`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `city_road` (
+  `road_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '도로 정보 ID',
+  `road_city_id` int(11) NOT NULL,
+  `density_level` varchar(64) DEFAULT NULL COMMENT '밀집도 수준',
+  `message` varchar(1024) DEFAULT NULL COMMENT '밀집도 설명 메시지',
+  `speed` varchar(16) DEFAULT NULL COMMENT '평균 차량 속도',
+  PRIMARY KEY (`road_id`),
+  KEY `road_city_id` (`road_city_id`),
+  CONSTRAINT `road_city_id` FOREIGN KEY (`road_city_id`) REFERENCES `city` (`city_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `city_road`
+--
+
+LOCK TABLES `city_road` WRITE;
+/*!40000 ALTER TABLE `city_road` DISABLE KEYS */;
+/*!40000 ALTER TABLE `city_road` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `user`
 --
 
@@ -111,4 +226,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-11-30 22:54:57
+-- Dump completed on 2022-12-01 22:14:47

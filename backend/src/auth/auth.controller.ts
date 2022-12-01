@@ -89,7 +89,7 @@ export class AuthController {
     },
   })
   @Post('/register')
-  @HttpCode(HttpStatus.CONFLICT)
+  @HttpCode(HttpStatus.CREATED)
   async register(
     @Body(new ValidationPipe()) user: UserRegisterRequestDto,
     @Res() res: Response,

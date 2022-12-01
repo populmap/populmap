@@ -113,6 +113,9 @@ CREATE TABLE `city_accident` (
   `end_time` datetime DEFAULT NULL COMMENT '사고/행사 후 정상화 예상 시간',
   `type` varchar(64) DEFAULT NULL COMMENT '사고/행사 유형',
   `detail_type` varchar(64) DEFAULT NULL COMMENT '사고/행사 상세 유형',
+  `lat` double DEFAULT NULL COMMENT '위도',
+  `lng` double DEFAULT NULL COMMENT '경도',
+  `update_time` datetime DEFAULT NULL COMMENT '업데이트 시간',
   PRIMARY KEY (`accident_id`),
   KEY `accident_city_id` (`accident_city_id`),
   CONSTRAINT `accident_city_id` FOREIGN KEY (`accident_city_id`) REFERENCES `city` (`city_id`)
@@ -175,6 +178,7 @@ CREATE TABLE `city_road` (
   `density_level` varchar(64) DEFAULT NULL COMMENT '밀집도 수준',
   `message` varchar(1024) DEFAULT NULL COMMENT '밀집도 설명 메시지',
   `speed` varchar(16) DEFAULT NULL COMMENT '평균 차량 속도',
+  `update_time` datetime DEFAULT NULL COMMENT '업데이트 시간',
   PRIMARY KEY (`road_id`),
   KEY `road_city_id` (`road_city_id`),
   CONSTRAINT `road_city_id` FOREIGN KEY (`road_city_id`) REFERENCES `city` (`city_id`) ON DELETE CASCADE ON UPDATE CASCADE
@@ -226,4 +230,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-12-01 22:14:47
+-- Dump completed on 2022-12-02  0:55:33

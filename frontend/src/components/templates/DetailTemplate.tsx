@@ -8,9 +8,10 @@ import DetailContent from "../organisms/DetailContent";
 
 const DetailSection = styled.section`
   position: relative;
-  top: 10%;
-  height: 90%;
+  top: 5%;
+  height: 95%;
   width: 100%;
+  background-color: #fafafa;
 `;
 
 const DetailTemplate = (): JSX.Element => {

@@ -14,6 +14,13 @@ const muiCustomTheme = createTheme({
         },
       },
     },
+    MuiSvgIcon: {
+      styleOverrides: {
+        root: {
+          fontSize: "1.2rem",
+        },
+      },
+    },
   },
 });
 

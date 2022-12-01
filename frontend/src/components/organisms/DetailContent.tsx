@@ -1,12 +1,36 @@
-import { EventDetailResponseDto } from "../../types/dto/EventDetailResponse.dto";
+import styled from "@emotion/styled";
+import LanguageIcon from "@mui/icons-material/Language";
+import PlaceIcon from "@mui/icons-material/Place";
+import AccessTimeIcon from "@mui/icons-material/AccessTime";
+import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
+import CallIcon from "@mui/icons-material/Call";
+import PaymentIcon from "@mui/icons-material/Payment";
 import PageNavigateButton from "../atoms/buttons/PageNavigateButton";
 import BookmarkApiButton from "../atoms/buttons/BookmarkApiButton";
 import CallButton from "../atoms/buttons/CallButton";
+import { EventDetailResponseDto } from "../../types/dto/EventDetailResponse.dto";
 import { axiosEventBookmarkPost } from "../../network/axios/axios.event";
 
 interface DetailContentProps {
   detailResponse: EventDetailResponseDto | undefined;
 }
+
+const Summary = styled.div`
+  font-size: 1rem;
+`;
+
+const Information = styled.div`
+  text-align: left;
+  margin-left: 3rem;
+  font-size: 0.8rem;
+`;
+
+const Update = styled.div`
+  position: absolute;
+  top: 75%;
+  left: 70%;
+  font-size: 0.1rem;
+`;
 
 const ButtonStyle = {
   border: "0.05rem solid gray",
@@ -20,10 +44,10 @@ const DetailContent = (props: DetailContentProps): JSX.Element => {
   if (!detailResponse) return <h2>Loading....</h2>;
   return (
     <>
-      <div>
+      <Summary>
         <h2>{detailResponse?.title}</h2>
         <p>{detailResponse?.description}</p>
-      </div>
+      </Summary>
       <div>
         <CallButton
           value="전화"
@@ -39,38 +63,37 @@ const DetailContent = (props: DetailContentProps): JSX.Element => {
         />
       </div>
       <hr style={{ width: "80%" }} />
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          textAlign: "left",
-          marginLeft: "5rem",
-        }}
-      >
-        <p>{detailResponse?.place}</p>
-        <p>{detailResponse?.progress}</p>
+      <Information>
+        <p>
+          <PlaceIcon /> {detailResponse?.place}
+        </p>
+        <p>
+          <AccessTimeIcon /> {detailResponse?.progress}
+        </p>
         {detailResponse?.progress === "진행중" && (
-          <span>
-            일정
+          <p>
+            <CalendarMonthIcon />
             {detailResponse?.beginTime.toString().substring(0, 10)} ~{" "}
             {detailResponse?.endTime.toString().substring(0, 10)}
-          </span>
+          </p>
         )}
         <p>
-          홈페이지
+          <LanguageIcon />
           <a href={detailResponse?.url}>{detailResponse?.url}</a>
         </p>
         <p>
-          전화번호
+          <CallIcon />
           <a href={`tel:${detailResponse?.call}`}>{detailResponse?.call}</a>
         </p>
-        <p>요금 {detailResponse?.fee}</p>
-      </div>
-      <div>
         <p>
-          수정시간 {detailResponse?.modifiedDate.toString().substring(0, 10)}
+          <PaymentIcon /> {detailResponse?.fee}
         </p>
-      </div>
+      </Information>
+      <Update>
+        <p>
+          업데이트 {detailResponse?.modifiedDate.toString().substring(0, 10)}
+        </p>
+      </Update>
     </>
   );
 };

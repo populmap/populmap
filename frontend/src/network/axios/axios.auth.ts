@@ -10,40 +10,50 @@ export const axiosAuthRegister = async (body: object): Promise<any> => {
   }
 };
 
+const axiosAuthPasswordFindUrl = "/auth/password/find";
+export const axiosAuthPasswordFind = async (body: object): Promise<any> => {
+  try {
+    const response = await instance.patch(axiosAuthPasswordFindUrl, body);
+    return response;
+  } catch (error) {
+    throw error;
+  }
+};
+
+const axiosAuthPasswordChangeUrl = "/auth/password/change";
+export const axiosAuthPasswordChange = async (body: object): Promise<any> => {
+  try {
+    const response = await instance.patch(axiosAuthPasswordChangeUrl, body);
+    return response;
+  } catch (error) {
+    throw error;
+  }
+};
+
+const axiosAuthPasswordAssertUrl = "/auth/password/assert";
+export const axiosAuthPasswordAssert = async (body: object): Promise<any> => {
+  try {
+    const response = await instance.get(axiosAuthPasswordAssertUrl, body);
+    return response;
+  } catch (error) {
+    throw error;
+  }
+};
+
 const axiosAuthLoginUrl = "/auth/login";
-export const axiosAuthLogin = async (): Promise<any> => {
+export const axiosAuthLogin = async (body: object): Promise<any> => {
   try {
-    const response = await instance.get(axiosAuthLoginUrl);
+    const response = await instance.get(axiosAuthLoginUrl, body);
     return response;
   } catch (error) {
     throw error;
   }
 };
 
-const axiosAuthKakaoLoginUrl = "/auth/kakao/login";
-export const axiosAuthKakaoLogin = async (): Promise<any> => {
+const axiosAuthLogoutUrl = "/auth/logout";
+export const axiosAuthLogout = async (): Promise<any> => {
   try {
-    const response = await instance.get(axiosAuthKakaoLoginUrl);
-    return response;
-  } catch (error) {
-    throw error;
-  }
-};
-
-const axiosAuthNaverLoginUrl = "/auth/naver/login";
-export const axiosAuthNaverLogin = async (): Promise<any> => {
-  try {
-    const response = await instance.get(axiosAuthNaverLoginUrl);
-    return response;
-  } catch (error) {
-    throw error;
-  }
-};
-
-const axiosAuthGoogleLoginUrl = "/auth/google/login";
-export const axiosAuthGoogleLogin = async (): Promise<any> => {
-  try {
-    const response = await instance.get(axiosAuthGoogleLoginUrl);
+    const response = await instance.get(axiosAuthLogoutUrl);
     return response;
   } catch (error) {
     throw error;

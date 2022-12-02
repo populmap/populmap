@@ -11,21 +11,17 @@ const Form = styled.form`
 const InputSection = styled.section`
   margin: 1rem 0;
 `;
-const SubmitSection = styled.section``;
 
 const LoginForm = (): JSX.Element => {
   const [userId, setUserId] = useState<string>("");
   const [userPassword, setUserPassword] = useState<string>("");
-  const handleSubmit = (): void => {
-    console.log("clicked");
-  };
 
   return (
-    <Form onSubmit={handleSubmit}>
+    <Form>
       <h1>로그인</h1>
       <InputSection>
         <InputInstance
-          title="아이디"
+          title="아이디(이메일)"
           placeholder="아이디를 입력하세요"
           setValue={setUserId}
         />

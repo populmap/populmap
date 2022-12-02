@@ -10,6 +10,7 @@ const InputInstanceStyle = {
   border: 0,
   borderBottom: "0.06rem solid black",
   backgroundColor: "transparent",
+  width: "60%",
 };
 
 const InputInstance = (props: InputInstanceProps): JSX.Element => {

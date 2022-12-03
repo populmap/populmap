@@ -1,7 +1,7 @@
-import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from "typeorm";
-import CityAccident from "./city.accident.entity";
-import CityPeople from "./city.people.entity";
-import CityRoad from "./city.road.entity";
+import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import CityAccident from './city.accident.entity';
+import CityPeople from './city.people.entity';
+import CityRoad from './city.road.entity';
 
 @Entity('city')
 export default class City {

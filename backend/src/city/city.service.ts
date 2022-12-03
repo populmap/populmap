@@ -1,11 +1,11 @@
-import { Inject, Injectable, Logger, NotFoundException } from "@nestjs/common";
-import { IAreaMap } from "src/constants/area.list.constant";
-import { CityPeoplePlaceDataDto } from "src/dto/city.people.place.data.dto";
-import { CityAccidentResponseDto } from "src/dto/response/city.accident.response.dto";
-import { CityPeopleResponseDto } from "src/dto/response/city.people.response.dto";
-import { CityRoadAvgResponseDto } from "src/dto/response/city.road.avg.response.dto";
-import { KakaoSearch } from "src/utils/kakao.search.component";
-import { ICityRepository } from "./repository/city.repository.interface";
+import { Inject, Injectable, Logger, NotFoundException } from '@nestjs/common';
+import { IAreaMap } from 'src/constants/area.list.constant';
+import { CityPeoplePlaceDataDto } from 'src/dto/city.people.place.data.dto';
+import { CityAccidentResponseDto } from 'src/dto/response/city.accident.response.dto';
+import { CityPeopleResponseDto } from 'src/dto/response/city.people.response.dto';
+import { CityRoadAvgResponseDto } from 'src/dto/response/city.road.avg.response.dto';
+import { KakaoSearch } from 'src/utils/kakao.search.component';
+import { ICityRepository } from './repository/city.repository.interface';
 
 @Injectable()
 export class CityService {
@@ -15,14 +15,28 @@ export class CityService {
     private kakaoSearch: KakaoSearch,
   ) {}
 
-  async putRealtimeCityData(area: IAreaMap, type: string, parsed: any): Promise<void> {
+  async putRealtimeCityData(
+    area: IAreaMap,
+    type: string,
+    parsed: any,
+  ): Promise<void> {
     this.logger.debug(`Called ${this.putRealtimeCityData.name}`);
-    area.place
+    area.place;
     try {
-      const cityId = await this.cityRepository.getCityIdIfExists(area.place, type);
+      const cityId = await this.cityRepository.getCityIdIfExists(
+        area.place,
+        type,
+      );
       if (!cityId) {
-        const { lat, lng } = await this.kakaoSearch.requestSearchByKeyword(area.keyword);
-        const cityPeoplePlaceData: CityPeoplePlaceDataDto = { place: area.place, type, lat, lng };
+        const { lat, lng } = await this.kakaoSearch.requestSearchByKeyword(
+          area.keyword,
+        );
+        const cityPeoplePlaceData: CityPeoplePlaceDataDto = {
+          place: area.place,
+          type,
+          lat,
+          lng,
+        };
         await this.insertRealtimeCityData(cityPeoplePlaceData, parsed);
       } else {
         await this.updateRealtimeCityData(cityId, parsed);
@@ -33,7 +47,10 @@ export class CityService {
     }
   }
 
-  async insertRealtimeCityData(cityPeoplePlaceData: CityPeoplePlaceDataDto, parsed: any) {
+  async insertRealtimeCityData(
+    cityPeoplePlaceData: CityPeoplePlaceDataDto,
+    parsed: any,
+  ) {
     this.logger.debug(`Called ${this.insertRealtimeCityData.name}`);
     try {
       const { place, type, lat, lng } = cityPeoplePlaceData;
@@ -76,7 +93,9 @@ export class CityService {
   async getCityRoadAvg(cityId: number): Promise<CityRoadAvgResponseDto> {
     this.logger.debug(`Called ${this.getCityRoadAvg.name}`);
     try {
-      const cityRoadAvgResponseDto = await this.cityRepository.getCityRoadAvg(cityId);
+      const cityRoadAvgResponseDto = await this.cityRepository.getCityRoadAvg(
+        cityId,
+      );
       if (!cityRoadAvgResponseDto) {
         throw new NotFoundException('City Road Data Not Found');
       }
@@ -90,7 +109,8 @@ export class CityService {
   async getCityAccident(): Promise<CityAccidentResponseDto[]> {
     this.logger.debug(`Called ${this.getCityAccident.name}`);
     try {
-      const cityAccidentResponseDto = await this.cityRepository.getCityAccident();
+      const cityAccidentResponseDto =
+        await this.cityRepository.getCityAccident();
       if (!cityAccidentResponseDto) {
         throw new NotFoundException('City Accident Data Not Found');
       }

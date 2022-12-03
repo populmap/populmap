@@ -1,21 +1,33 @@
-import { Controller, Get, HttpCode, HttpException, HttpStatus, InternalServerErrorException, Logger, Param } from "@nestjs/common";
-import { ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiParam, ApiTags } from "@nestjs/swagger";
-import { CityPeopleResponseDto } from "src/dto/response/city.people.response.dto";
-import { CityRoadAvgResponseDto } from "src/dto/response/city.road.avg.response.dto";
-import { CityService } from "./city.service";
+import {
+  Controller,
+  Get,
+  HttpCode,
+  HttpException,
+  HttpStatus,
+  InternalServerErrorException,
+  Logger,
+  Param,
+} from '@nestjs/common';
+import {
+  ApiNotFoundResponse,
+  ApiOkResponse,
+  ApiOperation,
+  ApiParam,
+  ApiTags,
+} from '@nestjs/swagger';
+import { CityPeopleResponseDto } from 'src/dto/response/city.people.response.dto';
+import { CityRoadAvgResponseDto } from 'src/dto/response/city.road.avg.response.dto';
+import { CityService } from './city.service';
 
 @ApiTags('City')
 @Controller('city')
 export class CityController {
   private logger = new Logger(CityController.name);
-  constructor(
-    private cityService: CityService,
-  ) {}
+  constructor(private cityService: CityService) {}
 
   @ApiOperation({
     summary: '도시 인구 밀집도 정보 조회',
-    description:
-      'DB에 저장된 모든 도시 지역의 인구 밀집도 정보를 조회합니다.',
+    description: 'DB에 저장된 모든 도시 지역의 인구 밀집도 정보를 조회합니다.',
   })
   @ApiOkResponse({
     description: '조회 성공 시, 200 OK를 응답받습니다.',
@@ -59,7 +71,9 @@ export class CityController {
   })
   @Get('road/avg/:cityId')
   @HttpCode(HttpStatus.OK)
-  async getCityRoadAvg(@Param('cityId') cityId: number): Promise<CityRoadAvgResponseDto> {
+  async getCityRoadAvg(
+    @Param('cityId') cityId: number,
+  ): Promise<CityRoadAvgResponseDto> {
     this.logger.debug(`Called ${this.getCityRoadAvg.name}`);
     try {
       return await this.cityService.getCityRoadAvg(cityId);
@@ -77,8 +91,7 @@ export class CityController {
 
   @ApiOperation({
     summary: '도시 지역의 사고/행사 정보 조회',
-    description:
-      'DB에 저장된 모든 도시 지역의 사고/행사 정보를 조회합니다.',
+    description: 'DB에 저장된 모든 도시 지역의 사고/행사 정보를 조회합니다.',
   })
   @ApiOkResponse({
     description: '조회 성공 시, 200 OK를 응답받습니다.',

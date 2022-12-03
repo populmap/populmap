@@ -1,6 +1,6 @@
-import { CityAccidentResponseDto } from "src/dto/response/city.accident.response.dto";
-import { CityPeopleResponseDto } from "src/dto/response/city.people.response.dto";
-import { CityRoadAvgResponseDto } from "src/dto/response/city.road.avg.response.dto";
+import { CityAccidentResponseDto } from 'src/dto/response/city.accident.response.dto';
+import { CityPeopleResponseDto } from 'src/dto/response/city.people.response.dto';
+import { CityRoadAvgResponseDto } from 'src/dto/response/city.road.avg.response.dto';
 
 export interface ICityRepository {
   /**
@@ -24,7 +24,12 @@ export interface ICityRepository {
    * @param lng
    * @param parsed
    */
-  insertCityPeople(cityId: number, lat: number, lng: number, parsed: any): Promise<void>;
+  insertCityPeople(
+    cityId: number,
+    lat: number,
+    lng: number,
+    parsed: any,
+  ): Promise<void>;
 
   /**
    * cityId에 해당하는 cityRoad를 생성한다.

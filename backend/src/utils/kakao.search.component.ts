@@ -2,7 +2,6 @@ import { HttpService } from '@nestjs/axios';
 import { Inject, Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { firstValueFrom, map } from 'rxjs';
-import { SearchByPlaceDto } from 'src/dto/search.by.place.dto';
 
 @Injectable()
 export class KakaoSearch {
@@ -43,7 +42,9 @@ export class KakaoSearch {
   //     });
   // }
 
-  async requestSearchByKeyword(keyword: string): Promise<{ lat: number, lng: number }> {
+  async requestSearchByKeyword(
+    keyword: string,
+  ): Promise<{ lat: number; lng: number }> {
     this.logger.debug(
       `Called ${KakaoSearch.name} ${this.requestSearchByKeyword.name}`,
     );
@@ -55,9 +56,9 @@ export class KakaoSearch {
     const config = { params, headers: headersRequest };
     this.logger.debug(`Request url: ${url}`);
     try {
-        const data = await firstValueFrom(
+      const data = await firstValueFrom(
         this.httpService.get(url, config).pipe(map((res) => res.data)),
-      )
+      );
       const result = data.documents[0];
       return { lat: Number(result.x), lng: Number(result.y) };
     } catch (err) {

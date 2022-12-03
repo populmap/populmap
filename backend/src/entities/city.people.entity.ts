@@ -1,7 +1,13 @@
-import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from "typeorm";
-import City from "./city.entity";
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  OneToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
+import City from './city.entity';
 
-@Entity("city_people")
+@Entity('city_people')
 export default class CityPeople {
   @PrimaryGeneratedColumn({
     name: 'people_id',

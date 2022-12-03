@@ -9,7 +9,6 @@ import MailerConfigService from 'src/config/mailer.config';
 import TypeOrmConfigService from 'src/config/typeorm.config';
 import { EmailSender } from './email.sender.component';
 import { KakaoSearch } from './kakao.search.component';
-import { TestController } from './test.controller';
 import { RealtimeCityDataComponent } from './realtime.city.data.component';
 import { CityModule } from 'src/city/city.module';
 
@@ -28,7 +27,7 @@ import { CityModule } from 'src/city/city.module';
     forwardRef(() => AuthModule),
     forwardRef(() => CityModule),
   ],
-  controllers: [TestController],
+  controllers: [],
   providers: [KakaoSearch, EmailSender, RealtimeCityDataComponent],
   exports: [EmailSender, KakaoSearch],
 })

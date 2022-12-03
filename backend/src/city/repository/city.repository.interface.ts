@@ -1,3 +1,5 @@
+import { CityPeopleResponseDto } from "src/dto/response/city.people.response.dto";
+
 export interface ICityRepository {
   /**
    * place와 type으로 cityId를 가져온다.
@@ -56,4 +58,9 @@ export interface ICityRepository {
    * @param parsed
    */
   updateCityAccident(cityId: number, parsed): Promise<void>;
+
+  /**
+   * cityPeople을 가져온다.
+   */
+  getCityPeople(): Promise<CityPeopleResponseDto[]>;
 }

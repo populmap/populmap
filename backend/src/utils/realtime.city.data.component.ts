@@ -3,7 +3,7 @@ import { Cron, CronExpression, Timeout } from '@nestjs/schedule';
 import { Inject, Injectable, Logger } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import { firstValueFrom, map } from "rxjs";
-import { AreaList } from "src/constants/area.list.constant";
+import { AreaList, IAreaMap } from "src/constants/area.list.constant";
 import * as xmlParser from 'xml-js';
 import { CityService } from "src/city/city.service";
 import { KakaoSearch } from "./kakao.search.component";
@@ -30,19 +30,24 @@ export class RealtimeCityDataComponent {
     }
   }
 
-  async getRealtimeCityData(type: string, areas: string[]): Promise<void> {
+  async getRealtimeCityData(type: string, areas: IAreaMap[]): Promise<void> {
     this.logger.debug(
       `Called ${this.getRealtimeCityData.name}`,
     );
     for (const area of areas) {
       console.log(type, area);
-      const url = `http://openapi.seoul.go.kr:8088/${this.configService.get<string>('seoul.densitySecret')}/xml/citydata/1/1/${area}`;
+      const url = `http://openapi.seoul.go.kr:8088/${this.configService.get<string>('seoul.densitySecret')}/xml/citydata/1/1/${area.place}`;
       this.logger.debug(`Request url: ${url}`);
       await firstValueFrom(
         this.httpService.get(url).pipe(map((res) => res.data)),
       )
       .then(async (data) => {
         const parsed = JSON.parse(xmlParser.xml2json(data, { compact: true, spaces: 2 }));
+        // console.log(parsed);
+        console.log(parsed['SeoulRtd.citydata'].CITYDATA);
+        // if (Object.keys(parsed['SeoulRtd.citydata'].CITYDATA.ACDNT_CNTRL_STTS).length !== 0) {
+        //   console.log(parsed['SeoulRtd.citydata'].CITYDATA.ACDNT_CNTRL_STTS);
+        // }
         await this.cityService.putRealtimeCityData(area, type, parsed);
       })
       .catch((err) => {

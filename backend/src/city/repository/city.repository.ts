@@ -1,5 +1,6 @@
 import { Logger } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
+import { CityPeopleResponseDto } from "src/dto/response/city.people.response.dto";
 import CityAccident from "src/entities/city.accident.entity";
 import City from "src/entities/city.entity";
 import CityPeople from "src/entities/city.people.entity";
@@ -45,15 +46,15 @@ export class CityRepository implements ICityRepository {
       .into(CityPeople)
       .values({
         peopleCityId: cityId,
-        densityLevel: parsed.CITYDATA.LIVE_PPLTN_STTS.LIVE_PPLTN_STTS.AREA_CONGEST_LVL,
-        message: parsed.CITYDATA.LIVE_PPLTN_STTS.LIVE_PPLTN_STTS.AREA_CONGEST_MSG,
-        densityMin: parsed.CITYDATA.LIVE_PPLTN_STTS.LIVE_PPLTN_STTS.AREA_PPLTN_MIN,
-        densityMax: parsed.CITYDATA.LIVE_PPLTN_STTS.LIVE_PPLTN_STTS.AREA_PPLTN_MAX,
-        residentRatio: parsed.CITYDATA.LIVE_PPLTN_STTS.LIVE_PPLTN_STTS.RESNT_PPLTN_RATE,
-        nonResidentRatio: parsed.CITYDATA.LIVE_PPLTN_STTS.LIVE_PPLTN_STTS.NON_RESNT_PPLTN_RATE,
+        densityLevel: parsed['SeoulRtd.citydata'].CITYDATA.LIVE_PPLTN_STTS.LIVE_PPLTN_STTS.AREA_CONGEST_LVL._text,
+        message: parsed['SeoulRtd.citydata'].CITYDATA.LIVE_PPLTN_STTS.LIVE_PPLTN_STTS.AREA_CONGEST_MSG._text,
+        densityMin: parsed['SeoulRtd.citydata'].CITYDATA.LIVE_PPLTN_STTS.LIVE_PPLTN_STTS.AREA_PPLTN_MIN._text,
+        densityMax: parsed['SeoulRtd.citydata'].CITYDATA.LIVE_PPLTN_STTS.LIVE_PPLTN_STTS.AREA_PPLTN_MAX._text,
+        residentRatio: parsed['SeoulRtd.citydata'].CITYDATA.LIVE_PPLTN_STTS.LIVE_PPLTN_STTS.RESNT_PPLTN_RATE._text,
+        nonResidentRatio: parsed['SeoulRtd.citydata'].CITYDATA.LIVE_PPLTN_STTS.LIVE_PPLTN_STTS.NON_RESNT_PPLTN_RATE._text,
         lat,
         lng,
-        updateTime: parsed.CITYDATA.LIVE_PPLTN_STTS.LIVE_PPLTN_STTS.PPLTN_TIME,
+        updateTime: parsed['SeoulRtd.citydata'].CITYDATA.LIVE_PPLTN_STTS.LIVE_PPLTN_STTS.PPLTN_TIME._text,
       })
       .execute();
   }
@@ -64,27 +65,30 @@ export class CityRepository implements ICityRepository {
       .into(CityRoad)
       .values({
         roadCityId: cityId,
-        densityLevel: parsed.CITYDATA.ROAD_TRAFFIC_STTS.AVG_ROAD_DATA.ROAD_TRAFFIC_IDX,
-        message: parsed.CITYDATA.ROAD_TRAFFIC_STTS.AVG_ROAD_DATA.ROAD_MSG,
-        speed: parsed.CITYDATA.ROAD_TRAFFIC_STTS.AVG_ROAD_DATA.ROAD_TRAFFIC_SPD,
-        updateTime: parsed.CITYDATA.ROAD_TRAFFIC_STTS.AVG_ROAD_DATA.ROAD_TRFFIC_TIME,
+        densityLevel: parsed['SeoulRtd.citydata'].CITYDATA.ROAD_TRAFFIC_STTS.AVG_ROAD_DATA.ROAD_TRAFFIC_IDX._text,
+        message: parsed['SeoulRtd.citydata'].CITYDATA.ROAD_TRAFFIC_STTS.AVG_ROAD_DATA.ROAD_MSG._text,
+        speed: parsed['SeoulRtd.citydata'].CITYDATA.ROAD_TRAFFIC_STTS.AVG_ROAD_DATA.ROAD_TRAFFIC_SPD._text,
+        updateTime: parsed['SeoulRtd.citydata'].CITYDATA.ROAD_TRAFFIC_STTS.AVG_ROAD_DATA.ROAD_TRFFIC_TIME._text,
       })
       .execute();
   }
 
   async insertCityAccident(cityId: number, parsed: any): Promise<void> {
+    if (Object.keys(parsed['SeoulRtd.citydata'].CITYDATA.ACDNT_CNTRL_STTS).length === 0) {
+      return ;
+    }
     await this.cityAccidentRepository.createQueryBuilder()
       .insert()
       .into(CityAccident)
       .values({
         accidentCityId: cityId,
-        beginTime: parsed.ACDNT_CNTRL_STTS.ACDNT_CNTRL_STTS.ACDNT_OCCR_DT,
-        endTime: parsed.ACDNT_CNTRL_STTS.ACDNT_CNTRL_STTS.EXP_CLR_DT,
-        type: parsed.ACDNT_CNTRL_STTS.ACDNT_CNTRL_STTS.ACDNT_TYPE,
-        detailType: parsed.ACDNT_CNTRL_STTS.ACDNT_CNTRL_STTS.ACDNT_DTYPE,
-        lat: parsed.ACDNT_CNTRL_STTS.ACDNT_CNTRL_STTS.ACDNT_X,
-        lng: parsed.ACDNT_CNTRL_STTS.ACDNT_CNTRL_STTS.ACDNT_Y,
-        updateTime: parsed.ACDNT_CNTRL_STTS.ACDNT_CNTRL_STTS.ACDNT_TIME,
+        beginTime: parsed['SeoulRtd.citydata'].CITYDATA.ACDNT_CNTRL_STTS.ACDNT_CNTRL_STTS.ACDNT_OCCR_DT._text,
+        endTime: parsed['SeoulRtd.citydata'].CITYDATA.ACDNT_CNTRL_STTS.ACDNT_CNTRL_STTS.EXP_CLR_DT._text,
+        type: parsed['SeoulRtd.citydata'].CITYDATA.ACDNT_CNTRL_STTS.ACDNT_CNTRL_STTS.ACDNT_TYPE._text,
+        detailType: parsed['SeoulRtd.citydata'].CITYDATA.ACDNT_CNTRL_STTS.ACDNT_CNTRL_STTS.ACDNT_DTYPE._text,
+        lat: parsed['SeoulRtd.citydata'].CITYDATA.ACDNT_CNTRL_STTS.ACDNT_CNTRL_STTS.ACDNT_X._text,
+        lng: parsed['SeoulRtd.citydata'].CITYDATA.ACDNT_CNTRL_STTS.ACDNT_CNTRL_STTS.ACDNT_Y._text,
+        updateTime: parsed['SeoulRtd.citydata'].CITYDATA.ACDNT_CNTRL_STTS.ACDNT_CNTRL_STTS.ACDNT_TIME._text,
       })
       .execute();
   }
@@ -93,13 +97,13 @@ export class CityRepository implements ICityRepository {
     await this.cityPeopleRepository.createQueryBuilder()
       .update(CityPeople)
       .set({
-        densityLevel: parsed.CITYDATA.LIVE_PPLTN_STTS.LIVE_PPLTN_STTS.AREA_CONGEST_LVL,
-        message: parsed.CITYDATA.LIVE_PPLTN_STTS.LIVE_PPLTN_STTS.AREA_CONGEST_MSG,
-        densityMin: parsed.CITYDATA.LIVE_PPLTN_STTS.LIVE_PPLTN_STTS.AREA_PPLTN_MIN,
-        densityMax: parsed.CITYDATA.LIVE_PPLTN_STTS.LIVE_PPLTN_STTS.AREA_PPLTN_MAX,
-        residentRatio: parsed.CITYDATA.LIVE_PPLTN_STTS.LIVE_PPLTN_STTS.RESNT_PPLTN_RATE,
-        nonResidentRatio: parsed.CITYDATA.LIVE_PPLTN_STTS.LIVE_PPLTN_STTS.NON_RESNT_PPLTN_RATE,
-        updateTime: parsed.CITYDATA.LIVE_PPLTN_STTS.LIVE_PPLTN_STTS.PPLTN_TIME,
+        densityLevel: parsed['SeoulRtd.citydata'].CITYDATA.LIVE_PPLTN_STTS.LIVE_PPLTN_STTS.AREA_CONGEST_LVL._text,
+        message: parsed['SeoulRtd.citydata'].CITYDATA.LIVE_PPLTN_STTS.LIVE_PPLTN_STTS.AREA_CONGEST_MSG._text,
+        densityMin: parsed['SeoulRtd.citydata'].CITYDATA.LIVE_PPLTN_STTS.LIVE_PPLTN_STTS.AREA_PPLTN_MIN._text,
+        densityMax: parsed['SeoulRtd.citydata'].CITYDATA.LIVE_PPLTN_STTS.LIVE_PPLTN_STTS.AREA_PPLTN_MAX._text,
+        residentRatio: parsed['SeoulRtd.citydata'].CITYDATA.LIVE_PPLTN_STTS.LIVE_PPLTN_STTS.RESNT_PPLTN_RATE._text,
+        nonResidentRatio: parsed['SeoulRtd.citydata'].CITYDATA.LIVE_PPLTN_STTS.LIVE_PPLTN_STTS.NON_RESNT_PPLTN_RATE._text,
+        updateTime: parsed['SeoulRtd.citydata'].CITYDATA.LIVE_PPLTN_STTS.LIVE_PPLTN_STTS.PPLTN_TIME._text,
       })
       .where({
         peopleCityId: cityId,
@@ -111,10 +115,10 @@ export class CityRepository implements ICityRepository {
     await this.cityRoadRepository.createQueryBuilder()
       .update(CityRoad)
       .set({
-        densityLevel: parsed.CITYDATA.ROAD_TRAFFIC_STTS.AVG_ROAD_DATA.ROAD_TRAFFIC_IDX,
-        message: parsed.CITYDATA.ROAD_TRAFFIC_STTS.AVG_ROAD_DATA.ROAD_MSG,
-        speed: parsed.CITYDATA.ROAD_TRAFFIC_STTS.AVG_ROAD_DATA.ROAD_TRAFFIC_SPD,
-        updateTime: parsed.CITYDATA.ROAD_TRAFFIC_STTS.AVG_ROAD_DATA.ROAD_TRFFIC_TIME,
+        densityLevel: parsed['SeoulRtd.citydata'].CITYDATA.ROAD_TRAFFIC_STTS.AVG_ROAD_DATA.ROAD_TRAFFIC_IDX._text,
+        message: parsed['SeoulRtd.citydata'].CITYDATA.ROAD_TRAFFIC_STTS.AVG_ROAD_DATA.ROAD_MSG._text,
+        speed: parsed['SeoulRtd.citydata'].CITYDATA.ROAD_TRAFFIC_STTS.AVG_ROAD_DATA.ROAD_TRAFFIC_SPD._text,
+        updateTime: parsed['SeoulRtd.citydata'].CITYDATA.ROAD_TRAFFIC_STTS.AVG_ROAD_DATA.ROAD_TRFFIC_TIME._text,
       })
       .where({
         roadCityId: cityId,
@@ -123,20 +127,46 @@ export class CityRepository implements ICityRepository {
   }
 
   async updateCityAccident(cityId: number, parsed): Promise<void> {
+    if (Object.keys(parsed['SeoulRtd.citydata'].CITYDATA.ACDNT_CNTRL_STTS).length === 0) {
+      return ;
+    }
     await this.cityAccidentRepository.createQueryBuilder()
       .update(CityAccident)
       .set({
-        beginTime: parsed.ACDNT_CNTRL_STTS.ACDNT_CNTRL_STTS.ACDNT_OCCR_DT,
-        endTime: parsed.ACDNT_CNTRL_STTS.ACDNT_CNTRL_STTS.EXP_CLR_DT,
-        type: parsed.ACDNT_CNTRL_STTS.ACDNT_CNTRL_STTS.ACDNT_TYPE,
-        detailType: parsed.ACDNT_CNTRL_STTS.ACDNT_CNTRL_STTS.ACDNT_DTYPE,
-        lat: parsed.ACDNT_CNTRL_STTS.ACDNT_CNTRL_STTS.ACDNT_X,
-        lng: parsed.ACDNT_CNTRL_STTS.ACDNT_CNTRL_STTS.ACDNT_Y,
-        updateTime: parsed.ACDNT_CNTRL_STTS.ACDNT_CNTRL_STTS.ACDNT_TIME,
+        beginTime: parsed['SeoulRtd.citydata'].CITYDATA.ACDNT_CNTRL_STTS.ACDNT_CNTRL_STTS.ACDNT_OCCR_DT._text,
+        endTime: parsed['SeoulRtd.citydata'].CITYDATA.ACDNT_CNTRL_STTS.ACDNT_CNTRL_STTS.EXP_CLR_DT._text,
+        type: parsed['SeoulRtd.citydata'].CITYDATA.ACDNT_CNTRL_STTS.ACDNT_CNTRL_STTS.ACDNT_TYPE._text,
+        detailType: parsed['SeoulRtd.citydata'].CITYDATA.ACDNT_CNTRL_STTS.ACDNT_CNTRL_STTS.ACDNT_DTYPE._text,
+        lat: parsed['SeoulRtd.citydata'].CITYDATA.ACDNT_CNTRL_STTS.ACDNT_CNTRL_STTS.ACDNT_X._text,
+        lng: parsed['SeoulRtd.citydata'].CITYDATA.ACDNT_CNTRL_STTS.ACDNT_CNTRL_STTS.ACDNT_Y._text,
+        updateTime: parsed['SeoulRtd.citydata'].CITYDATA.ACDNT_CNTRL_STTS.ACDNT_CNTRL_STTS.ACDNT_TIME._text,
       })
       .where({
         accidentCityId: cityId,
       })
       .execute();
+  }
+
+  async getCityPeople(): Promise<CityPeopleResponseDto[]> {
+    const results = await this.cityPeopleRepository.find({
+      relations: {
+        city: true,
+      },
+    });
+    const cityPeopleResponseDto = results.map((result) => ({
+        cityId: result.city.cityId,
+        place: result.city.place,
+        type: result.city.type,
+        level: result.densityLevel,
+        message: result.message,
+        densityMin: result.densityMin,
+        densityMax: result.densityMax,
+        residentRatio: result.residentRatio,
+        nonResidentRatio: result.nonResidentRatio,
+        lat: result.lat,
+        lng: result.lng,
+        updateTime: result.updateTime,
+    }));
+    return cityPeopleResponseDto;
   }
 }

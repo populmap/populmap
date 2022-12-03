@@ -43,15 +43,15 @@ export class KakaoSearch {
   //     });
   // }
 
-  async requestSearchByPlace(place: string): Promise<{ lat: number, lng: number }> {
+  async requestSearchByKeyword(keyword: string): Promise<{ lat: number, lng: number }> {
     this.logger.debug(
-      `Called ${KakaoSearch.name} ${this.requestSearchByPlace.name}`,
+      `Called ${KakaoSearch.name} ${this.requestSearchByKeyword.name}`,
     );
     const url = `https://dapi.kakao.com/v2/local/search/keyword.json`;
     const headersRequest = {
       Authorization: `KakaoAK ${this.appkey}`,
     };
-    const params = { query: `${place}` };
+    const params = { query: `${keyword}` };
     const config = { params, headers: headersRequest };
     this.logger.debug(`Request url: ${url}`);
     const data = await firstValueFrom(

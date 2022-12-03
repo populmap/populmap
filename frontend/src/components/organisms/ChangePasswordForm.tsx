@@ -14,8 +14,8 @@ const InputSection = styled.section`
 `;
 
 const ChangePasswordForm = (): JSX.Element => {
-  const [userPassword, setUserPassword] = useState<string>("");
-  const [userCheckerPassword, setUserCheckerPassword] = useState<string>("");
+  const [newPassword, setNewPassword] = useState<string>("");
+  const [checkerPassword, setCheckerPassword] = useState<string>("");
 
   return (
     <Form>
@@ -24,15 +24,15 @@ const ChangePasswordForm = (): JSX.Element => {
         <InputInstance
           title="새 비밀번호"
           placeholder="새 비밀번호"
-          setValue={setUserPassword}
+          setValue={setNewPassword}
         />
         <InputInstance
           title="새 비밀번호 확인"
           placeholder="새 비밀번호 확인"
-          setValue={setUserCheckerPassword}
+          setValue={setCheckerPassword}
         />
       </InputSection>
-      {userPassword !== userCheckerPassword && (
+      {newPassword !== checkerPassword && (
         <p style={{ fontSize: "0.7rem", color: "red" }}>
           {" "}
           비밀번호가 일치하지 않습니다.{" "}
@@ -40,7 +40,7 @@ const ChangePasswordForm = (): JSX.Element => {
       )}
       <PasswordApiButton
         value="변경하기"
-        body={userPassword !== userCheckerPassword ? "" : userPassword}
+        newPassword={newPassword !== checkerPassword ? "" : newPassword}
         api={axiosAuthPasswordChange}
       />
     </Form>

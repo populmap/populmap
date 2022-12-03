@@ -2,16 +2,16 @@ import Button from "@mui/material/Button";
 
 interface PasswordApiButtonProps {
   api: (body: object) => Promise<any>;
-  body: string;
+  newPassword: string;
   value: string;
   style?: object;
 }
 
 const PasswordApiButton = (props: PasswordApiButtonProps): JSX.Element => {
-  const { api, body, value, style } = props;
+  const { api, newPassword, value, style } = props;
   const handleClick = (): void => {
-    if (body !== "") {
-      api({ body }).catch((error: any) => {
+    if (newPassword !== "") {
+      api({ newPassword }).catch((error: any) => {
         console.error(error);
       });
     }

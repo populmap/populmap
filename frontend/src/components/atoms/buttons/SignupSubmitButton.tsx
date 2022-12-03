@@ -2,17 +2,17 @@ import Button from "@mui/material/Button";
 import { axiosAuthRegister } from "../../../network/axios/axios.auth";
 
 interface SignupSubmitButtonProps {
-  userEmail: string;
-  userId: string;
-  userPassword: string;
+  email: string;
+  userName: string;
+  password: string;
   value: string;
 }
 
 // TODO: handleClick을 통해 register API 요청
 const SignupSubmitButton = (props: SignupSubmitButtonProps): JSX.Element => {
-  const { userEmail, userId, userPassword, value } = props;
+  const { email, userName, password, value } = props;
   const handleClick = (): void => {
-    axiosAuthRegister({ userEmail, userId, userPassword }).catch((error) =>
+    axiosAuthRegister({ email, userName, password }).catch((error) =>
       console.error(error)
     );
   };

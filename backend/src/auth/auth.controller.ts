@@ -89,7 +89,7 @@ export class AuthController {
     },
   })
   @Post('/register')
-  @HttpCode(HttpStatus.CONFLICT)
+  @HttpCode(HttpStatus.CREATED)
   async register(
     @Body(new ValidationPipe()) user: UserRegisterRequestDto,
     @Res() res: Response,
@@ -141,7 +141,7 @@ export class AuthController {
       },
     },
   })
-  @Post('/login')
+  @Get('/login')
   @HttpCode(HttpStatus.OK)
   @UseGuards(LocalAuthGuard)
   async login(@User() user: UserSessionDto, @Res() res: Response) {

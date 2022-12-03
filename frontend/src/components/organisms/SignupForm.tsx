@@ -11,12 +11,11 @@ const Form = styled.form`
 const InputSection = styled.section`
   margin: 1rem 0;
 `;
-const SubmitSection = styled.section``;
 
 const SignupForm = (): JSX.Element => {
-  const [userEmail, setUserEmail] = useState<string>("");
-  const [userId, setUserId] = useState<string>("");
-  const [userPassword, setUserPassword] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
+  const [userName, setUserName] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
 
   return (
     <Form>
@@ -25,23 +24,23 @@ const SignupForm = (): JSX.Element => {
         <InputInstance
           title="이메일"
           placeholder="이메일을 입력하세요"
-          setValue={setUserEmail}
+          setValue={setEmail}
         />
         <InputInstance
           title="아이디"
           placeholder="아이디를 입력하세요"
-          setValue={setUserId}
+          setValue={setUserName}
         />
         <InputInstance
           title="비밀번호"
           placeholder="비밀번호를 입력하세요"
-          setValue={setUserPassword}
+          setValue={setPassword}
         />
       </InputSection>
       <SignupSubmitButton
-        userEmail={userEmail}
-        userId={userId}
-        userPassword={userPassword}
+        email={email}
+        userName={userName}
+        password={password}
         value="가입하기"
       />
     </Form>

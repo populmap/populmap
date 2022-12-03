@@ -4,18 +4,18 @@ import { useNavigate } from "react-router-dom";
 import { axiosAuthLogin } from "../../../network/axios/axios.auth";
 
 interface LoginSumbitButtonProps {
-  userId: string;
-  userPassword: string;
+  id: string;
+  password: string;
   value: string;
 }
 
 const LoginSumbitButton = (props: LoginSumbitButtonProps): JSX.Element => {
-  const { userId, userPassword, value } = props;
+  const { id, password, value } = props;
   const [isLoginFail, setIsLoginFail] = useState<boolean>(false);
 
   const navigate = useNavigate();
   const handleClick = (): void => {
-    axiosAuthLogin({ userId, userPassword })
+    axiosAuthLogin({ id, password })
       .then((response) => {
         if (response.status === 200) navigate("/");
         else if (response.status === 202) navigate("/changepassword");

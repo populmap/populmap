@@ -20,7 +20,7 @@ import { CityRoadAvgResponseDto } from 'src/dto/response/city.road.avg.response.
 import { CityService } from './city.service';
 
 @ApiTags('City')
-@Controller('city')
+@Controller('api/city')
 export class CityController {
   private logger = new Logger(CityController.name);
   constructor(private cityService: CityService) {}

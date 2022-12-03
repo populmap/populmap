@@ -1,7 +1,7 @@
-import { Module } from "@nestjs/common";
-import { TypeOrmModule } from "@nestjs/typeorm";
-import { EventBookmarkModule } from "./bookmark/event.bookmark.module";
-import { EventSearchModule } from "./search/event.search.module";
+import { Module } from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { EventBookmarkModule } from './bookmark/event.bookmark.module';
+import { EventSearchModule } from './search/event.search.module';
 
 @Module({
   imports: [

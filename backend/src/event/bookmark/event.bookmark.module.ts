@@ -1,6 +1,6 @@
-import { Module } from "@nestjs/common";
-import { EventBookmarkController } from "./event.bookmark.controller";
-import { EventBookmarkService } from "./event.bookmark.service";
+import { Module } from '@nestjs/common';
+import { EventBookmarkController } from './event.bookmark.controller';
+import { EventBookmarkService } from './event.bookmark.service';
 
 @Module({
   imports: [

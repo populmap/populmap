@@ -1,4 +1,6 @@
+import { CityAccidentResponseDto } from "src/dto/response/city.accident.response.dto";
 import { CityPeopleResponseDto } from "src/dto/response/city.people.response.dto";
+import { CityRoadAvgResponseDto } from "src/dto/response/city.road.avg.response.dto";
 
 export interface ICityRepository {
   /**
@@ -63,4 +65,14 @@ export interface ICityRepository {
    * cityPeople을 가져온다.
    */
   getCityPeople(): Promise<CityPeopleResponseDto[]>;
+
+  /**
+   * cityId에 해당하는 cityRoadAvg를 가져온다.
+   */
+  getCityRoadAvg(cityId: number): Promise<CityRoadAvgResponseDto>;
+
+  /**
+   * 모든 cityAccident 정보를 가져온다.
+   */
+  getCityAccident(): Promise<CityAccidentResponseDto[]>;
 }

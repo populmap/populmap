@@ -33,9 +33,9 @@ export class CityRoadAvgResponseDto {
 
   @ApiProperty({
     description: "해당 지역 도로 차량 평균 이동 속도",
-    example: 20,
+    example: '20',
   })
-  speed: number;
+  speed: string;
 
   @ApiProperty({
     description: "업데이트된 시간",

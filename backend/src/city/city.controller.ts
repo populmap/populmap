@@ -1,7 +1,10 @@
 import { Controller, Get, HttpCode, HttpException, HttpStatus, InternalServerErrorException, Logger, Param } from "@nestjs/common";
-import { ApiOkResponse, ApiOperation, ApiParam } from "@nestjs/swagger";
+import { ApiNotFoundResponse, ApiOkResponse, ApiOperation, ApiParam, ApiTags } from "@nestjs/swagger";
+import { CityPeopleResponseDto } from "src/dto/response/city.people.response.dto";
+import { CityRoadAvgResponseDto } from "src/dto/response/city.road.avg.response.dto";
 import { CityService } from "./city.service";
 
+@ApiTags('City')
 @Controller('city')
 export class CityController {
   private logger = new Logger(CityController.name);
@@ -17,12 +20,15 @@ export class CityController {
   @ApiOkResponse({
     description: '조회 성공 시, 200 OK를 응답받습니다.',
   })
+  @ApiNotFoundResponse({
+    description: '조회 실패 시, 404 Not Found를 응답받습니다.',
+  })
   @Get('people')
   @HttpCode(HttpStatus.OK)
-  async getCityPeople() {
+  async getCityPeople(): Promise<CityPeopleResponseDto[]> {
     this.logger.debug(`Called ${this.getCityPeople.name}`);
     try {
-      // return await this.cityService.getCityPeople();
+      return await this.cityService.getCityPeople();
     } catch (err) {
       this.logger.error(err);
       if (err instanceof HttpException) {
@@ -43,6 +49,9 @@ export class CityController {
   @ApiOkResponse({
     description: '조회 성공 시, 200 OK를 응답받습니다.',
   })
+  @ApiNotFoundResponse({
+    description: '조회 실패 시, 404 Not Found를 응답받습니다.',
+  })
   @ApiParam({
     name: 'cityId',
     description: '도시 지역 ID',
@@ -50,10 +59,10 @@ export class CityController {
   })
   @Get('road/avg/:cityId')
   @HttpCode(HttpStatus.OK)
-  async getCityRoad(@Param('cityId') cityId: number) {
-    this.logger.debug(`Called ${this.getCityRoad.name}`);
+  async getCityRoadAvg(@Param('cityId') cityId: number): Promise<CityRoadAvgResponseDto> {
+    this.logger.debug(`Called ${this.getCityRoadAvg.name}`);
     try {
-      // return await this.cityService.getCityRoad();
+      return await this.cityService.getCityRoadAvg(cityId);
     } catch (err) {
       this.logger.error(err);
       if (err instanceof HttpException) {
@@ -74,12 +83,15 @@ export class CityController {
   @ApiOkResponse({
     description: '조회 성공 시, 200 OK를 응답받습니다.',
   })
+  @ApiNotFoundResponse({
+    description: '조회 실패 시, 404 Not Found를 응답받습니다.',
+  })
   @Get('accident')
   @HttpCode(HttpStatus.OK)
   async getCityAccident() {
     this.logger.debug(`Called ${this.getCityAccident.name}`);
     try {
-      // return await this.cityService.getCityAccident();
+      return await this.cityService.getCityAccident();
     } catch (err) {
       this.logger.error(err);
       if (err instanceof HttpException) {

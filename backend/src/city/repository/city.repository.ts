@@ -1,6 +1,8 @@
 import { Logger } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
+import { CityAccidentResponseDto } from "src/dto/response/city.accident.response.dto";
 import { CityPeopleResponseDto } from "src/dto/response/city.people.response.dto";
+import { CityRoadAvgResponseDto } from "src/dto/response/city.road.avg.response.dto";
 import CityAccident from "src/entities/city.accident.entity";
 import City from "src/entities/city.entity";
 import CityPeople from "src/entities/city.people.entity";
@@ -153,6 +155,9 @@ export class CityRepository implements ICityRepository {
         city: true,
       },
     });
+    if (results.length === 0) {
+      return null;
+    }
     const cityPeopleResponseDto = results.map((result) => ({
         cityId: result.city.cityId,
         place: result.city.place,
@@ -168,5 +173,47 @@ export class CityRepository implements ICityRepository {
         updateTime: result.updateTime,
     }));
     return cityPeopleResponseDto;
+  }
+
+  async getCityRoadAvg(cityId: number): Promise<CityRoadAvgResponseDto> {
+    const result = await this.cityRoadRepository.findOne({
+      relations: {
+        city: true,
+      },
+      where: {
+        roadCityId: cityId,
+      },
+    });
+    if (!result) {
+      return null;
+    }
+    const cityRoadAvgResponseDto = {
+      cityId: result.city.cityId,
+      place: result.city.place,
+      type: result.city.type,
+      level: result.densityLevel,
+      message: result.message,
+      speed: result.speed,
+      updateTime: result.updateTime,
+    };
+    return cityRoadAvgResponseDto;
+  }
+
+  async getCityAccident(): Promise<CityAccidentResponseDto[]> {
+    const results = await this.cityAccidentRepository.find();
+    if (results.length === 0) {
+      return null;
+    }
+    const cityAccidentResponseDto = results.map((result) => ({
+      accidentId: result.accidentId,
+      beginTime: result.beginTime,
+      endTime: result.endTime,
+      type: result.type,
+      detailType: result.detailType,
+      lat: result.lat,
+      lng: result.lng,
+      updateTime: result.updateTime,
+    }));
+    return cityAccidentResponseDto;
   }
 }

@@ -54,10 +54,14 @@ export class KakaoSearch {
     const params = { query: `${keyword}` };
     const config = { params, headers: headersRequest };
     this.logger.debug(`Request url: ${url}`);
-    const data = await firstValueFrom(
-      this.httpService.get(url, config).pipe(map((res) => res.data)),
-    )
-    const result = data.documents[0];
-    return { lat: Number(result.x), lng: Number(result.y) };
+    try {
+        const data = await firstValueFrom(
+        this.httpService.get(url, config).pipe(map((res) => res.data)),
+      )
+      const result = data.documents[0];
+      return { lat: Number(result.x), lng: Number(result.y) };
+    } catch (err) {
+      throw err;
+    }
   }
 }

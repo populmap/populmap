@@ -18,13 +18,11 @@ export class RealtimeCityDataComponent {
     private cityService: CityService,
   ) {}
 
-  // @Cron(CronExpression.EVERY_HOUR)
-  // @Timeout(5000)
+  @Cron(CronExpression.EVERY_30_MINUTES)
   async getRealtimeCityDataTrigger(): Promise<void> {
     this.logger.debug(
       `Called ${this.getRealtimeCityDataTrigger.name}`,
     );
-    // iterate AreaList
     for (const [type, areas] of Object.entries(AreaList)) {
       await this.getRealtimeCityData(type, areas);
     }
@@ -35,7 +33,7 @@ export class RealtimeCityDataComponent {
       `Called ${this.getRealtimeCityData.name}`,
     );
     for (const area of areas) {
-      console.log(type, area);
+      this.logger.debug(type, area);
       const url = `http://openapi.seoul.go.kr:8088/${this.configService.get<string>('seoul.densitySecret')}/xml/citydata/1/1/${area.place}`;
       this.logger.debug(`Request url: ${url}`);
       await firstValueFrom(
@@ -43,15 +41,10 @@ export class RealtimeCityDataComponent {
       )
       .then(async (data) => {
         const parsed = JSON.parse(xmlParser.xml2json(data, { compact: true, spaces: 2 }));
-        // console.log(parsed);
-        console.log(parsed['SeoulRtd.citydata'].CITYDATA);
-        // if (Object.keys(parsed['SeoulRtd.citydata'].CITYDATA.ACDNT_CNTRL_STTS).length !== 0) {
-        //   console.log(parsed['SeoulRtd.citydata'].CITYDATA.ACDNT_CNTRL_STTS);
-        // }
         await this.cityService.putRealtimeCityData(area, type, parsed);
       })
       .catch((err) => {
-        throw err;
+        this.logger.error(err);
       });
     }
   }

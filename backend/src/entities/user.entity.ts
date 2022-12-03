@@ -1,7 +1,8 @@
 import LoginType from 'src/enums/login.type.enum';
-import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, OneToMany, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
 import AuthSite from './auth.site.entity';
 import AuthSocial from './auth.social.entity';
+import Bookmark from './bookmark.entity';
 
 @Entity('user')
 export default class User {
@@ -38,4 +39,7 @@ export default class User {
 
   @OneToOne(() => AuthSocial, (authSocial) => authSocial.user)
   authSocial: AuthSocial | null;
+
+  @OneToMany(() => Bookmark, (bookmark) => bookmark.user)
+  bookmarks: Bookmark[];
 }

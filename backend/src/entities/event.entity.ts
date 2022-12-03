@@ -1,7 +1,13 @@
-import ProgressType from "src/enums/progress.type.enum";
-import { Column, Entity, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
-import Bookmark from "./bookmark.entity";
-import EventDetail from "./event.detail.entity";
+import ProgressType from 'src/enums/progress.type.enum';
+import {
+  Column,
+  Entity,
+  OneToMany,
+  OneToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
+import Bookmark from './bookmark.entity';
+import EventDetail from './event.detail.entity';
 
 @Entity('event')
 export default class Event {

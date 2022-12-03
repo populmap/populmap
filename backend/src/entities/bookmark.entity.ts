@@ -1,6 +1,11 @@
-import { Column, Entity, ManyToOne, PrimaryColumn, PrimaryGeneratedColumn } from "typeorm";
-import Event from "./event.entity";
-import User from "./user.entity";
+import {
+  Column,
+  Entity,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
+import Event from './event.entity';
+import User from './user.entity';
 
 @Entity('bookmark')
 export default class Bookmark {

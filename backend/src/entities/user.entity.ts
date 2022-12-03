@@ -1,5 +1,11 @@
 import LoginType from 'src/enums/login.type.enum';
-import { Column, Entity, OneToMany, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  OneToMany,
+  OneToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import AuthSite from './auth.site.entity';
 import AuthSocial from './auth.social.entity';
 import Bookmark from './bookmark.entity';

@@ -13,8 +13,8 @@ const InputSection = styled.section`
 `;
 
 const LoginForm = (): JSX.Element => {
-  const [userId, setUserId] = useState<string>("");
-  const [userPassword, setUserPassword] = useState<string>("");
+  const [id, setId] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
 
   return (
     <Form>
@@ -23,19 +23,15 @@ const LoginForm = (): JSX.Element => {
         <InputInstance
           title="아이디(이메일)"
           placeholder="아이디를 입력하세요"
-          setValue={setUserId}
+          setValue={setId}
         />
         <InputInstance
           title="비밀번호"
           placeholder="비밀번호를 입력하세요"
-          setValue={setUserPassword}
+          setValue={setPassword}
         />
       </InputSection>
-      <LoginSubmitButton
-        userId={userId}
-        userPassword={userPassword}
-        value="로그인"
-      />
+      <LoginSubmitButton id={id} password={password} value="로그인" />
     </Form>
   );
 };

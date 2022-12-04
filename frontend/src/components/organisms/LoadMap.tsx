@@ -5,6 +5,7 @@ import { mapLocationChange, mapLevelSelect } from "../../redux/slices/mapSlice";
 import { EventSummaryResponseDto } from "../../types/dto/EventSummaryResponse.dto";
 import { CityPeopleResponseDto } from "../../types/dto/CityPeopleResponse.dto";
 import EventMarker from "./EventMarker";
+import CityMarker from "./CityMarker";
 import MapFilter from "./MapFilter";
 
 interface LoadMapProps {
@@ -96,7 +97,14 @@ const LoadMap = (props: LoadMapProps): JSX.Element => {
           })}
         {isPeopleShow &&
           cityPeopleInfo?.forEach((people) => {
-            console.log(people);
+            return (
+              <CityMarker
+                key={people.cityId}
+                cityPeopleInfo={people}
+                isShow={currentMarker === people.cityId}
+                setCurrentMarker={setCurrentMarker}
+              />
+            );
           })}
       </>
     </Map>

@@ -1,5 +1,6 @@
 import { CustomOverlayMap } from "react-kakao-maps-sdk";
 import styled from "@emotion/styled";
+import { useNavigate } from "react-router-dom";
 import { EventSummaryResponseDto } from "../../types/dto/EventSummaryResponse.dto";
 import PageNavigateButton from "../atoms/buttons/PageNavigateButton";
 import BookmarkApiButton from "../atoms/buttons/BookmarkApiButton";
@@ -25,6 +26,7 @@ const ButtonStyle = {
 
 const EventSummaryOverlay = (props: EventSummaryOverlayProps): JSX.Element => {
   const { eventInfo } = props;
+  const navigate = useNavigate();
 
   return (
     <CustomOverlayMap
@@ -34,7 +36,9 @@ const EventSummaryOverlay = (props: EventSummaryOverlayProps): JSX.Element => {
       }}
       clickable
     >
-      <SummaryBox>
+      <SummaryBox
+        onClick={(): void => navigate(`/detail/${eventInfo.eventId}`)}
+      >
         <p style={{ paddingTop: "0.6rem", fontSize: "0.7rem" }}>
           {eventInfo.title}
         </p>

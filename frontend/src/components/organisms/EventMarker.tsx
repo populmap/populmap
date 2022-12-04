@@ -1,5 +1,6 @@
 import { MapMarker, useMap } from "react-kakao-maps-sdk";
 import { SetStateAction, Dispatch } from "react";
+import EventIcon from "@mui/icons-material/Event";
 import { useAppDispatch } from "../../redux/hook";
 import { mapLocationChange } from "../../redux/slices/mapSlice";
 import EventSummaryOverlay from "./EventSummaryOverlay";
@@ -31,6 +32,10 @@ const EventMarker = (props: EventMarkerProps): JSX.Element => {
             })
           );
           setCurrentMarker(eventInfo.eventId);
+        }}
+        image={{
+          src: "https://img.icons8.com/material-outlined/24/null/planner.png",
+          size: { width: 25, height: 25 },
         }}
       />
       {isShow && <EventSummaryOverlay eventInfo={eventInfo} />}

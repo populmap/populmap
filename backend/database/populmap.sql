@@ -2,7 +2,7 @@
 --
 -- Host: 127.0.0.1    Database: populmap
 -- ------------------------------------------------------
--- Server version	5.5.5-10.3.36-MariaDB-0+deb10u2
+-- Server version	5.5.5-10.6.11-MariaDB-0ubuntu0.22.04.1
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -31,7 +31,7 @@ CREATE TABLE `auth_site` (
   PRIMARY KEY (`site_id`),
   UNIQUE KEY `site_user_id` (`site_user_id`),
   CONSTRAINT `site_user_id` FOREIGN KEY (`site_user_id`) REFERENCES `user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -63,7 +63,7 @@ CREATE TABLE `auth_social` (
   UNIQUE KEY `user_id` (`user_id`),
   UNIQUE KEY `social_id` (`social_id`),
   CONSTRAINT `user_id` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -73,6 +73,34 @@ CREATE TABLE `auth_social` (
 LOCK TABLES `auth_social` WRITE;
 /*!40000 ALTER TABLE `auth_social` DISABLE KEYS */;
 /*!40000 ALTER TABLE `auth_social` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `bookmark`
+--
+
+DROP TABLE IF EXISTS `bookmark`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `bookmark` (
+  `bookmark_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '북마크 ID',
+  `bookmark_user_id` int(11) NOT NULL COMMENT '유저의 ID',
+  `bookmark_event_id` int(11) NOT NULL COMMENT '이벤트 ID',
+  PRIMARY KEY (`bookmark_id`),
+  KEY `bookmark_event_id` (`bookmark_event_id`),
+  KEY `bookmark_user_id` (`bookmark_user_id`),
+  CONSTRAINT `bookmark_event_id` FOREIGN KEY (`bookmark_event_id`) REFERENCES `event` (`event_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `bookmark_user_id` FOREIGN KEY (`bookmark_user_id`) REFERENCES `user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='행사 북마크';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `bookmark`
+--
+
+LOCK TABLES `bookmark` WRITE;
+/*!40000 ALTER TABLE `bookmark` DISABLE KEYS */;
+/*!40000 ALTER TABLE `bookmark` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -87,7 +115,7 @@ CREATE TABLE `city` (
   `place` varchar(64) NOT NULL COMMENT '장소명',
   `type` varchar(64) NOT NULL COMMENT '장소 구분',
   PRIMARY KEY (`city_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=64 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=114 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -96,6 +124,7 @@ CREATE TABLE `city` (
 
 LOCK TABLES `city` WRITE;
 /*!40000 ALTER TABLE `city` DISABLE KEYS */;
+INSERT INTO `city` VALUES (64,'경복궁·서촌마을','고궁·문화유산'),(65,'광화문·덕수궁','고궁·문화유산'),(66,'창덕궁·종묘','고궁·문화유산'),(67,'강남 MICE 관광특구','관광특구'),(68,'명동 관광특구','관광특구'),(69,'잠실 관광특구','관광특구'),(70,'홍대 관광특구','관광특구'),(71,'동대문 관광특구','관광특구'),(72,'이태원 관광특구','관광특구'),(73,'종로·청계 관광특구','관광특구'),(74,'국립중앙박물관·용산가족공원','공원'),(75,'뚝섬한강공원','공원'),(76,'반포한강공원','공원'),(77,'서울대공원','공원'),(78,'월드컵공원','공원'),(79,'잠실종합운동장','공원'),(80,'남산공원','공원'),(81,'망원한강공원','공원'),(82,'북서울꿈의숲','공원'),(83,'서울숲공원','공원'),(84,'이촌한강공원','공원'),(85,'잠실한강공원','공원'),(86,'가로수길','발달상권'),(87,'노량진','발달상권'),(88,'성수카페거리','발달상권'),(89,'쌍문동 맛집거리','발달상권'),(90,'여의도','발달상권'),(91,'인사동·익선동','발달상권'),(92,'DMC(디지털미디어시티)','발달상권'),(93,'낙산공원·이화마을','발달상권'),(94,'북촌한옥마을','발달상권'),(95,'수유리 먹자골목','발달상권'),(96,'압구정로데오거리','발달상권'),(97,'영등포 타임스퀘어','발달상권'),(98,'창동 신경제 중심지','발달상권'),(99,'가산디지털단지역','인구밀집지역'),(100,'건대입구역','인구밀집지역'),(101,'교대역','인구밀집지역'),(102,'서울역','인구밀집지역'),(103,'신도림역','인구밀집지역'),(104,'신촌·이대역','인구밀집지역'),(105,'역삼역','인구밀집지역'),(106,'용산역','인구밀집지역'),(107,'강남역','인구밀집지역'),(108,'고속터미널역','인구밀집지역'),(109,'구로디지털단지역','인구밀집지역'),(110,'선릉역','인구밀집지역'),(111,'신림역','인구밀집지역'),(112,'왕십리역','인구밀집지역'),(113,'연신내역','인구밀집지역');
 /*!40000 ALTER TABLE `city` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -119,7 +148,7 @@ CREATE TABLE `city_accident` (
   PRIMARY KEY (`accident_id`),
   KEY `accident_city_id` (`accident_city_id`),
   CONSTRAINT `accident_city_id` FOREIGN KEY (`accident_city_id`) REFERENCES `city` (`city_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -153,7 +182,7 @@ CREATE TABLE `city_people` (
   PRIMARY KEY (`people_id`),
   UNIQUE KEY `people_city_id` (`people_city_id`),
   CONSTRAINT `people_city_id` FOREIGN KEY (`people_city_id`) REFERENCES `city` (`city_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=57 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=57 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -182,7 +211,7 @@ CREATE TABLE `city_road` (
   PRIMARY KEY (`road_id`),
   KEY `road_city_id` (`road_city_id`),
   CONSTRAINT `road_city_id` FOREIGN KEY (`road_city_id`) REFERENCES `city` (`city_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=57 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=57 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -192,6 +221,66 @@ CREATE TABLE `city_road` (
 LOCK TABLES `city_road` WRITE;
 /*!40000 ALTER TABLE `city_road` DISABLE KEYS */;
 /*!40000 ALTER TABLE `city_road` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `event`
+--
+
+DROP TABLE IF EXISTS `event`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `event` (
+  `event_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '이벤트 ID',
+  `title` varchar(128) DEFAULT NULL COMMENT '행사명',
+  `address` varchar(128) DEFAULT NULL COMMENT '행사 장소의 주소',
+  `lat` double DEFAULT NULL COMMENT '위도',
+  `lng` double DEFAULT NULL COMMENT '경도',
+  `progress` varchar(16) NOT NULL COMMENT '행사 진행 여부',
+  PRIMARY KEY (`event_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='행사 정보';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `event`
+--
+
+LOCK TABLES `event` WRITE;
+/*!40000 ALTER TABLE `event` DISABLE KEYS */;
+/*!40000 ALTER TABLE `event` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `event_detail`
+--
+
+DROP TABLE IF EXISTS `event_detail`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `event_detail` (
+  `event_detail_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '행사 상세 정보 ID',
+  `event_id` int(11) NOT NULL COMMENT '이벤트 ID',
+  `call` varchar(32) DEFAULT NULL COMMENT '전화번호',
+  `description` text DEFAULT NULL COMMENT '행사 부가 설명',
+  `fee` varchar(32) DEFAULT NULL COMMENT '이용 요금',
+  `begin_date` datetime DEFAULT NULL COMMENT '헹시 시작 날짜',
+  `end_date` datetime DEFAULT NULL COMMENT '행사 종료 날짜',
+  `modified_date` datetime DEFAULT NULL COMMENT '수정 날짜',
+  `url` text DEFAULT NULL COMMENT '행사 관련 홈페이지 링크',
+  `place` varchar(256) DEFAULT NULL COMMENT '행사 장소',
+  PRIMARY KEY (`event_detail_id`),
+  KEY `event_id` (`event_id`),
+  CONSTRAINT `event_id` FOREIGN KEY (`event_id`) REFERENCES `event` (`event_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='행사 상세 정보';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `event_detail`
+--
+
+LOCK TABLES `event_detail` WRITE;
+/*!40000 ALTER TABLE `event_detail` DISABLE KEYS */;
+/*!40000 ALTER TABLE `event_detail` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -209,7 +298,7 @@ CREATE TABLE `user` (
   PRIMARY KEY (`user_id`),
   UNIQUE KEY `email` (`email`),
   UNIQUE KEY `user_name` (`user_name`)
-) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -230,4 +319,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-12-03 17:10:21
+-- Dump completed on 2022-12-03 20:43:00

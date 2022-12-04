@@ -15,14 +15,15 @@ const CityAccidentMarker = (props: CityAccidentMarkerProps): JSX.Element => {
   const { cityAccidentInfo, setCurrentMarker, isShow } = props;
   const dispatch = useAppDispatch();
   const map = useMap();
-  console.log(cityAccidentInfo);
 
   return (
     <>
       <MapMarker
         position={{
-          lat: cityAccidentInfo.lat,
-          lng: cityAccidentInfo.lng,
+          //   lat: cityAccidentInfo.lat,
+          //   lng: cityAccidentInfo.lng,
+          lat: cityAccidentInfo.lng,
+          lng: cityAccidentInfo.lat,
         }}
         onClick={(marker): void => {
           map.panTo(marker.getPosition());

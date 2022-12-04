@@ -15,6 +15,7 @@ const EventMarker = (props: EventMarkerProps): JSX.Element => {
   const { eventInfo, setCurrentMarker, isShow } = props;
   const dispatch = useAppDispatch();
   const map = useMap();
+
   return (
     <>
       <MapMarker

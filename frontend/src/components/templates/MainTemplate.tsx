@@ -70,12 +70,13 @@ const MainTemplate = (): JSX.Element => {
     libraries: ["services"],
   });
 
-  const [cityMarkers, setCityMarkers] = useState<CityPeopleResponseDto[]>();
+  const [cityPeopleInfo, setCityPeopleInfo] =
+    useState<CityPeopleResponseDto[]>();
 
   useEffect(() => {
     axiosCityPeople()
       .then((response) => {
-        setCityMarkers(response.data);
+        setCityPeopleInfo(response.data);
       })
       .catch((error) => {
         console.error(error);
@@ -85,7 +86,7 @@ const MainTemplate = (): JSX.Element => {
   return (
     <MainSection>
       {loading ? null : (
-        <LoadMap eventMarkers={mockData} cityMarkers={cityMarkers} />
+        <LoadMap eventInfo={mockData} cityPeopleInfo={cityPeopleInfo} />
       )}
       <MapNav />
     </MainSection>

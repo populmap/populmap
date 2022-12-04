@@ -27,9 +27,6 @@ const NavTemplate = (): JSX.Element => {
   const [value, setValue] = useState<number>();
   const navigate = useNavigate();
 
-  const handleClick = (e: React.MouseEvent<HTMLButtonElement>): void => {
-    console.log("handleClick");
-  };
   return (
     <NavSection>
       <BottomNavigation showLabels value={value} style={BottomNavigationStyle}>

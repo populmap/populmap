@@ -2,6 +2,7 @@ import { Circle, useMap } from "react-kakao-maps-sdk";
 import { Dispatch, SetStateAction } from "react";
 import { CityPeopleResponseDto } from "../../types/dto/CityPeopleResponse.dto";
 import { useAppDispatch } from "../../redux/hook";
+import CityMarkerOverlay from "./CityMarkerOverlay";
 import { mapLocationChange } from "../../redux/slices/mapSlice";
 
 interface CityMarkerProps {
@@ -14,6 +15,7 @@ const CityMarker = (props: CityMarkerProps): JSX.Element => {
   const { cityPeopleInfo, setCurrentMarker, isShow } = props;
   const map = useMap();
   const dispatch = useAppDispatch();
+  console.log(cityPeopleInfo);
 
   return (
     <>
@@ -40,7 +42,7 @@ const CityMarker = (props: CityMarkerProps): JSX.Element => {
         fillColor="#CFE7FF" // 채우기 색깔입니다
         fillOpacity={0.7} // 채우기 불투명도 입니다
       />
-      {isShow}
+      {isShow && <CityMarkerOverlay cityPeopleInfo={cityPeopleInfo} />}
     </>
   );
 };

@@ -15,14 +15,15 @@ const CityMarker = (props: CityMarkerProps): JSX.Element => {
   const { cityPeopleInfo, setCurrentMarker, isShow } = props;
   const map = useMap();
   const dispatch = useAppDispatch();
-  console.log(cityPeopleInfo);
 
   return (
     <>
       <Circle
         center={{
-          lat: cityPeopleInfo.lat,
-          lng: cityPeopleInfo.lng,
+          // lat: cityPeopleInfo.lat,
+          // lng: cityPeopleInfo.lng,
+          lat: cityPeopleInfo.lng,
+          lng: cityPeopleInfo.lat,
         }}
         onClick={(marker): void => {
           map.panTo(marker.getPosition());

@@ -2,6 +2,7 @@ import styled from "@emotion/styled";
 import { useState } from "react";
 import SignupSubmitButton from "../atoms/buttons/SignupSubmitButton";
 import InputInstance from "../atoms/inputs/InputInstance";
+import PasswordInput from "../atoms/inputs/PasswordInput";
 
 const Form = styled.form`
   margin-top: 6rem;
@@ -31,7 +32,7 @@ const SignupForm = (): JSX.Element => {
           placeholder="아이디를 입력하세요"
           setValue={setUserName}
         />
-        <InputInstance
+        <PasswordInput
           title="비밀번호"
           placeholder="비밀번호를 입력하세요"
           setValue={setPassword}

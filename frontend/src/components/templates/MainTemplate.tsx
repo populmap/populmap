@@ -1,7 +1,10 @@
 import styled from "@emotion/styled";
+import { useEffect, useState } from "react";
 import { useInjectKakaoMapApi } from "react-kakao-maps-sdk";
 import LoadMap from "../organisms/LoadMap";
 import MapNav from "../organisms/MapNav";
+import { axiosCityPeople } from "../../network/axios/axios.city";
+import { CityPeopleResponseDto } from "../../types/dto/CityPeopleResponse.dto";
 
 const MainSection = styled.section`
   position: relative;
@@ -67,9 +70,24 @@ const MainTemplate = (): JSX.Element => {
     libraries: ["services"],
   });
 
+  const [cityPeopleInfo, setCityPeopleInfo] =
+    useState<CityPeopleResponseDto[]>();
+
+  useEffect(() => {
+    axiosCityPeople()
+      .then((response) => {
+        setCityPeopleInfo(response.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, []);
+
   return (
     <MainSection>
-      {loading ? null : <LoadMap eventMarkers={mockData} />}
+      {loading ? null : (
+        <LoadMap eventInfo={mockData} cityPeopleInfo={cityPeopleInfo} />
+      )}
       <MapNav />
     </MainSection>
   );

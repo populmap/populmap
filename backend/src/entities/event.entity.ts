@@ -49,6 +49,7 @@ export default class Event {
   @Column({
     name: 'progress',
     type: 'enum',
+    enum: ProgressType,
   })
   progress: ProgressType;
 

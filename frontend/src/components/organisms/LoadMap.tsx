@@ -84,19 +84,19 @@ const LoadMap = (props: LoadMapProps): JSX.Element => {
           setIsAccidentShow={setIsAccidentShow}
         />
         {isEventShow &&
-          eventInfo?.map((eventInfo) => {
+          eventInfo?.map((event) => {
             return (
               <EventMarker
-                key={eventInfo.eventId}
-                eventInfo={eventInfo}
-                isShow={currentMarker === eventInfo.eventId}
+                key={event.eventId}
+                eventInfo={event}
+                isShow={currentMarker === event.eventId}
                 setCurrentMarker={setCurrentMarker}
               />
             );
           })}
         {isPeopleShow &&
-          cityPeopleInfo?.forEach((cityInfo) => {
-            console.log(cityInfo);
+          cityPeopleInfo?.forEach((people) => {
+            console.log(people);
           })}
       </>
     </Map>

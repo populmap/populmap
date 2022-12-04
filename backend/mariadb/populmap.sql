@@ -28,6 +28,7 @@ CREATE TABLE `auth_site` (
   `password` varchar(128) NOT NULL,
   `first_login` datetime DEFAULT NULL,
   `last_login` datetime DEFAULT NULL,
+  `is_temporary` boolean DEFAULT false NOT NULL,
   PRIMARY KEY (`site_id`),
   UNIQUE KEY `site_user_id` (`site_user_id`),
   CONSTRAINT `site_user_id` FOREIGN KEY (`site_user_id`) REFERENCES `user` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE

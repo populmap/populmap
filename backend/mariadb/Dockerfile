@@ -16,13 +16,13 @@ RUN 		mkdir -p /var/lib/mysql
 RUN			chown -R mysql:mysql /var/lib/mysql
 
 RUN			mkdir -p /database
-RUN			mkdir -p /database/credentials
 
-COPY		./database/ /database/
+COPY		./populmap.sql /
+COPY		./init.sh /
 
-RUN			chmod 777 /database/init.sh
+RUN			chmod 777 /init.sh
 
-ENTRYPOINT	["bash", "/database/init.sh"]
+ENTRYPOINT	["bash", "/init.sh"]
 
 # Command to launch mariadb and enable the database to listen globally
 

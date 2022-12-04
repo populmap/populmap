@@ -32,6 +32,7 @@ const LoadMap = (props: LoadMapProps): JSX.Element => {
   useEffect(() => {
     const callback = (result: any, status: string): void => {
       if (status === "OK") {
+        dispatch(mapLevelSelect(3));
         dispatch(
           mapLocationChange({
             lat: result[0].y,

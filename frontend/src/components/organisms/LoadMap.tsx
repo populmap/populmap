@@ -7,12 +7,12 @@ import { CityPeopleResponseDto } from "../../types/dto/CityPeopleResponse.dto";
 import EventMarker from "./EventMarker";
 
 interface LoadMapProps {
-  eventMarkers: EventSummaryResponseDto[] | undefined;
-  cityMarkers: CityPeopleResponseDto[] | undefined;
+  eventInfo: EventSummaryResponseDto[] | undefined;
+  cityPeopleInfo: CityPeopleResponseDto[] | undefined;
 }
 
 const LoadMap = (props: LoadMapProps): JSX.Element => {
-  const { eventMarkers, cityMarkers } = props;
+  const { eventInfo, cityPeopleInfo } = props;
   const mapState = useAppSelector((state) => state.map);
   const [currentMarker, setCurrentMarker] = useState<number>(-1);
 
@@ -64,18 +64,18 @@ const LoadMap = (props: LoadMapProps): JSX.Element => {
       isPanto
     >
       <>
-        {eventMarkers?.map((eventInfo) => {
+        {eventInfo?.map((event) => {
           return (
             <EventMarker
-              key={eventInfo.eventId}
-              eventInfo={eventInfo}
-              isShow={currentMarker === eventInfo.eventId}
+              key={event.eventId}
+              eventInfo={event}
+              isShow={currentMarker === event.eventId}
               setCurrentMarker={setCurrentMarker}
             />
           );
         })}
-        {cityMarkers?.forEach((cityInfo) => {
-          console.log(cityInfo);
+        {cityPeopleInfo?.forEach((people) => {
+          console.log(people);
         })}
       </>
     </Map>

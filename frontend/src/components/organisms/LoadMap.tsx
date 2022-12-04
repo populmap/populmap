@@ -3,14 +3,16 @@ import { useEffect, useState } from "react";
 import { useAppSelector, useAppDispatch } from "../../redux/hook";
 import { mapLocationChange, mapLevelSelect } from "../../redux/slices/mapSlice";
 import { EventSummaryResponseDto } from "../../types/dto/EventSummaryResponse.dto";
+import { CityPeopleResponseDto } from "../../types/dto/CityPeopleResponse.dto";
 import EventMarker from "./EventMarker";
 
 interface LoadMapProps {
-  eventMarkers: EventSummaryResponseDto[];
+  eventMarkers: EventSummaryResponseDto[] | undefined;
+  cityMarkers: CityPeopleResponseDto[] | undefined;
 }
 
 const LoadMap = (props: LoadMapProps): JSX.Element => {
-  const { eventMarkers } = props;
+  const { eventMarkers, cityMarkers } = props;
   const mapState = useAppSelector((state) => state.map);
   const [currentMarker, setCurrentMarker] = useState<number>(-1);
 
@@ -61,16 +63,21 @@ const LoadMap = (props: LoadMapProps): JSX.Element => {
       }}
       isPanto
     >
-      {eventMarkers.map((eventInfo) => {
-        return (
-          <EventMarker
-            key={eventInfo.eventId}
-            eventInfo={eventInfo}
-            isShow={currentMarker === eventInfo.eventId}
-            setCurrentMarker={setCurrentMarker}
-          />
-        );
-      })}
+      <>
+        {eventMarkers?.map((eventInfo) => {
+          return (
+            <EventMarker
+              key={eventInfo.eventId}
+              eventInfo={eventInfo}
+              isShow={currentMarker === eventInfo.eventId}
+              setCurrentMarker={setCurrentMarker}
+            />
+          );
+        })}
+        {cityMarkers?.forEach((cityInfo) => {
+          console.log(cityInfo);
+        })}
+      </>
     </Map>
   );
 };

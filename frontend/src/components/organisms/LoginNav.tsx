@@ -1,6 +1,5 @@
 import styled from "@emotion/styled";
 import PageNavigateButton from "../atoms/buttons/PageNavigateButton";
-import FindPasswordButton from "../atoms/buttons/FindPasswordButton";
 
 const NavSection = styled.div`
   display: flex;

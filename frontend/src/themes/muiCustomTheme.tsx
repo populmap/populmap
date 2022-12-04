@@ -17,7 +17,7 @@ const muiCustomTheme = createTheme({
     MuiSvgIcon: {
       styleOverrides: {
         root: {
-          color: "gray",
+          color: "black",
           fontSize: "1.2rem",
         },
       },

@@ -5,6 +5,7 @@ import {
   OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+import Event from './event.entity';
 
 @Entity('event_detail')
 export default class EventDetail {

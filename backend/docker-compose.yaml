@@ -3,7 +3,7 @@ version: '3'
 services:
   populmap_mariadb:
     container_name: populmap_mariadb
-    build: ./
+    build: ./mariadb
     restart: always
     environment:
       MARIADB_DATABASE_HOST: ${DATABASE_HOST}
@@ -12,5 +12,13 @@ services:
       MARIADB_PASSWORD: ${DATABASE_PASSWORD}
     ports:
       - "3309:3306"
+    tty:
+      true
+  populmap_nginx:
+    container_name: populmap_nginx
+    build: ./nginx
+    restart: always
+    ports:
+      - "82:80"
     tty:
       true

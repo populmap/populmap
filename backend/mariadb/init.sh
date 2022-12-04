@@ -23,8 +23,8 @@ else
 
 	# Import database
 	echo "Import database"
-	echo -e "${GREEN} mysql -u$MARIADB_USER -p$MARIADB_PASSWORD $MARIADB_DATABASE < /database/populmap.sql ${RESET}"
-	mysql -u$MARIADB_USER -p$MARIADB_PASSWORD $MARIADB_DATABASE < /database/populmap.sql
+	echo -e "${GREEN} mysql -u$MARIADB_USER -p$MARIADB_PASSWORD $MARIADB_DATABASE < /populmap.sql ${RESET}"
+	mysql -u$MARIADB_USER -p$MARIADB_PASSWORD $MARIADB_DATABASE < /populmap.sql
 fi
 
 service mysql stop

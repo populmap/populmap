@@ -40,8 +40,10 @@ const CityMarkerOverlay = (props: CityMarkerOverlayProps): JSX.Element => {
   return (
     <CustomOverlayMap
       position={{
-        lat: cityPeopleInfo.lat,
-        lng: cityPeopleInfo.lng,
+        // lat: cityPeopleInfo.lat,
+        // lng: cityPeopleInfo.lng,
+        lat: cityPeopleInfo.lng,
+        lng: cityPeopleInfo.lat,
       }}
       clickable
     >

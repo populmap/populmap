@@ -28,8 +28,10 @@ const CityAccidentMarkerOverlay = (
   return (
     <CustomOverlayMap
       position={{
-        lat: cityAccidentInfo.lat,
-        lng: cityAccidentInfo.lng,
+        // lat: cityAccidentInfo.lat,
+        // lng: cityAccidentInfo.lng,
+        lat: cityAccidentInfo.lng,
+        lng: cityAccidentInfo.lat,
       }}
       clickable
     >

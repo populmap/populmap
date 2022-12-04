@@ -24,7 +24,6 @@ const axiosAuthPasswordChangeUrl = "/auth/password/change";
 export const axiosAuthPasswordChange = async (body: object): Promise<any> => {
   try {
     const response = await instance.patch(axiosAuthPasswordChangeUrl, body);
-    console.log(response);
     return response;
   } catch (error) {
     throw error;

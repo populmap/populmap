@@ -2,7 +2,7 @@ import styled from "@emotion/styled";
 import { useState } from "react";
 import PasswordApiButton from "../atoms/buttons/PasswordApiButton";
 import { axiosAuthPasswordChange } from "../../network/axios/axios.auth";
-import InputInstance from "../atoms/inputs/InputInstance";
+import PasswordInput from "../atoms/inputs/PasswordInput";
 
 const Form = styled.form`
   margin-top: 6rem;
@@ -21,12 +21,12 @@ const ChangePasswordForm = (): JSX.Element => {
     <Form>
       <h1>비밀번호 변경</h1>
       <InputSection>
-        <InputInstance
+        <PasswordInput
           title="새 비밀번호"
           placeholder="새 비밀번호"
           setValue={setNewPassword}
         />
-        <InputInstance
+        <PasswordInput
           title="새 비밀번호 확인"
           placeholder="새 비밀번호 확인"
           setValue={setCheckerPassword}
@@ -40,7 +40,7 @@ const ChangePasswordForm = (): JSX.Element => {
       )}
       <PasswordApiButton
         value="변경하기"
-        newPassword={newPassword !== checkerPassword ? "" : newPassword}
+        body={newPassword !== checkerPassword ? "" : newPassword}
         api={axiosAuthPasswordChange}
       />
     </Form>

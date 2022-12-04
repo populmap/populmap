@@ -5,16 +5,21 @@ import { mapLocationChange, mapLevelSelect } from "../../redux/slices/mapSlice";
 import { EventSummaryResponseDto } from "../../types/dto/EventSummaryResponse.dto";
 import { CityPeopleResponseDto } from "../../types/dto/CityPeopleResponse.dto";
 import EventMarker from "./EventMarker";
+import MapFilter from "./MapFilter";
 
 interface LoadMapProps {
-  eventMarkers: EventSummaryResponseDto[] | undefined;
-  cityMarkers: CityPeopleResponseDto[] | undefined;
+  eventInfo: EventSummaryResponseDto[] | undefined;
+  cityPeopleInfo: CityPeopleResponseDto[] | undefined;
 }
 
 const LoadMap = (props: LoadMapProps): JSX.Element => {
-  const { eventMarkers, cityMarkers } = props;
+  const { eventInfo, cityPeopleInfo } = props;
   const mapState = useAppSelector((state) => state.map);
   const [currentMarker, setCurrentMarker] = useState<number>(-1);
+  const [isEventShow, setIsEventShow] = useState<boolean>(false);
+  const [isBookmarkShow, setIsBookmarkShow] = useState<boolean>(false);
+  const [isPeopleShow, setIsPeopleShow] = useState<boolean>(false);
+  const [isAccidentShow, setIsAccidentShow] = useState<boolean>(false);
 
   const dispatch = useAppDispatch();
   const geocoder = new kakao.maps.services.Geocoder();
@@ -22,14 +27,18 @@ const LoadMap = (props: LoadMapProps): JSX.Element => {
 
   useEffect(() => {
     const callback = (result: any, status: string): void => {
-      if (status === "OK")
+      if (status === "OK") {
         dispatch(
           mapLocationChange({
             lat: result[0].y,
             lng: result[0].x,
           })
         );
-      else alert("검색결과가 없습니다.");
+        setIsEventShow(true);
+        setIsBookmarkShow(true);
+        setIsPeopleShow(true);
+        setIsAccidentShow(true);
+      } else alert("검색결과가 없습니다.");
     };
 
     if (mapState.search !== "")
@@ -64,19 +73,31 @@ const LoadMap = (props: LoadMapProps): JSX.Element => {
       isPanto
     >
       <>
-        {eventMarkers?.map((eventInfo) => {
-          return (
-            <EventMarker
-              key={eventInfo.eventId}
-              eventInfo={eventInfo}
-              isShow={currentMarker === eventInfo.eventId}
-              setCurrentMarker={setCurrentMarker}
-            />
-          );
-        })}
-        {cityMarkers?.forEach((cityInfo) => {
-          console.log(cityInfo);
-        })}
+        <MapFilter
+          isEventShow={isEventShow}
+          isBookmarkShow={isBookmarkShow}
+          isPeopleShow={isPeopleShow}
+          isAccidentShow={isAccidentShow}
+          setIsEventShow={setIsEventShow}
+          setIsPeopleShow={setIsPeopleShow}
+          setIsBookmarkShow={setIsBookmarkShow}
+          setIsAccidentShow={setIsAccidentShow}
+        />
+        {isEventShow &&
+          eventInfo?.map((eventInfo) => {
+            return (
+              <EventMarker
+                key={eventInfo.eventId}
+                eventInfo={eventInfo}
+                isShow={currentMarker === eventInfo.eventId}
+                setCurrentMarker={setCurrentMarker}
+              />
+            );
+          })}
+        {isPeopleShow &&
+          cityPeopleInfo?.forEach((cityInfo) => {
+            console.log(cityInfo);
+          })}
       </>
     </Map>
   );

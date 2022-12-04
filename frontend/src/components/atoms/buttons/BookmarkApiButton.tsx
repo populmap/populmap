@@ -9,7 +9,8 @@ interface BookmarkApiButtonProps {
 
 const BookmarkApiButton = (props: BookmarkApiButtonProps): JSX.Element => {
   const { param, api, value, style } = props;
-  const handleClick = (): void => {
+  const handleClick = (e: React.MouseEvent<HTMLElement>): void => {
+    e.stopPropagation();
     api(param).catch((error: any) => {
       console.error(error);
       alert("🚨 요청에 실패했습니다 🚨");

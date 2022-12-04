@@ -44,7 +44,6 @@ export const mapSlice = createSlice({
       action: PayloadAction<mapStateType["center"]>
     ) => {
       state.center = action.payload;
-      state.level = 3;
     },
     mapSearch: (state, action: PayloadAction<string>) => {
       state.search = action.payload;

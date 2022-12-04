@@ -32,10 +32,10 @@ const EventMarker = (props: EventMarkerProps): JSX.Element => {
           );
           setCurrentMarker(eventInfo.eventId);
         }}
-        image={{
-          src: "../../img/event.png",
-          size: { width: 32, height: 32 },
-        }}
+        // image={{
+        //   src: "../../img/event.png",
+        //   size: { width: 32, height: 32 },
+        // }}
       />
       {isShow && <EventSummaryOverlay eventInfo={eventInfo} />}
     </>

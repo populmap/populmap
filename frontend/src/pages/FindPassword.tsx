@@ -1,18 +1,18 @@
 import HeaderTemplate from "../components/templates/HeaderTemplate";
 import ContentTemplate from "../components/templates/ContentTemplate";
-import ChangePasswordTemplate from "../components/templates/ChangePasswordTemplate";
+import FindPasswordTemplate from "../components/templates/FindPasswordTemplate";
 import NavTemplate from "../components/templates/NavTemplate";
 import FooterTemplate from "../components/templates/FooterTemplate";
 
-const ChangePassword = (): JSX.Element => {
+const FindPassword = (): JSX.Element => {
   return (
     <ContentTemplate>
       <HeaderTemplate />
-      <ChangePasswordTemplate />
+      <FindPasswordTemplate />
       <NavTemplate />
       <FooterTemplate />
     </ContentTemplate>
   );
 };
 
-export default ChangePassword;
+export default FindPassword;

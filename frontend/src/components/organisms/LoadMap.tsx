@@ -3,18 +3,21 @@ import { useEffect, useState } from "react";
 import { useAppSelector, useAppDispatch } from "../../redux/hook";
 import { mapLocationChange, mapLevelSelect } from "../../redux/slices/mapSlice";
 import { EventSummaryResponseDto } from "../../types/dto/EventSummaryResponse.dto";
+import { CityAccidentResponseDto } from "../../types/dto/CityAccidentResponse.dto";
 import { CityPeopleResponseDto } from "../../types/dto/CityPeopleResponse.dto";
 import EventMarker from "./EventMarker";
 import CityMarker from "./CityMarker";
+import CityAccidentMarker from "./CityAccidentMarker";
 import MapFilter from "./MapFilter";
 
 interface LoadMapProps {
   eventInfo: EventSummaryResponseDto[] | undefined;
   cityPeopleInfo: CityPeopleResponseDto[] | undefined;
+  cityAccidentInfo: CityAccidentResponseDto[] | undefined;
 }
 
 const LoadMap = (props: LoadMapProps): JSX.Element => {
-  const { eventInfo, cityPeopleInfo } = props;
+  const { eventInfo, cityPeopleInfo, cityAccidentInfo } = props;
   const mapState = useAppSelector((state) => state.map);
   const [currentMarker, setCurrentMarker] = useState<number>(-1);
   const [isEventShow, setIsEventShow] = useState<boolean>(false);
@@ -96,12 +99,23 @@ const LoadMap = (props: LoadMapProps): JSX.Element => {
             );
           })}
         {isPeopleShow &&
-          cityPeopleInfo?.forEach((people) => {
+          cityPeopleInfo?.map((people) => {
             return (
               <CityMarker
                 key={people.cityId}
                 cityPeopleInfo={people}
                 isShow={currentMarker === people.cityId}
+                setCurrentMarker={setCurrentMarker}
+              />
+            );
+          })}
+        {isAccidentShow &&
+          cityAccidentInfo?.map((accident) => {
+            return (
+              <CityAccidentMarker
+                key={accident.accidentId}
+                cityAccidentInfo={accident}
+                isShow={currentMarker === accident.accidentId}
                 setCurrentMarker={setCurrentMarker}
               />
             );

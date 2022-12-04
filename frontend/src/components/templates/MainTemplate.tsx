@@ -3,7 +3,11 @@ import { useEffect, useState } from "react";
 import { useInjectKakaoMapApi } from "react-kakao-maps-sdk";
 import LoadMap from "../organisms/LoadMap";
 import MapNav from "../organisms/MapNav";
-import { axiosCityPeople } from "../../network/axios/axios.city";
+import {
+  axiosCityPeople,
+  axiosCityAccident,
+} from "../../network/axios/axios.city";
+import { CityAccidentResponseDto } from "../../types/dto/CityAccidentResponse.dto";
 import { CityPeopleResponseDto } from "../../types/dto/CityPeopleResponse.dto";
 
 const MainSection = styled.section`
@@ -65,6 +69,7 @@ const MainTemplate = (): JSX.Element => {
       progress: "진행중",
     },
   ];
+
   const { loading, error } = useInjectKakaoMapApi({
     appkey: `${import.meta.env.VITE_KAKAO_MAP_KEY}`,
     libraries: ["services"],
@@ -72,6 +77,8 @@ const MainTemplate = (): JSX.Element => {
 
   const [cityPeopleInfo, setCityPeopleInfo] =
     useState<CityPeopleResponseDto[]>();
+  const [cityAccidentInfo, setCityAccidentInfo] =
+    useState<CityAccidentResponseDto[]>();
 
   useEffect(() => {
     axiosCityPeople()
@@ -83,10 +90,24 @@ const MainTemplate = (): JSX.Element => {
       });
   }, []);
 
+  useEffect(() => {
+    axiosCityAccident()
+      .then((response) => {
+        setCityAccidentInfo(response.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, []);
+
   return (
     <MainSection>
       {loading ? null : (
-        <LoadMap eventInfo={mockData} cityPeopleInfo={cityPeopleInfo} />
+        <LoadMap
+          eventInfo={mockData}
+          cityPeopleInfo={cityPeopleInfo}
+          cityAccidentInfo={cityAccidentInfo}
+        />
       )}
       <MapNav />
     </MainSection>

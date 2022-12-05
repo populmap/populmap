@@ -1,5 +1,6 @@
 import { CustomOverlayMap } from "react-kakao-maps-sdk";
 import styled from "@emotion/styled";
+import { Button } from "@mui/material";
 import { useEffect, useState } from "react";
 import { axiosCityRoadAvg } from "../../network/axios/axios.city";
 import { CityRoadAvgResponseDto } from "../../types/dto/CityRoadAvgResponse.dto";
@@ -11,10 +12,10 @@ interface CityMarkerOverlayProps {
 
 const SummaryBox = styled.div`
   width: 10rem;
-  height: 7rem;
+  height: 11rem;
   border-radius: 0.5rem;
   background-color: white;
-  font-size: 0.5rem;
+  font-size: 0.2rem;
 `;
 
 const ButtonStyle = {
@@ -31,47 +32,48 @@ const CityMarkerOverlay = (props: CityMarkerOverlayProps): JSX.Element => {
   >(undefined);
 
   useEffect((): void => {
-    console.log("effect called");
     axiosCityRoadAvg(cityPeopleInfo.cityId)
-      .then((response) => setRoadAvgResponse(response))
+      .then((response) => {
+        setRoadAvgResponse(response.data);
+      })
       .catch((error) => console.error(error));
   }, [type]);
 
   return (
     <CustomOverlayMap
       position={{
-        // lat: cityPeopleInfo.lat,
-        // lng: cityPeopleInfo.lng,
-        lat: cityPeopleInfo.lng,
-        lng: cityPeopleInfo.lat,
+        lat: cityPeopleInfo.lat,
+        lng: cityPeopleInfo.lng,
       }}
       clickable
     >
       <SummaryBox>
+        <p>{cityPeopleInfo.place}</p>
         <div>
-          <button onClick={(): void => setType("people")}>People</button>
-          <button onClick={(): void => setType("road")}>Road</button>
+          <Button style={ButtonStyle} onClick={(): void => setType("people")}>
+            People
+          </Button>
+          <Button style={ButtonStyle} onClick={(): void => setType("road")}>
+            Road
+          </Button>
         </div>
+        <hr style={{ width: "80%" }} />
         {type === "people" ? (
           <>
-            <span>{cityPeopleInfo.place}</span>
-            <span>{cityPeopleInfo.type}</span>
-            <span>{cityPeopleInfo.level}</span>
-            <span>{cityPeopleInfo.densityMin}</span>
-            <span>{cityPeopleInfo.densityMax}</span>
-            <span>{cityPeopleInfo.residentRatio}</span>
-            <span>{cityPeopleInfo.nonRegidentRatio}</span>
-            <span>{cityPeopleInfo.updateTime.toString().substring(0, 10)}</span>
+            <p>{cityPeopleInfo.type}</p>
+            <p>{cityPeopleInfo.level}</p>
+            <p>{cityPeopleInfo.densityMin}</p>
+            <p>{cityPeopleInfo.densityMax}</p>
+            <p>{cityPeopleInfo.residentRatio}</p>
+            <p>{cityPeopleInfo.nonResidentRatio}</p>
+            <p>{cityPeopleInfo.updateTime.toString().substring(0, 10)}</p>
           </>
         ) : (
           <>
-            <span>{roadAvgResponse?.place}</span>
-            <span>{roadAvgResponse?.level}</span>
-            <span>{roadAvgResponse?.message}</span>
-            <span>{roadAvgResponse?.speed}</span>
-            <span>
-              {roadAvgResponse?.updateTime.toString().substring(0, 10)}
-            </span>
+            <p>{roadAvgResponse?.level}</p>
+            <p>{roadAvgResponse?.message}</p>
+            <p>{roadAvgResponse?.speed}</p>
+            <p>{roadAvgResponse?.updateTime.toString().substring(0, 10)}</p>
           </>
         )}
       </SummaryBox>

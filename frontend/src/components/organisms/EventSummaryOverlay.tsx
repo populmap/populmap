@@ -42,6 +42,7 @@ const EventSummaryOverlay = (props: EventSummaryOverlayProps): JSX.Element => {
         <p style={{ paddingTop: "0.6rem", fontSize: "0.7rem" }}>
           {eventInfo.title}
         </p>
+        <hr style={{ width: "80%" }} />
         <span
           style={{
             fontSize: "0.1rem",

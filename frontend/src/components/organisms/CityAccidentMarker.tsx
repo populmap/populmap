@@ -20,10 +20,8 @@ const CityAccidentMarker = (props: CityAccidentMarkerProps): JSX.Element => {
     <>
       <MapMarker
         position={{
-          //   lat: cityAccidentInfo.lat,
-          //   lng: cityAccidentInfo.lng,
-          lat: cityAccidentInfo.lng,
-          lng: cityAccidentInfo.lat,
+          lat: cityAccidentInfo.lat,
+          lng: cityAccidentInfo.lng,
         }}
         onClick={(marker): void => {
           map.panTo(marker.getPosition());
@@ -34,6 +32,10 @@ const CityAccidentMarker = (props: CityAccidentMarkerProps): JSX.Element => {
             })
           );
           setCurrentMarker(cityAccidentInfo.accidentId);
+        }}
+        image={{
+          src: "../../img/accident.png",
+          size: { width: 32, height: 32 },
         }}
       />
       {isShow && (

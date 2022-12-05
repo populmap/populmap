@@ -28,19 +28,17 @@ const CityAccidentMarkerOverlay = (
   return (
     <CustomOverlayMap
       position={{
-        // lat: cityAccidentInfo.lat,
-        // lng: cityAccidentInfo.lng,
-        lat: cityAccidentInfo.lng,
-        lng: cityAccidentInfo.lat,
+        lat: cityAccidentInfo.lat,
+        lng: cityAccidentInfo.lng,
       }}
       clickable
     >
       <SummaryBox>
-        <span>{cityAccidentInfo.beginTime}</span>
-        <span>{cityAccidentInfo.endTime}</span>
-        <span>{cityAccidentInfo.type}</span>
-        <span>{cityAccidentInfo.detailType}</span>
-        <span>{cityAccidentInfo.updateTime.toString().substring(0, 10)}</span>
+        <p>{cityAccidentInfo.beginTime}</p>
+        <p>{cityAccidentInfo.endTime}</p>
+        <p>{cityAccidentInfo.type}</p>
+        <p>{cityAccidentInfo.detailType}</p>
+        <p>{cityAccidentInfo.updateTime.toString().substring(0, 10)}</p>
       </SummaryBox>
     </CustomOverlayMap>
   );

@@ -1,8 +1,14 @@
-import { Circle, useMap } from "react-kakao-maps-sdk";
+import { MapMarker, useMap } from "react-kakao-maps-sdk";
 import { Dispatch, SetStateAction } from "react";
-import { CityPeopleResponseDto } from "../../types/dto/CityPeopleResponse.dto";
+import densityLevel, {
+  CityPeopleResponseDto,
+} from "../../types/dto/CityPeopleResponse.dto";
 import { useAppDispatch } from "../../redux/hook";
 import CityMarkerOverlay from "./CityMarkerOverlay";
+import orangeCircle from "../../../img/orangeCircle.png";
+import greenCircle from "../../../img/greenCircle.png";
+import yellowCircle from "../../../img/yellowCircle.png";
+import redCircle from "../../../img/redCircle.png";
 import { mapLocationChange } from "../../redux/slices/mapSlice";
 
 interface CityMarkerProps {
@@ -16,14 +22,27 @@ const CityMarker = (props: CityMarkerProps): JSX.Element => {
   const map = useMap();
   const dispatch = useAppDispatch();
 
+  const setImage = (status: string): string => {
+    switch (status) {
+      case densityLevel.SMOOTH:
+        return greenCircle;
+      case densityLevel.NORMAL:
+        return yellowCircle;
+      case densityLevel.CROWDED:
+        return orangeCircle;
+      case densityLevel.VERYCROWDED:
+        return redCircle;
+      default:
+        return "";
+    }
+  };
+
   return (
     <>
-      <Circle
-        center={{
-          // lat: cityPeopleInfo.lat,
-          // lng: cityPeopleInfo.lng,
-          lat: cityPeopleInfo.lng,
-          lng: cityPeopleInfo.lat,
+      <MapMarker
+        position={{
+          lat: cityPeopleInfo.lat,
+          lng: cityPeopleInfo.lng,
         }}
         onClick={(marker): void => {
           map.panTo(marker.getPosition());
@@ -35,13 +54,10 @@ const CityMarker = (props: CityMarkerProps): JSX.Element => {
           );
           setCurrentMarker(cityPeopleInfo.cityId);
         }}
-        radius={50}
-        strokeWeight={5} // 선의 두께입니다
-        strokeColor="#75B8FA" // 선의 색깔입니다
-        strokeOpacity={2} // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
-        strokeStyle="dash" // 선의 스타일 입니다
-        fillColor="#CFE7FF" // 채우기 색깔입니다
-        fillOpacity={0.7} // 채우기 불투명도 입니다
+        image={{
+          src: setImage(cityPeopleInfo.level),
+          size: { width: 32, height: 32 },
+        }}
       />
       {isShow && <CityMarkerOverlay cityPeopleInfo={cityPeopleInfo} />}
     </>

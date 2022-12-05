@@ -1,4 +1,4 @@
-import { ConflictException, Inject, Injectable, Logger } from '@nestjs/common';
+import { ConflictException, Inject, Injectable, Logger, UnauthorizedException } from '@nestjs/common';
 import { IAuthRepository } from './repository/auth.repository.interface';
 import { v4 as uuid } from 'uuid';
 import { UserSessionDto } from 'src/dto/user.session.dto';
@@ -196,5 +196,23 @@ export class AuthService {
       .catch((err) => {
         throw err;
       });
+  }
+
+  async updateIsTemporary(userId: number, isTemporary: boolean): Promise<void> {
+    this.logger.debug(`Called ${this.updateIsTemporary.name}`);
+    await this.authRepository.updateIsTemporary(userId, isTemporary);
+  }
+
+  async getIsTemporary(userId: number): Promise<boolean> {
+    this.logger.debug(`Called ${this.getIsTemporary.name}`);
+    return await this.authRepository.getIsTemporary(userId);
+  }
+
+  async assertPassword(userId: number, password: string): Promise<void> {
+    this.logger.debug(`Called ${this.assertPassword.name}`);
+    const hashedPassword = await this.authRepository.getHashedPassword(userId);
+    if (!(await bcrypt.compare(password, hashedPassword))) {
+      throw new UnauthorizedException('비밀번호가 일치하지 않습니다.');
+    }
   }
 }

@@ -79,4 +79,24 @@ export interface IAuthRepository {
    * @param userId
    */
   deleteUser(userId: number): Promise<void>;
+
+  /**
+   * userId에 해당하는 유저의 isTemporary를 변경한다.
+   * @param userId
+   */
+  updateIsTemporary(userId: number, isTemporary: boolean): Promise<void>;
+
+  /**
+   * userId에 해당하는 유저의 isTemporary를 가져온다
+   * @param userId
+   * @return isTemporary
+   */
+  getIsTemporary(userId: number): Promise<boolean>;
+
+  /**
+   * userId에 해당하는 유저의 hashed 비밀번호를 가져온다
+   * @param userId
+   * @return hashedPassword
+   */
+  getHashedPassword(userId: number): Promise<string>;
 }

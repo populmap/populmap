@@ -183,4 +183,41 @@ export class AuthRepository implements IAuthRepository {
       userId: userId,
     });
   }
+
+  async updateIsTemporary(userId: number, isTemporary: boolean): Promise<void> {
+    await this.authSiteRepository
+      .createQueryBuilder()
+      .update(AuthSite)
+      .set({
+        isTemporary: isTemporary,
+      })
+      .where({
+        siteUserId: userId,
+      })
+      .execute();
+  }
+
+  async getIsTemporary(userId: number): Promise<boolean> {
+    const result = await this.authSiteRepository.findOne({
+      select: {
+        isTemporary: true,
+      },
+      where: {
+        siteUserId: userId,
+      },
+    });
+    return result.isTemporary;
+  }
+
+  async getHashedPassword(userId: number): Promise<string> {
+    const result = await this.authSiteRepository.findOne({
+      select: {
+        password: true,
+      },
+      where: {
+        siteUserId: userId,
+      },
+    });
+    return result.password;
+  }
 }

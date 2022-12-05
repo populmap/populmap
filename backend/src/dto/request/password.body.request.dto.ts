@@ -1,6 +1,11 @@
 import { IsString } from 'class-validator';
 
-export class PasswordBodyRequestDto {
+export class NewPasswordBodyRequestDto {
   @IsString()
   newPassword: string;
+}
+
+export class PasswordBodyRequestDto {
+  @IsString()
+  password: string;
 }

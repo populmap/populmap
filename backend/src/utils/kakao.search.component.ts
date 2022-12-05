@@ -60,7 +60,7 @@ export class KakaoSearch {
         this.httpService.get(url, config).pipe(map((res) => res.data)),
       );
       const result = data.documents[0];
-      return { lat: Number(result.x), lng: Number(result.y) };
+      return { lat: Number(result.y), lng: Number(result.x) };
     } catch (err) {
       throw err;
     }

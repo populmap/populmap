@@ -130,9 +130,9 @@ export class CityRepository implements ICityRepository {
           parsed['SeoulRtd.citydata'].CITYDATA.ACDNT_CNTRL_STTS.ACDNT_CNTRL_STTS
             .ACDNT_DTYPE._text,
         lat: parsed['SeoulRtd.citydata'].CITYDATA.ACDNT_CNTRL_STTS
-          .ACDNT_CNTRL_STTS.ACDNT_X._text,
-        lng: parsed['SeoulRtd.citydata'].CITYDATA.ACDNT_CNTRL_STTS
           .ACDNT_CNTRL_STTS.ACDNT_Y._text,
+        lng: parsed['SeoulRtd.citydata'].CITYDATA.ACDNT_CNTRL_STTS
+          .ACDNT_CNTRL_STTS.ACDNT_X._text,
         updateTime:
           parsed['SeoulRtd.citydata'].CITYDATA.ACDNT_CNTRL_STTS.ACDNT_CNTRL_STTS
             .ACDNT_TIME._text,
@@ -220,9 +220,9 @@ export class CityRepository implements ICityRepository {
           parsed['SeoulRtd.citydata'].CITYDATA.ACDNT_CNTRL_STTS.ACDNT_CNTRL_STTS
             .ACDNT_DTYPE._text,
         lat: parsed['SeoulRtd.citydata'].CITYDATA.ACDNT_CNTRL_STTS
-          .ACDNT_CNTRL_STTS.ACDNT_X._text,
-        lng: parsed['SeoulRtd.citydata'].CITYDATA.ACDNT_CNTRL_STTS
           .ACDNT_CNTRL_STTS.ACDNT_Y._text,
+        lng: parsed['SeoulRtd.citydata'].CITYDATA.ACDNT_CNTRL_STTS
+          .ACDNT_CNTRL_STTS.ACDNT_X._text,
         updateTime:
           parsed['SeoulRtd.citydata'].CITYDATA.ACDNT_CNTRL_STTS.ACDNT_CNTRL_STTS
             .ACDNT_TIME._text,

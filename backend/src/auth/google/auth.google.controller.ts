@@ -53,7 +53,6 @@ export class AuthGoogleController {
     this.logger.debug(`Called ${this.loginCallback.name}`);
     try {
       await this.authService.socialRegister(user, res);
-      return res.redirect('/');
     } catch (err) {
       this.logger.error(err);
       if (err instanceof HttpException) {

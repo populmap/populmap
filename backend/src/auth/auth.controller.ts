@@ -37,10 +37,11 @@ import {
   ApiBadRequestResponse,
   ApiBody,
   ApiConsumes,
+  ApiAcceptedResponse,
 } from '@nestjs/swagger';
 import { EmailSender } from 'src/utils/email.sender.component';
 import { IdBodyRequestDto } from 'src/dto/request/id.body.request.dto';
-import { PasswordBodyRequestDto } from 'src/dto/request/password.body.request.dto';
+import { NewPasswordBodyRequestDto, PasswordBodyRequestDto } from 'src/dto/request/password.body.request.dto';
 
 @ApiTags('Auth')
 @Controller('auth')
@@ -97,7 +98,7 @@ export class AuthController {
     this.logger.debug(`Called ${this.register.name}`);
     try {
       await this.authService.register(user, res);
-      return res.redirect('/');
+      res.sendStatus(HttpStatus.CREATED);
     } catch (err) {
       this.logger.error(err);
       if (err instanceof HttpException) {
@@ -117,6 +118,9 @@ export class AuthController {
   })
   @ApiOkResponse({
     description: '로그인 성공 시, 200 OK를 응답받습니다.',
+  })
+  @ApiAcceptedResponse({
+    description: '임시 비밀번호로 로그인 시, 202 Accepted를 응답받습니다.',
   })
   @ApiUnauthorizedResponse({
     description:
@@ -148,7 +152,11 @@ export class AuthController {
     this.logger.debug(`Called ${this.login.name}`);
     try {
       await this.authService.login(user, res);
-      return res.redirect('/');
+      if (await this.authService.getIsTemporary(user.userId)) {
+        res.sendStatus(HttpStatus.ACCEPTED);
+      } else {
+        res.sendStatus(HttpStatus.OK);
+      }
     } catch (err) {
       this.logger.error(err);
       if (err instanceof HttpException) {
@@ -175,7 +183,7 @@ export class AuthController {
     this.logger.debug(`Called ${this.logout.name}`);
     try {
       await this.authService.logout(res);
-      return res.redirect('/');
+      res.sendStatus(HttpStatus.OK);
     } catch (err) {
       this.logger.error(err);
       if (err instanceof HttpException) {
@@ -213,7 +221,7 @@ export class AuthController {
         }
       }
       await this.authService.withdraw(user.userId, res);
-      res.send();
+      res.sendStatus(HttpStatus.NO_CONTENT);
     } catch (err) {
       this.logger.error(err);
       if (err instanceof HttpException) {
@@ -268,6 +276,7 @@ export class AuthController {
       }
       const password = await this.authService.generatePasswordAndUpdate(user);
       this.emailSender.sendPasswordEmail(user.email, password);
+      await this.authService.updateIsTemporary(user.userId, true);
     } catch (err) {
       this.logger.error(err);
       if (err instanceof HttpException) {
@@ -297,7 +306,7 @@ export class AuthController {
     schema: {
       type: 'object',
       properties: {
-        password: {
+        newPassword: {
           type: 'string',
           description: '변경할 비밀번호',
           format: 'password',
@@ -311,7 +320,7 @@ export class AuthController {
   @HttpCode(HttpStatus.NO_CONTENT)
   @UseGuards(JwtAuthGuard)
   async changePassword(
-    @Body() passwordBody: PasswordBodyRequestDto,
+    @Body() passwordBody: NewPasswordBodyRequestDto,
     @User() user: UserSessionDto,
   ) {
     this.logger.debug(`Called ${this.changePassword.name}`);
@@ -320,6 +329,60 @@ export class AuthController {
         user.userId,
         passwordBody.newPassword,
       );
+      await this.authService.updateIsTemporary(user.userId, false);
+    } catch (err) {
+      this.logger.error(err);
+      if (err instanceof HttpException) {
+        throw err;
+      } else {
+        throw new InternalServerErrorException(
+          `🚨 populmap 내부 서버 에러가 발생했습니다 🥲 🚨`,
+        );
+      }
+    }
+  }
+
+  @ApiOperation({
+    summary: '비밀번호 확인 요청',
+    description:
+      '비밀번호로 사용자를 추가 검증합니다.',
+  })
+  @ApiOkResponse({
+    description: '비밀번호 검증 성공 시, 200 OK를 응답받습니다.',
+  })
+  @ApiBadRequestResponse({
+    description:
+      '비밀번호를 입력하지 않은 경우, 400 Bad Request를 응답받습니다.',
+  })
+  @ApiUnauthorizedResponse({
+    description:
+      '비밀번호가 일치하지 않는 경우, 401 Unauthorized를 응답받습니다.',
+  })
+  @ApiConsumes('application/x-www-form-urlencoded')
+  @ApiBody({
+    schema: {
+      type: 'object',
+      properties: {
+        password: {
+          type: 'string',
+          description: '비밀번호',
+          format: 'password',
+          nullable: false,
+        },
+      },
+    },
+  })
+  @Patch('password/assert')
+  @UsePipes(new ValidationPipe({ transform: true }))
+  @HttpCode(HttpStatus.OK)
+  @UseGuards(JwtAuthGuard)
+  async assertPassword(
+    @Body() passwordBody: PasswordBodyRequestDto,
+    @User() user: UserSessionDto,
+  ) {
+    this.logger.debug(`Called ${this.assertPassword.name}`);
+    try {
+      await this.authService.assertPassword(user.userId, passwordBody.password);
     } catch (err) {
       this.logger.error(err);
       if (err instanceof HttpException) {

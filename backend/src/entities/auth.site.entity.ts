@@ -39,6 +39,13 @@ export default class AuthSite {
   })
   lastLogin: Date;
 
+  @Column({
+    name: 'is_temporary',
+    type: 'boolean',
+    default: false,
+  })
+  isTemporary: boolean;
+
   @OneToOne(() => User)
   @JoinColumn({
     name: 'site_user_id',

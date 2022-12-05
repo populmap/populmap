@@ -6,7 +6,7 @@ const MapSection = styled.div`
   position: absolute;
   display: flex;
   flex-direction: column;
-  top: 5%;
+  top: 10%;
   left: 5%;
 `;
 

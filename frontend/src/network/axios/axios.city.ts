@@ -10,10 +10,10 @@ export const axiosCityPeople = async (): Promise<any> => {
   }
 };
 
-const axiosCityRoadUrl = "/api/city/road/avg";
-export const axiosCityRoad = async (): Promise<any> => {
+const axiosCityRoadAvgUrl = "/api/city/road/avg/";
+export const axiosCityRoadAvg = async (cityId: number): Promise<any> => {
   try {
-    const response = await instance.get(axiosCityRoadUrl);
+    const response = await instance.get(`${axiosCityRoadAvgUrl}${cityId}`);
     return response;
   } catch (error) {
     throw error;

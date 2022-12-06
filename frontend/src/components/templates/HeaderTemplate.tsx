@@ -1,5 +1,6 @@
 import styled from "@emotion/styled";
 import PageNavigateButton from "../atoms/buttons/PageNavigateButton";
+import HeaderMenu from "../organisms/HeaderMenu";
 
 const Header = styled.header`
   position: absolute;
@@ -17,9 +18,9 @@ const Header = styled.header`
 const HeaderTemplate = (): JSX.Element => {
   return (
     <Header>
-      <PageNavigateButton value="My" route="/my" />
-      <PageNavigateButton value="populmap" route="/" />
       <PageNavigateButton value="Login" route="/login" />
+      <PageNavigateButton value="populmap" route="/" />
+      <HeaderMenu />
     </Header>
   );
 };

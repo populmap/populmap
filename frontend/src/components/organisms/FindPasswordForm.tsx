@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 import { useState } from "react";
-import PasswordApiButton from "../atoms/buttons/PasswordApiButton";
+import PasswordFindButton from "../atoms/buttons/PasswordFindButton";
 import { axiosAuthPasswordFind } from "../../network/axios/axios.auth";
 import InputInstance from "../atoms/inputs/InputInstance";
 
@@ -26,11 +26,7 @@ const FindPasswordForm = (): JSX.Element => {
           setValue={setId}
         />
       </InputSection>
-      <PasswordApiButton
-        value="다음"
-        body={id === "" ? "" : id}
-        api={axiosAuthPasswordFind}
-      />
+      <PasswordFindButton value="다음" body={id === "" ? "" : id} />
     </Form>
   );
 };

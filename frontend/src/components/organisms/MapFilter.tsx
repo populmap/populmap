@@ -26,10 +26,10 @@ type buttonProps = {
 
 const FilterButton = styled.button<buttonProps>`
   border-radius: 0.5rem;
-  width: 3.5rem;
+  width: 4.2rem;
   height: 1.5rem;
   border: 0;
-  margin: 0 0.3rem;
+  margin: 0 0.4rem;
   background-color: ${(props): string => (props.isShow ? "#0080FE" : "white")};
   color: ${(props): string => (props.isShow ? "white" : "inherit")};
   font-size: 0.5rem;

@@ -33,7 +33,7 @@ export const axiosAuthPasswordChange = async (body: object): Promise<any> => {
 const axiosAuthPasswordAssertUrl = "/auth/password/assert";
 export const axiosAuthPasswordAssert = async (body: object): Promise<any> => {
   try {
-    const response = await instance.get(axiosAuthPasswordAssertUrl, body);
+    const response = await instance.patch(axiosAuthPasswordAssertUrl, body);
     return response;
   } catch (error) {
     throw error;

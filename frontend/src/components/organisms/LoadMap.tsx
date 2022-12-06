@@ -1,7 +1,8 @@
 import { Map } from "react-kakao-maps-sdk";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useAppSelector, useAppDispatch } from "../../redux/hook";
-import { mapLocationChange, mapLevelSelect } from "../../redux/slices/mapSlice";
+import useKakaoSearch from "../../hooks/useKakaoSearch";
+import { mapLevelSelect } from "../../redux/slices/mapSlice";
 import { EventSummaryResponseDto } from "../../types/dto/EventSummaryResponse.dto";
 import { CityAccidentResponseDto } from "../../types/dto/CityAccidentResponse.dto";
 import { CityPeopleResponseDto } from "../../types/dto/CityPeopleResponse.dto";
@@ -18,43 +19,11 @@ interface LoadMapProps {
 
 const LoadMap = (props: LoadMapProps): JSX.Element => {
   const { eventInfo, cityPeopleInfo, cityAccidentInfo } = props;
-  const mapState = useAppSelector((state) => state.map);
   const [currentMarker, setCurrentMarker] = useState<number>(-1);
-  const [isEventShow, setIsEventShow] = useState<boolean>(false);
-  const [isBookmarkShow, setIsBookmarkShow] = useState<boolean>(false);
-  const [isPeopleShow, setIsPeopleShow] = useState<boolean>(false);
-  const [isAccidentShow, setIsAccidentShow] = useState<boolean>(false);
 
   const dispatch = useAppDispatch();
-  const geocoder = new kakao.maps.services.Geocoder();
-  const ps = new kakao.maps.services.Places();
-
-  useEffect(() => {
-    const callback = (result: any, status: string): void => {
-      if (status === "OK") {
-        dispatch(mapLevelSelect(3));
-        dispatch(
-          mapLocationChange({
-            lat: result[0].y,
-            lng: result[0].x,
-          })
-        );
-        setIsEventShow(true);
-        setIsBookmarkShow(true);
-        setIsPeopleShow(true);
-        setIsAccidentShow(true);
-      } else alert("검색결과가 없습니다.");
-    };
-
-    if (mapState.search !== "")
-      geocoder.addressSearch(
-        `${mapState.search}`,
-        (result: any, status: string) => {
-          if (status === "OK") callback(result, status);
-          else ps.keywordSearch(`${mapState.search}`, callback);
-        }
-      );
-  }, [mapState.search]);
+  const mapState = useAppSelector((state) => state.map);
+  useKakaoSearch();
 
   return (
     <Map
@@ -78,17 +47,8 @@ const LoadMap = (props: LoadMapProps): JSX.Element => {
       isPanto
     >
       <>
-        <MapFilter
-          isEventShow={isEventShow}
-          isBookmarkShow={isBookmarkShow}
-          isPeopleShow={isPeopleShow}
-          isAccidentShow={isAccidentShow}
-          setIsEventShow={setIsEventShow}
-          setIsPeopleShow={setIsPeopleShow}
-          setIsBookmarkShow={setIsBookmarkShow}
-          setIsAccidentShow={setIsAccidentShow}
-        />
-        {isEventShow &&
+        <MapFilter />
+        {mapState.isEventShow &&
           eventInfo?.map((event) => {
             return (
               <EventMarker
@@ -99,7 +59,7 @@ const LoadMap = (props: LoadMapProps): JSX.Element => {
               />
             );
           })}
-        {isPeopleShow &&
+        {mapState.isPeopleShow &&
           cityPeopleInfo?.map((people) => {
             return (
               <CityMarker
@@ -110,7 +70,7 @@ const LoadMap = (props: LoadMapProps): JSX.Element => {
               />
             );
           })}
-        {isAccidentShow &&
+        {mapState.isAccidentShow &&
           cityAccidentInfo?.map((accident) => {
             return (
               <CityAccidentMarker

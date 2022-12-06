@@ -1,20 +1,16 @@
 import styled from "@emotion/styled";
-import { Dispatch, SetStateAction } from "react";
 import EventIcon from "@mui/icons-material/Event";
 import BookmarkIcon from "@mui/icons-material/Bookmark";
 import PersonIcon from "@mui/icons-material/Person";
 import WarningAmberIcon from "@mui/icons-material/WarningAmber";
-
-interface MapFilterProps {
-  isEventShow: boolean;
-  isBookmarkShow: boolean;
-  isPeopleShow: boolean;
-  isAccidentShow: boolean;
-  setIsEventShow: Dispatch<SetStateAction<boolean>>;
-  setIsBookmarkShow: Dispatch<SetStateAction<boolean>>;
-  setIsPeopleShow: Dispatch<SetStateAction<boolean>>;
-  setIsAccidentShow: Dispatch<SetStateAction<boolean>>;
-}
+import { PayloadAction } from "@reduxjs/toolkit";
+import { useAppSelector, useAppDispatch } from "../../redux/hook";
+import {
+  mapSetIsEventShow,
+  mapSetIsBookmarkShow,
+  mapSetIsPeopleShow,
+  mapSetIsAccidentShow,
+} from "../../redux/slices/mapSlice";
 
 const MapDiv = styled.div`
   position: absolute;
@@ -45,41 +41,33 @@ const FilterButton = styled.button<buttonProps>`
   }
 `;
 
-const MapFilter = (props: MapFilterProps): JSX.Element => {
-  const {
-    isEventShow,
-    isBookmarkShow,
-    isPeopleShow,
-    isAccidentShow,
-    setIsEventShow,
-    setIsBookmarkShow,
-    setIsPeopleShow,
-    setIsAccidentShow,
-  } = props;
+const MapFilter = (): JSX.Element => {
+  const dispatch = useAppDispatch();
+  const mapState = useAppSelector((state) => state.map);
 
   return (
     <MapDiv>
       <FilterButton
-        isShow={isEventShow}
-        onClick={(): void => setIsEventShow((state) => !state)}
+        isShow={mapState.isEventShow}
+        onClick={(): PayloadAction => dispatch(mapSetIsEventShow())}
       >
         <EventIcon /> 행사
       </FilterButton>
       <FilterButton
-        isShow={isBookmarkShow}
-        onClick={(): void => setIsBookmarkShow((state) => !state)}
+        isShow={mapState.isBookmarkShow}
+        onClick={(): PayloadAction => dispatch(mapSetIsBookmarkShow())}
       >
         <BookmarkIcon /> 북마크
       </FilterButton>
       <FilterButton
-        isShow={isPeopleShow}
-        onClick={(): void => setIsPeopleShow((state) => !state)}
+        isShow={mapState.isPeopleShow}
+        onClick={(): PayloadAction => dispatch(mapSetIsPeopleShow())}
       >
         <PersonIcon /> 밀집도
       </FilterButton>
       <FilterButton
-        isShow={isAccidentShow}
-        onClick={(): void => setIsAccidentShow((state) => !state)}
+        isShow={mapState.isAccidentShow}
+        onClick={(): PayloadAction => dispatch(mapSetIsAccidentShow())}
       >
         <WarningAmberIcon /> 사고
       </FilterButton>

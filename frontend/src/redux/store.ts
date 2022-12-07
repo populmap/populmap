@@ -1,13 +1,23 @@
-import { configureStore } from "@reduxjs/toolkit";
+import { configureStore, combineReducers } from "@reduxjs/toolkit";
+import { persistReducer } from "redux-persist";
+import storage from "redux-persist/lib/storage";
 import mapSlice from "./slices/mapSlice";
 import userSlice from "./slices/userSlice";
 
+const reducer = combineReducers({
+  map: mapSlice,
+  user: userSlice,
+});
+
+const persistConfig = {
+  key: "root",
+  storage,
+};
+
+const persistedReducer = persistReducer(persistConfig, reducer);
+
 const store = configureStore({
-  reducer: {
-    // reducerName: reducer
-    map: mapSlice,
-    user: userSlice,
-  },
+  reducer: persistedReducer,
 });
 
 export type RootState = ReturnType<typeof store.getState>;

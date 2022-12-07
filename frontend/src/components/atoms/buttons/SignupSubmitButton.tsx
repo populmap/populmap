@@ -1,4 +1,6 @@
 import Button from "@mui/material/Button";
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 import { axiosAuthRegister } from "../../../network/axios/axios.auth";
 
 interface SignupSubmitButtonProps {
@@ -8,19 +10,38 @@ interface SignupSubmitButtonProps {
   value: string;
 }
 
-// TODO: handleClick을 통해 register API 요청
 const SignupSubmitButton = (props: SignupSubmitButtonProps): JSX.Element => {
   const { email, userName, password, value } = props;
+  const [isSignupFail, setIsSignupFail] = useState<boolean>(false);
+  const navigate = useNavigate();
+
   const handleClick = (): void => {
-    axiosAuthRegister({ email, userName, password }).catch((error) =>
-      console.error(error)
-    );
+    axiosAuthRegister({ email, userName, password })
+      .then((response) => {
+        if (response.status === 201) {
+          alert("회원가입에 성공했습니다.");
+          navigate("/login");
+        }
+      })
+      .catch((error) => setIsSignupFail(true));
   };
 
   return (
-    <Button onClick={handleClick} style={{ width: "60%" }} variant="contained">
-      {value}
-    </Button>
+    <>
+      {isSignupFail && (
+        <p style={{ fontSize: "0.7rem", color: "red" }}>
+          {" "}
+          이미 가입된 이메일 혹은 아이디입니다.{" "}
+        </p>
+      )}
+      <Button
+        onClick={handleClick}
+        style={{ width: "60%" }}
+        variant="contained"
+      >
+        {value}
+      </Button>
+    </>
   );
 };
 

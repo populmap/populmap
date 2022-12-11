@@ -25,10 +25,10 @@ const useKakaoSearch = (): void => {
         })
       );
     } else alert("검색결과가 없습니다.");
-    dispatch(mapSetIsEventShow());
-    dispatch(mapSetIsBookmarkShow());
-    dispatch(mapSetIsPeopleShow());
-    dispatch(mapSetIsAccidentShow());
+    if (!mapState.isEventShow) dispatch(mapSetIsEventShow());
+    if (!mapState.isBookmarkShow) dispatch(mapSetIsBookmarkShow());
+    if (!mapState.isPeopleShow) dispatch(mapSetIsPeopleShow());
+    if (!mapState.isAccidentShow) dispatch(mapSetIsAccidentShow());
   };
 
   useEffect(() => {

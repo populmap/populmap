@@ -8,6 +8,7 @@ const BarSection = styled.section`
   width: 100%;
   height: 5%;
   transform: translate(-50%, 0%);
+  touch-action: none;
 `;
 
 const SearchTemplate = (): JSX.Element => {

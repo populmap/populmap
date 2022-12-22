@@ -16,6 +16,7 @@ const NavSection = styled.section`
   display: flex;
   justify-content: center;
   transform: translate(-50%, 0%);
+  touch-action: none;
 `;
 
 const BottomNavigationStyle = {

@@ -33,7 +33,7 @@ const MainTemplate = (): JSX.Element => {
       lat: 37.4862,
       lng: 127.0628,
       eventId: 2,
-      progress: "진행중",
+      progress: "진행전",
     },
     {
       title: "크리스마스 행사 3",
@@ -41,7 +41,7 @@ const MainTemplate = (): JSX.Element => {
       lat: 37.4852,
       lng: 127.0618,
       eventId: 3,
-      progress: "진행중",
+      progress: "진행종료",
     },
     {
       title: "크리스마스 행사 4",

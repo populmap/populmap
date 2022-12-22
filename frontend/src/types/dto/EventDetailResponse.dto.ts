@@ -3,6 +3,7 @@ const enum progressStatus {
   INPROGRESS = "진행중",
   AFTERPROGRESS = "진행종료",
 }
+
 export default progressStatus;
 
 export interface EventDetailResponseDto {

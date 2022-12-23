@@ -13,17 +13,23 @@ interface EventSummaryOverlayProps {
 
 const SummaryBox = styled.div`
   width: 10rem;
-  height: 7.5rem;
+  height: 9rem;
   border-radius: 0.5rem;
   background-color: white;
   font-size: 0.5rem;
 `;
 
+const SummaryButton = styled.div`
+  position: absolute;
+  top: 80%;
+  left: 20%;
+`
 const ButtonStyle = {
-  border: "0.01rem solid gray",
   fontSize: "0.5rem",
   height: "1.5rem",
-};
+  width: "3rem",
+  color: "#3d75cc",
+}
 
 const EventSummaryOverlay = (props: EventSummaryOverlayProps): JSX.Element => {
   const { eventInfo } = props;
@@ -55,7 +61,6 @@ const EventSummaryOverlay = (props: EventSummaryOverlayProps): JSX.Element => {
         <p style={{ paddingTop: "0.6rem", fontSize: "0.7rem", textOverflow: "ellipsis", overflow: "hidden"}}>
           {eventInfo.title}
         </p>
-        <hr style={{ width: "80%" }} />
         <span
           style={{
             fontSize: "0.5rem",
@@ -67,18 +72,21 @@ const EventSummaryOverlay = (props: EventSummaryOverlayProps): JSX.Element => {
         >
           {eventInfo.progress}
         </span>
-        <p>{eventInfo.address}</p>
-        <PageNavigateButton
-          style={ButtonStyle}
-          value="상세보기"
-          route={`/detail/${eventInfo.eventId}`}
-        />
-        <BookmarkApiButton
-          style={ButtonStyle}
-          param={eventInfo.eventId}
-          value="북마크 추가"
-          api={axiosEventBookmarkPost}
-        />
+        <p style={{ whiteSpace: "normal" }}>{eventInfo.address}</p>
+        <SummaryButton>
+          <PageNavigateButton
+            style={ButtonStyle}
+            value="상세보기"
+            route={`/detail/${eventInfo.eventId}`}
+          />
+          <BookmarkApiButton
+            style={ButtonStyle}
+            iconDisplay={false}
+            param={eventInfo.eventId}
+            value="북마크 추가"
+            api={axiosEventBookmarkPost}
+          />
+        </SummaryButton>
       </SummaryBox>
     </CustomOverlayMap>
   );

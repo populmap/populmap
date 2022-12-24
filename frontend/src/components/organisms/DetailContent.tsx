@@ -16,17 +16,20 @@ interface DetailContentProps {
   detailResponse: EventDetailResponseDto | undefined;
 }
 
-const Detail = styled.div`
-  background-color: white;
-`
-
 const Summary = styled.div`
   font-size: 1rem;
+  border-bottom: 0.05rem solid gray;
+  height: 10rem;
 `;
 
 const Information = styled.div`
   text-align: left;
   font-size: 0.8rem;
+  display: flex;
+  justify-content: start;
+  flex-direction: column;
+  margin: 2rem;
+  height: 25rem;
 `;
 
 const Update = styled.div`
@@ -41,44 +44,42 @@ const DetailContent = (props: DetailContentProps): JSX.Element => {
   if (!detailResponse) return <h2>Loading....</h2>;
   return (
     <>
-      <Detail>
-        <Summary>
-          <h2>{detailResponse?.title}</h2>
-          <p>{detailResponse?.description}</p>
-          <BookmarkApiButton
-            param={detailResponse?.eventId}
-            value="북마크"
-            api={axiosEventBookmarkPost}
-          />
-          <ShareButton />
-        </Summary>
-        <Information>
+      <Summary>
+        <h2>{detailResponse?.title}</h2>
+        <p style={{marginBottom: "2rem"}}>{detailResponse?.description}</p>
+        <BookmarkApiButton
+          param={detailResponse?.eventId}
+          value="북마크"
+          api={axiosEventBookmarkPost}
+        />
+        <ShareButton />
+      </Summary>
+      <Information>
+        <p>
+          <PlaceIcon />{detailResponse?.place}
+        </p>
+        <p>
+          <AccessTimeIcon />{detailResponse?.progress}
+        </p>
+        {detailResponse?.progress === "진행중" && (
           <p>
-            <PlaceIcon />{detailResponse?.place}
+            <CalendarMonthIcon />
+            {detailResponse?.beginTime.toString().substring(0, 10)} ~{" "}
+            {detailResponse?.endTime.toString().substring(0, 10)}
           </p>
-          <p>
-            <AccessTimeIcon />{detailResponse?.progress}
-          </p>
-          {detailResponse?.progress === "진행중" && (
-            <p>
-              <CalendarMonthIcon />
-              {detailResponse?.beginTime.toString().substring(0, 10)} ~{" "}
-              {detailResponse?.endTime.toString().substring(0, 10)}
-            </p>
-          )}
-          <p>
-            <LanguageIcon />
-            <a href={detailResponse?.url}>{detailResponse?.url}</a>
-          </p>
-          <p>
-            <CallIcon />
-            <a href={`tel:${detailResponse?.call}`}>{detailResponse?.call}</a>
-          </p>
-          <p>
-            <PaymentIcon /> {detailResponse?.fee}
-          </p>
-        </Information>
-      </Detail>
+        )}
+        <p>
+          <LanguageIcon />
+          <a href={detailResponse?.url}>{detailResponse?.url}</a>
+        </p>
+        <p>
+          <CallIcon />
+          <a href={`tel:${detailResponse?.call}`}>{detailResponse?.call}</a>
+        </p>
+        <p>
+          <PaymentIcon /> {detailResponse?.fee}
+        </p>
+      </Information>
       <Update>
         <p>
           업데이트 {detailResponse?.modifiedDate.toString().substring(0, 10)}

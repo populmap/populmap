@@ -24,7 +24,11 @@ const HeaderTemplate = (): JSX.Element => {
       <IconButton onClick={() => window.history.back()}>
         <ArrowBackIosNewIcon />
       </IconButton>
-      <PageNavigateButton value="populmap" route="/" />
+      <PageNavigateButton style={{fontSize: "1rem",
+    height: "1.5rem",
+    width: "5rem",
+    color: "black",
+    marginTop: "0.5rem"}}value="populmap" route="/" />
       <HeaderMenu />
     </Header>
   );

@@ -7,6 +7,7 @@ import CallIcon from "@mui/icons-material/Call";
 import PaymentIcon from "@mui/icons-material/Payment";
 import PageNavigateButton from "../atoms/buttons/PageNavigateButton";
 import BookmarkApiButton from "../atoms/buttons/BookmarkApiButton";
+import ShareButton from "../atoms/buttons/ShareButton";
 import CallButton from "../atoms/buttons/CallButton";
 import { EventDetailResponseDto } from "../../types/dto/EventDetailResponse.dto";
 import { axiosEventBookmarkPost } from "../../network/axios/axios.event";
@@ -17,12 +18,18 @@ interface DetailContentProps {
 
 const Summary = styled.div`
   font-size: 1rem;
+  border-bottom: 0.05rem solid gray;
+  height: 10rem;
 `;
 
 const Information = styled.div`
   text-align: left;
-  margin-left: 3rem;
   font-size: 0.8rem;
+  display: flex;
+  justify-content: start;
+  flex-direction: column;
+  margin: 2rem;
+  height: 25rem;
 `;
 
 const Update = styled.div`
@@ -32,13 +39,6 @@ const Update = styled.div`
   font-size: 0.1rem;
 `;
 
-const ButtonStyle = {
-  border: "0.05rem solid gray",
-  fontSize: "0.5rem",
-  height: "3rem",
-  width: "3rem",
-};
-
 const DetailContent = (props: DetailContentProps): JSX.Element => {
   const { detailResponse } = props;
   if (!detailResponse) return <h2>Loading....</h2>;
@@ -46,29 +46,20 @@ const DetailContent = (props: DetailContentProps): JSX.Element => {
     <>
       <Summary>
         <h2>{detailResponse?.title}</h2>
-        <p>{detailResponse?.description}</p>
-      </Summary>
-      <div>
-        <CallButton
-          value="전화"
-          call={detailResponse?.call}
-          style={ButtonStyle}
-        />
-        <PageNavigateButton value="지도" route="/" style={ButtonStyle} />
+        <p style={{marginBottom: "2rem"}}>{detailResponse?.description}</p>
         <BookmarkApiButton
-          style={ButtonStyle}
           param={detailResponse?.eventId}
           value="북마크"
           api={axiosEventBookmarkPost}
         />
-      </div>
-      <hr style={{ width: "80%" }} />
+        <ShareButton />
+      </Summary>
       <Information>
         <p>
-          <PlaceIcon /> {detailResponse?.place}
+          <PlaceIcon />{detailResponse?.place}
         </p>
         <p>
-          <AccessTimeIcon /> {detailResponse?.progress}
+          <AccessTimeIcon />{detailResponse?.progress}
         </p>
         {detailResponse?.progress === "진행중" && (
           <p>

@@ -1,14 +1,16 @@
-import Button from "@mui/material/Button";
+import IconButton from "@mui/material/IconButton";
+import BookmarkIcon from "@mui/icons-material/Bookmark";
 
 interface BookmarkApiButtonProps {
   api: (eventId: number) => Promise<any>;
   value: string;
   param: number;
   style?: object;
+  iconDisplay?: boolean;
 }
 
 const BookmarkApiButton = (props: BookmarkApiButtonProps): JSX.Element => {
-  const { param, api, value, style } = props;
+  const { param, api, value, style, iconDisplay } = props;
   const handleClick = (e: React.MouseEvent<HTMLElement>): void => {
     e.stopPropagation();
     api(param).catch((error: any) => {
@@ -17,14 +19,22 @@ const BookmarkApiButton = (props: BookmarkApiButtonProps): JSX.Element => {
     });
   };
   return (
-    <Button style={style} onClick={handleClick}>
+    <IconButton style={style} onClick={handleClick}>
+      {iconDisplay &&  <BookmarkIcon />}
       {value}
-    </Button>
+    </IconButton>
   );
 };
 
 BookmarkApiButton.defaultProps = {
-  style: {},
+  style: {
+      flexDirection: "column",
+      fontSize: "0.5rem",
+      height: "1.5rem",
+      width: "5rem",
+      color: "black",
+  },
+  iconDisplay: true
 };
 
 export default BookmarkApiButton;

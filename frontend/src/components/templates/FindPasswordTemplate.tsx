@@ -7,7 +7,6 @@ const FindPasswordSection = styled.section`
   top: 5%;
   width: 100%;
   height: 95%;
-  background-color: #fafafa;
 `;
 
 const FindPasswordTemplate = (): JSX.Element => {

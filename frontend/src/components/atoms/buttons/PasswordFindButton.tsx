@@ -1,4 +1,5 @@
 import Button from "@mui/material/Button";
+import { useNavigate } from "react-router-dom";
 import { axiosAuthPasswordFind } from "../../../network/axios/axios.auth";
 
 interface PasswordFindButtonProps {
@@ -9,12 +10,20 @@ interface PasswordFindButtonProps {
 
 const PasswordFindButton = (props: PasswordFindButtonProps): JSX.Element => {
   const { body, value, style } = props;
+  const navigate = useNavigate();
+
   const handleClick = (): void => {
     if (body !== "") {
-      axiosAuthPasswordFind({ body })
-        .then((response) => console.log(response))
+      axiosAuthPasswordFind({ id: body })
+        .then((response) => {
+          if (response.status === 204) {
+            alert("아이디(이메일)로 임시 비밀번호가 발급되었습니다.");
+            navigate("/login");
+          }
+        })
         .catch((error: any) => {
           console.error(error);
+          alert("🚨 요청에 실패했습니다 🚨");
         });
     }
   };

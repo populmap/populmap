@@ -6,7 +6,7 @@ const SignupSection = styled.section`
   text-align: center;
   top: 5%;
   width: 100%;
-  height: 95%;
+  height: 90%;
 `;
 
 const SignupTemplate = (): JSX.Element => {

@@ -6,6 +6,8 @@ import BottomNavigationAction from "@mui/material/BottomNavigationAction";
 import EventIcon from "@mui/icons-material/Event";
 import RoofingIcon from "@mui/icons-material/Roofing";
 import BookmarkIcon from "@mui/icons-material/Bookmark";
+import { useAppDispatch, useAppSelector } from "../../redux/hook";
+import { userPageSelected } from "../../redux/slices/userSlice";
 
 // TODO: handleClick 함수를 통해 navigate되도록 수정 필요.
 const NavSection = styled.section`
@@ -26,30 +28,43 @@ const BottomNavigationStyle = {
 };
 
 const NavTemplate = (): JSX.Element => {
-  const [value, setValue] = useState<number>();
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+  const user = useAppSelector((state) => state.user);
+
+  const handleChange = (
+    event: React.SyntheticEvent<Element, Event>,
+    value: any
+  ): void => {
+    dispatch(userPageSelected(value));
+    switch (value) {
+      case 0:
+        return navigate("/event");
+      case 1:
+        return navigate("/");
+      case 2:
+        return navigate("/bookmark");
+    }
+  };
 
   return (
     <NavSection>
-      <BottomNavigation showLabels value={value} style={BottomNavigationStyle}>
+      <BottomNavigation
+        showLabels
+        onChange={handleChange}
+        style={BottomNavigationStyle}
+      >
         <BottomNavigationAction
-          onClick={(): void => navigate("/event")}
           label="Event"
-          icon={<EventIcon />}
+          icon={user.pageSelected === 0 && <EventIcon />}
         />
         <BottomNavigationAction
-          onClick={(): void => navigate("/")}
           label="Home"
-          icon={<RoofingIcon />}
-          style={{
-            borderLeft: "0.05rem solid gray",
-            borderRight: "0.05rem solid gray",
-          }}
+          icon={user.pageSelected === 1 && <RoofingIcon />}
         />
         <BottomNavigationAction
-          onClick={(): void => navigate("/bookmark")}
           label="Bookmark"
-          icon={<BookmarkIcon />}
+          icon={user.pageSelected === 2 && <BookmarkIcon />}
         />
       </BottomNavigation>
     </NavSection>

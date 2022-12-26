@@ -11,7 +11,6 @@ const DetailSection = styled.section`
   top: 5%;
   height: 95%;
   width: 100%;
-  background-color: #fafafa;
 `;
 
 const DetailTemplate = (): JSX.Element => {

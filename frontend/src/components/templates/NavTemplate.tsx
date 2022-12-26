@@ -22,6 +22,7 @@ const NavSection = styled.section`
 const BottomNavigationStyle = {
   borderRadius: "0.7rem",
   width: "25rem",
+  border: "0.05rem solid gray",
 };
 
 const NavTemplate = (): JSX.Element => {
@@ -40,6 +41,7 @@ const NavTemplate = (): JSX.Element => {
           onClick={(): void => navigate("/")}
           label="Home"
           icon={<RoofingIcon />}
+          style={{borderLeft: "0.05rem solid gray", borderRight: "0.05rem solid gray"}}
         />
         <BottomNavigationAction
           onClick={(): void => navigate("/bookmark")}

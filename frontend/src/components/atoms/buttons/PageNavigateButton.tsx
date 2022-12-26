@@ -22,7 +22,12 @@ const PageNavigateButton = (props: PageNavigateButtonProps): JSX.Element => {
 };
 
 PageNavigateButton.defaultProps = {
-  style: {},
+  style: {
+    fontSize: "0.5rem",
+    height: "1.5rem",
+    width: "5rem",
+    color: "black",
+  },
 };
 
 export default PageNavigateButton;

@@ -8,6 +8,7 @@ import {
 } from 'typeorm';
 import Bookmark from './bookmark.entity';
 import EventDetail from './event.detail.entity';
+import CityType from 'src/enums/city.type.enum';
 
 @Entity('event')
 export default class Event {
@@ -52,6 +53,13 @@ export default class Event {
     enum: ProgressType,
   })
   progress: ProgressType;
+
+  @Column({
+    name: 'city',
+    type: 'enum',
+    enum: CityType,
+  })
+  city: CityType;
 
   @OneToOne(() => EventDetail, (eventDetail) => eventDetail.event)
   eventDetail: EventDetail;

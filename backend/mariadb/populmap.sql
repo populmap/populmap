@@ -237,6 +237,7 @@ CREATE TABLE `event` (
   `lat` double DEFAULT NULL COMMENT '위도',
   `lng` double DEFAULT NULL COMMENT '경도',
   `progress` varchar(16) NOT NULL COMMENT '행사 진행 여부',
+  `city` varchar(32) NULL COMMENT '행사가 열리는 도시',
   PRIMARY KEY (`event_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='행사 정보';
 /*!40101 SET character_set_client = @saved_cs_client */;

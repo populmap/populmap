@@ -5,6 +5,7 @@ import Event from 'src/entities/event.entity';
 import { Repository } from 'typeorm';
 import { IEventRepository } from './event.repository.interface';
 import ProgressType from 'src/enums/progress.type.enum';
+import CityType from 'src/enums/city.type.enum';
 
 export class EventRepository implements IEventRepository {
   private logger = new Logger(EventRepository.name);
@@ -48,12 +49,26 @@ export class EventRepository implements IEventRepository {
       progress = ProgressType.AFTERPROGRESS;
     }
 
+    // city parsing
+    let city: CityType = CityType.NONE;
+    if (address) {
+      const cityIndex = address.indexOf(' ');
+      const cityString = address.substring(0, cityIndex);
+      for (const [key, value] of Object.entries(CityType)) {
+        if (value === cityString) {
+          city = CityType[key];
+          break;
+        }
+      }
+    }
+
     const result = await this.eventRepository.insert({
       title: item['eventNm']._text,
       address: address ? address : null,
       lat: item['latitude']._text,
       lng: item['longitude']._text,
       progress,
+      city,
     });
     return result.identifiers[0].eventId;
   }
@@ -120,6 +135,19 @@ export class EventRepository implements IEventRepository {
       progress = ProgressType.AFTERPROGRESS;
     }
 
+    // city parsing
+    let city: CityType = CityType.NONE;
+    if (address) {
+      const cityIndex = address.indexOf(' ');
+      const cityString = address.substring(0, cityIndex);
+      for (const [key, value] of Object.entries(CityType)) {
+        if (value === cityString) {
+          city = CityType[key];
+          break;
+        }
+      }
+    }
+
     await this.eventRepository
       .createQueryBuilder()
       .update(Event)
@@ -129,6 +157,7 @@ export class EventRepository implements IEventRepository {
         lat: item['latitude']._text,
         lng: item['longitude']._text,
         progress,
+        city,
       })
       .where('eventId = :eventId', { eventId })
       .execute();

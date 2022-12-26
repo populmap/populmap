@@ -46,7 +46,7 @@ const DetailContent = (props: DetailContentProps): JSX.Element => {
     <>
       <Summary>
         <h2>{detailResponse?.title}</h2>
-        <p style={{marginBottom: "2rem"}}>{detailResponse?.description}</p>
+        <p style={{ marginBottom: "2rem" }}>{detailResponse?.description}</p>
         <BookmarkApiButton
           param={detailResponse?.eventId}
           value="북마크"
@@ -56,10 +56,12 @@ const DetailContent = (props: DetailContentProps): JSX.Element => {
       </Summary>
       <Information>
         <p>
-          <PlaceIcon />{detailResponse?.place}
+          <PlaceIcon />
+          {detailResponse?.place}
         </p>
         <p>
-          <AccessTimeIcon />{detailResponse?.progress}
+          <AccessTimeIcon />
+          {detailResponse?.progress}
         </p>
         {detailResponse?.progress === "진행중" && (
           <p>
@@ -70,7 +72,7 @@ const DetailContent = (props: DetailContentProps): JSX.Element => {
         )}
         <p>
           <LanguageIcon />
-          <a href={`https://${detailResponse?.url}`} >{detailResponse?.url}</a>
+          <a href={`https://${detailResponse?.url}`}>{detailResponse?.url}</a>
         </p>
         <p>
           <CallIcon />

@@ -2,7 +2,7 @@ import styled from "@emotion/styled";
 import PageNavigateButton from "../atoms/buttons/PageNavigateButton";
 import HeaderMenu from "../organisms/HeaderMenu";
 import IconButton from "@mui/material/IconButton";
-import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
+import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 
 const Header = styled.header`
   position: absolute;
@@ -24,11 +24,17 @@ const HeaderTemplate = (): JSX.Element => {
       <IconButton onClick={() => window.history.back()}>
         <ArrowBackIosNewIcon />
       </IconButton>
-      <PageNavigateButton style={{fontSize: "1rem",
-    height: "1.5rem",
-    width: "5rem",
-    color: "black",
-    marginTop: "0.5rem"}}value="populmap" route="/" />
+      <PageNavigateButton
+        style={{
+          fontSize: "1rem",
+          height: "1.5rem",
+          width: "5rem",
+          color: "black",
+          marginTop: "0.5rem",
+        }}
+        value="populmap"
+        route="/"
+      />
       <HeaderMenu />
     </Header>
   );

@@ -23,13 +23,13 @@ const SummaryButton = styled.div`
   position: absolute;
   top: 80%;
   left: 20%;
-`
+`;
 const ButtonStyle = {
   fontSize: "0.5rem",
   height: "1.5rem",
   width: "3rem",
   color: "#3d75cc",
-}
+};
 
 const EventSummaryOverlay = (props: EventSummaryOverlayProps): JSX.Element => {
   const { eventInfo } = props;
@@ -58,7 +58,14 @@ const EventSummaryOverlay = (props: EventSummaryOverlayProps): JSX.Element => {
       <SummaryBox
         onClick={(): void => navigate(`/detail/${eventInfo.eventId}`)}
       >
-        <p style={{ paddingTop: "0.6rem", fontSize: "0.7rem", textOverflow: "ellipsis", overflow: "hidden"}}>
+        <p
+          style={{
+            paddingTop: "0.6rem",
+            fontSize: "0.7rem",
+            textOverflow: "ellipsis",
+            overflow: "hidden",
+          }}
+        >
           {eventInfo.title}
         </p>
         <span
@@ -67,7 +74,7 @@ const EventSummaryOverlay = (props: EventSummaryOverlayProps): JSX.Element => {
             border: `0.01rem solid ${progressColor(eventInfo.progress)}`,
             borderRadius: "0.2rem",
             backgroundColor: `${progressColor(eventInfo.progress)}`,
-            padding: "0.07rem"
+            padding: "0.07rem",
           }}
         >
           {eventInfo.progress}

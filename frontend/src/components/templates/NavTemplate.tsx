@@ -41,7 +41,10 @@ const NavTemplate = (): JSX.Element => {
           onClick={(): void => navigate("/")}
           label="Home"
           icon={<RoofingIcon />}
-          style={{borderLeft: "0.05rem solid gray", borderRight: "0.05rem solid gray"}}
+          style={{
+            borderLeft: "0.05rem solid gray",
+            borderRight: "0.05rem solid gray",
+          }}
         />
         <BottomNavigationAction
           onClick={(): void => navigate("/bookmark")}

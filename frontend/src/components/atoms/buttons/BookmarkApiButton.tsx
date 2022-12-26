@@ -20,7 +20,7 @@ const BookmarkApiButton = (props: BookmarkApiButtonProps): JSX.Element => {
   };
   return (
     <IconButton style={style} onClick={handleClick}>
-      {iconDisplay &&  <BookmarkIcon />}
+      {iconDisplay && <BookmarkIcon />}
       {value}
     </IconButton>
   );
@@ -28,13 +28,13 @@ const BookmarkApiButton = (props: BookmarkApiButtonProps): JSX.Element => {
 
 BookmarkApiButton.defaultProps = {
   style: {
-      flexDirection: "column",
-      fontSize: "0.5rem",
-      height: "1.5rem",
-      width: "5rem",
-      color: "black",
+    flexDirection: "column",
+    fontSize: "0.5rem",
+    height: "1.5rem",
+    width: "5rem",
+    color: "black",
   },
-  iconDisplay: true
+  iconDisplay: true,
 };
 
 export default BookmarkApiButton;

@@ -9,8 +9,8 @@ import BookmarkIcon from "@mui/icons-material/Bookmark";
 
 // TODO: handleClick 함수를 통해 navigate되도록 수정 필요.
 const NavSection = styled.section`
-  position: absolute;
-  top: 80%;
+  position: fixed;
+  top: ${window.ontouchstart ? "70%" : "85%"};
   left: 50%;
   width: 100%;
   display: flex;
@@ -21,7 +21,7 @@ const NavSection = styled.section`
 
 const BottomNavigationStyle = {
   borderRadius: "0.7rem",
-  width: "25rem",
+  width: "20rem",
   border: "0.05rem solid gray",
 };
 
@@ -41,7 +41,10 @@ const NavTemplate = (): JSX.Element => {
           onClick={(): void => navigate("/")}
           label="Home"
           icon={<RoofingIcon />}
-          style={{borderLeft: "0.05rem solid gray", borderRight: "0.05rem solid gray"}}
+          style={{
+            borderLeft: "0.05rem solid gray",
+            borderRight: "0.05rem solid gray",
+          }}
         />
         <BottomNavigationAction
           onClick={(): void => navigate("/bookmark")}

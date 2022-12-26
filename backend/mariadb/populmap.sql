@@ -262,7 +262,7 @@ CREATE TABLE `event_detail` (
   `event_id` int(11) NOT NULL COMMENT '이벤트 ID',
   `call` varchar(32) DEFAULT NULL COMMENT '전화번호',
   `description` text DEFAULT NULL COMMENT '행사 부가 설명',
-  `fee` varchar(32) DEFAULT NULL COMMENT '이용 요금',
+  `fee` varchar(128) DEFAULT NULL COMMENT '이용 요금',
   `begin_date` datetime DEFAULT NULL COMMENT '헹시 시작 날짜',
   `end_date` datetime DEFAULT NULL COMMENT '행사 종료 날짜',
   `modified_date` datetime DEFAULT NULL COMMENT '수정 날짜',

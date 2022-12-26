@@ -12,7 +12,7 @@ export class EventService {
     this.logger.debug(`Called ${this.putEventInformationData.name}`);
     try {
       const eventId = await this.eventRepository.getEventIdIfExists(
-        String(item.eventNm._text),
+        String(item['eventNm']._text),
       );
       if (!eventId) {
         await this.insertEventInformationData(item);

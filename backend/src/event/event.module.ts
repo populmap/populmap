@@ -7,6 +7,7 @@ import Bookmark from 'src/entities/bookmark.entity';
 import { EventRepository } from './repository/event.repository';
 import { BookmarkRepository } from './repository/bookmark.repository';
 import EventDetail from 'src/entities/event.detail.entity';
+import { EventService } from './event.service';
 
 const repo1 = {
   provide: 'IEventRepository',
@@ -23,8 +24,8 @@ const repo2 = {
     EventSearchModule,
     EventBookmarkModule,
   ],
-  providers: [repo1, repo2],
+  providers: [EventService, repo1, repo2],
   controllers: [],
-  exports: [],
+  exports: [EventService],
 })
 export class EventModule {}

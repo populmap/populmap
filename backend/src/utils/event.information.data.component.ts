@@ -5,6 +5,7 @@ import { Cron, CronExpression, Timeout } from '@nestjs/schedule';
 import { firstValueFrom, map } from 'rxjs';
 import { EventService } from 'src/event/event.service';
 import * as xmlParser from 'xml-js';
+import * as dayjs from 'dayjs';
 
 @Injectable()
 export class EventInformationDataComponent {
@@ -25,9 +26,7 @@ export class EventInformationDataComponent {
       target.setTime(today.getTime() + i * 24 * 60 * 60 * 1000);
       const url = `http://api.data.go.kr/openapi/tn_pubr_public_pblprfr_event_info_api?serviceKey=${this.configService.get<string>(
         'seoul.eventSecret',
-      )}&eventStartDate=${target.getFullYear()}-${
-        target.getMonth() + 1
-      }-${target.getDate()}`;
+      )}&eventStartDate=${dayjs(target).format('YYYY-MM-DD')}`;
       this.logger.debug(`Request url: ${url}`);
       try {
         const data = await firstValueFrom(
@@ -45,10 +44,14 @@ export class EventInformationDataComponent {
 
   async getEventInformationData(parsed: any): Promise<void> {
     this.logger.debug(`Called ${this.getEventInformationData.name}`);
-    const items = parsed.response.body.items;
+    const items = parsed.response.body ? parsed.response.body.items : null;
     if (items) {
-      for (const item of items.item) {
-        await this.eventService.putEventInformationData(item);
+      if (Array.isArray(items.item)) {
+        for (const item of items.item) {
+          if (item) {
+            await this.eventService.putEventInformationData(item);
+          }
+        }
       }
     }
   }

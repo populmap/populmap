@@ -26,75 +26,93 @@ export class EventRepository implements IEventRepository {
   }
 
   async insertEvent(item: any): Promise<number> {
-    let address = null;
-    if (item.rdnmadr) {
-      address = item.rdnmadr._text;
-    } else if (item.lnmadr) {
-      address = item.lnmadr._text;
+    // address parsing
+    let address: string = null;
+    if (item['rdnmadr'].length !== 0) {
+      address = item['rdnmadr']._text;
+    } else if (item['lnmadr'].length !== 0) {
+      address = item['lnmadr']._text;
     }
+
+    // progress parsing
     let progress = ProgressType.BEFOREPROGRESS;
-    if (new Date() > new Date(item.eventEndDt._text)) {
+    if (new Date() > new Date(item['eventEndDate']._text)) {
       progress = ProgressType.INPROGRESS;
-    } else if (new Date() > new Date(item.eventStartDt._text)) {
+    } else if (new Date() > new Date(item['eventStartDate']._text)) {
       progress = ProgressType.AFTERPROGRESS;
     }
+
     const result = await this.eventRepository.insert({
-      title: item.eventNm._text,
+      title: item['eventNm']._text,
       address,
-      lat: item.latitude,
-      lng: item.longitude,
+      lat: item['latitude']._text,
+      lng: item['longitude']._text,
       progress,
     });
     return result.identifiers[0].eventId;
   }
 
   async insertEventDetail(eventId: number, item: any): Promise<void> {
+    // date parsing
     const beginDate = new Date(
-      item.eventStartDate._text + ':' + item.eventStartTime._text,
+      item['eventStartDate']._text + ':' + item['eventStartTime']._text,
     );
     const endDate = new Date(
-      item.eventEndDate._text + ':' + item.eventEndTime._text,
+      item['eventEndDate']._text + ':' + item['eventEndTime']._text,
     );
-    let url = null;
-    if (item.homepageUrl) {
-      url = item.homepageUrl._text;
-    } else if (item.advantkInfo) {
-      url = item.advantkInfo._text;
+
+    // url parsing
+    let url: string = null;
+    if (item['homepageUrl'].length !== 0) {
+      url = String(item['homepageUrl']._text);
+    } else if (item['advantkInfo'].length !== 0) {
+      url = String(item['advantkInfo']._text);
     }
+    // remove url이 http:// 나 https:// 로 시작하는 경우 삭제
+    if (url && url.startsWith('http://')) {
+      url = url.replace('http://', '');
+    } else if (url && url.startsWith('https://')) {
+      url = url.replace('https://', '');
+    }
+
     await this.eventDetailRepository.insert({
       eventId,
-      call: item.phoneNumber._text,
-      description: item.eventCo._text,
-      fee: item.admfee._text,
+      call: item['phoneNumber']._text,
+      description: item['eventCo']._text,
+      fee: item['admfee']._text,
       beginDate,
       endDate,
-      modifiedDate: item.referenceDate._text,
+      modifiedDate: item['referenceDate']._text,
       url,
-      place: item.opar._text,
+      place: item['opar']._text,
     });
   }
 
   async updateEvent(eventId: number, item: any): Promise<void> {
-    let address = null;
-    if (item.rdnmadr) {
-      address = item.rdnmadr._text;
-    } else if (item.lnmadr) {
-      address = item.lnmadr._text;
+    // address parsing
+    let address: string = null;
+    if (item['rdnmadr'].length !== 0) {
+      address = item['rdnmadr']._text;
+    } else if (item['lnmadr'].length !== 0) {
+      address = item['lnmadr']._text;
     }
+
+    // progress parsing
     let progress = ProgressType.BEFOREPROGRESS;
-    if (new Date() > new Date(item.eventEndDt._text)) {
+    if (new Date() > new Date(item['eventEndDate']._text)) {
       progress = ProgressType.INPROGRESS;
-    } else if (new Date() > new Date(item.eventStartDt._text)) {
+    } else if (new Date() > new Date(item['eventStartDate']._text)) {
       progress = ProgressType.AFTERPROGRESS;
     }
+
     await this.eventRepository
       .createQueryBuilder()
       .update(Event)
       .set({
-        title: item.eventNm._text,
+        title: item['eventNm']._text,
         address,
-        lat: item.latitude,
-        lng: item.longitude,
+        lat: item['latitude']._text,
+        lng: item['longitude']._text,
         progress,
       })
       .where('eventId = :eventId', { eventId })
@@ -102,30 +120,40 @@ export class EventRepository implements IEventRepository {
   }
 
   async updateEventDetail(eventId: number, item: any): Promise<void> {
+    // date parsing
     const beginDate = new Date(
-      item.eventStartDate._text + ':' + item.eventStartTime._text,
+      item['eventStartDate']._text + ':' + item['eventStartTime']._text,
     );
     const endDate = new Date(
-      item.eventEndDate._text + ':' + item.eventEndTime._text,
+      item['eventEndDate']._text + ':' + item['eventEndTime']._text,
     );
-    let url = null;
-    if (item.homepageUrl) {
-      url = item.homepageUrl._text;
-    } else if (item.advantkInfo) {
-      url = item.advantkInfo._text;
+
+    // url parsing
+    let url: string = null;
+    if (item['homepageUrl'].length !== 0) {
+      url = String(item['homepageUrl']._text);
+    } else if (item['advantkInfo'].length !== 0) {
+      url = String(item['advantkInfo']._text);
     }
+    // remove url이 http:// 나 https:// 로 시작하는 경우 삭제
+    if (url && url.startsWith('http://')) {
+      url = url.replace('http://', '');
+    } else if (url && url.startsWith('https://')) {
+      url = url.replace('https://', '');
+    }
+
     await this.eventDetailRepository
       .createQueryBuilder()
       .update(EventDetail)
       .set({
-        call: item.phoneNumber._text,
-        description: item.eventCo._text,
-        fee: item.admfee._text,
+        call: item['phoneNumber']._text,
+        description: item['eventCo']._text,
+        fee: item['admfee']._text,
         beginDate,
         endDate,
-        modifiedDate: item.referenceDate._text,
+        modifiedDate: item['referenceDate']._text,
         url,
-        place: item.opar._text,
+        place: item['opar']._text,
       })
       .where('eventId = :eventId', { eventId })
       .execute();

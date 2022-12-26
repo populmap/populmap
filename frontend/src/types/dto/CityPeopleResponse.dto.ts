@@ -1,8 +1,8 @@
 const enum densityLevel {
   SMOOTH = "여유",
   NORMAL = "보통",
-  CROWDED = "붐빔",
-  VERYCROWDED = "매우 붐빔",
+  CROWDED = "약간 붐빔",
+  VERYCROWDED = "붐빔",
 }
 
 export default densityLevel;

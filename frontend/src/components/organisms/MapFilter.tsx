@@ -18,6 +18,7 @@ const MapDiv = styled.div`
   top: 2%;
   left: 50%;
   transform: translate(-50%, 0%);
+  touch-action: none;
 `;
 
 type buttonProps = {

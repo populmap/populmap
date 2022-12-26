@@ -8,6 +8,7 @@ const MapSection = styled.div`
   flex-direction: column;
   top: 10%;
   left: 5%;
+  touch-action: none;
 `;
 
 const MapNav = (): JSX.Element => {

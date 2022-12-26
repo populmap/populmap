@@ -70,7 +70,7 @@ const DetailContent = (props: DetailContentProps): JSX.Element => {
         )}
         <p>
           <LanguageIcon />
-          <a href={detailResponse?.url}>{detailResponse?.url}</a>
+          <a href={`https://${detailResponse?.url}`} >{detailResponse?.url}</a>
         </p>
         <p>
           <CallIcon />

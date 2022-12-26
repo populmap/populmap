@@ -29,9 +29,15 @@ export class EventRepository implements IEventRepository {
     // address parsing
     let address: string = null;
     if (item['rdnmadr'].length !== 0) {
-      address = item['rdnmadr']._text;
+      address = String(item['rdnmadr']._text);
+      if (address === 'undefined') {
+        address = null;
+      }
     } else if (item['lnmadr'].length !== 0) {
-      address = item['lnmadr']._text;
+      address = String(item['lnmadr']._text);
+      if (address === 'undefined') {
+        address = null;
+      }
     }
 
     // progress parsing
@@ -44,7 +50,7 @@ export class EventRepository implements IEventRepository {
 
     const result = await this.eventRepository.insert({
       title: item['eventNm']._text,
-      address,
+      address: address ? address : null,
       lat: item['latitude']._text,
       lng: item['longitude']._text,
       progress,
@@ -65,8 +71,14 @@ export class EventRepository implements IEventRepository {
     let url: string = null;
     if (item['homepageUrl'].length !== 0) {
       url = String(item['homepageUrl']._text);
+      if (url === 'undefined') {
+        url = null;
+      }
     } else if (item['advantkInfo'].length !== 0) {
       url = String(item['advantkInfo']._text);
+      if (url === 'undefined') {
+        url = null;
+      }
     }
     // remove url이 http:// 나 https:// 로 시작하는 경우 삭제
     if (url && url.startsWith('http://')) {
@@ -83,7 +95,7 @@ export class EventRepository implements IEventRepository {
       beginDate,
       endDate,
       modifiedDate: item['referenceDate']._text,
-      url,
+      url: url ? url : null,
       place: item['opar']._text,
     });
   }
@@ -92,9 +104,12 @@ export class EventRepository implements IEventRepository {
     // address parsing
     let address: string = null;
     if (item['rdnmadr'].length !== 0) {
-      address = item['rdnmadr']._text;
+      address = String(item['rdnmadr']._text);
+      if (address === 'undefined') {
+        address = null;
+      }
     } else if (item['lnmadr'].length !== 0) {
-      address = item['lnmadr']._text;
+      address = String(item['lnmadr']._text);
     }
 
     // progress parsing
@@ -110,7 +125,7 @@ export class EventRepository implements IEventRepository {
       .update(Event)
       .set({
         title: item['eventNm']._text,
-        address,
+        address: address ? address : null,
         lat: item['latitude']._text,
         lng: item['longitude']._text,
         progress,
@@ -132,8 +147,14 @@ export class EventRepository implements IEventRepository {
     let url: string = null;
     if (item['homepageUrl'].length !== 0) {
       url = String(item['homepageUrl']._text);
+      if (url === 'undefined') {
+        url = null;
+      }
     } else if (item['advantkInfo'].length !== 0) {
       url = String(item['advantkInfo']._text);
+      if (url === 'undefined') {
+        url = null;
+      }
     }
     // remove url이 http:// 나 https:// 로 시작하는 경우 삭제
     if (url && url.startsWith('http://')) {
@@ -152,7 +173,7 @@ export class EventRepository implements IEventRepository {
         beginDate,
         endDate,
         modifiedDate: item['referenceDate']._text,
-        url,
+        url: url ? url : null,
         place: item['opar']._text,
       })
       .where('eventId = :eventId', { eventId })

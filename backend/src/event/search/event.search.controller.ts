@@ -8,12 +8,12 @@ import {
   HttpException,
   InternalServerErrorException,
   Param,
+  ParseIntPipe,
 } from '@nestjs/common';
 import {
   ApiNotFoundResponse,
   ApiOkResponse,
   ApiOperation,
-  ApiParam,
   ApiQuery,
   ApiTags,
 } from '@nestjs/swagger';
@@ -26,7 +26,7 @@ import { EventPagiNationResponseDto } from 'src/dto/response/event.pagination.re
 
 @ApiTags('/api/event/search')
 @Controller({
-  path: 'event/search',
+  path: '/api/event/search',
 })
 export class EventSearchController {
   private logger = new Logger(EventSearchController.name);
@@ -134,12 +134,13 @@ export class EventSearchController {
   @Get('list/filter')
   @HttpCode(HttpStatus.OK)
   async getEventList(
-    @Query('page') page: number,
-    @Query('length') length: number,
+    @Query('page', ParseIntPipe) page: number,
+    @Query('length', ParseIntPipe) length: number,
     @Query('city') city?: CityType,
     @Query('progress') progress?: ProgressType,
   ): Promise<EventPagiNationResponseDto> {
     this.logger.debug(`Called ${this.getEventList.name}`);
+    console.log(page, length, city, progress);
     try {
       return await this.eventSearchService.getEventList(
         page,

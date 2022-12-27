@@ -84,7 +84,7 @@ const DetailContent = (props: DetailContentProps): JSX.Element => {
       </Information>
       <Update>
         <p>
-          업데이트 {detailResponse?.modifiedDate.toString().substring(0, 10)}
+          업데이트 {detailResponse?.modifiedTime.toString().substring(0, 10)}
         </p>
       </Update>
     </>

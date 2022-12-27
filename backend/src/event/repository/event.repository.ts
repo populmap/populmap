@@ -6,6 +6,7 @@ import { Repository } from 'typeorm';
 import { IEventRepository } from './event.repository.interface';
 import ProgressType from 'src/enums/progress.type.enum';
 import CityType from 'src/enums/city.type.enum';
+import { EventSummaryResponseDto } from 'src/dto/response/event.summary.response.dto';
 
 export class EventRepository implements IEventRepository {
   private logger = new Logger(EventRepository.name);
@@ -207,5 +208,28 @@ export class EventRepository implements IEventRepository {
       })
       .where('eventId = :eventId', { eventId })
       .execute();
+  }
+
+  async getEventSummary(
+    city?: CityType,
+    progress?: ProgressType,
+  ): Promise<EventSummaryResponseDto[]> {
+    const results = await this.eventRepository
+      .createQueryBuilder()
+      .where('city LIKE :city', { city: city ? city : '%' })
+      .andWhere('progress LIKE :progress', {
+        progress: progress ? progress : '%',
+      })
+      .getMany();
+    return results.map((result) => {
+      return {
+        eventId: result.eventId,
+        title: result.title,
+        address: result.address,
+        lat: result.lat,
+        lng: result.lng,
+        progress: result.progress,
+      };
+    });
   }
 }

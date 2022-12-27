@@ -1,7 +1,7 @@
 import { HttpService } from '@nestjs/axios';
 import { Inject, Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { Cron, CronExpression, Timeout } from '@nestjs/schedule';
+import { Cron, CronExpression } from '@nestjs/schedule';
 import { firstValueFrom, map } from 'rxjs';
 import { EventService } from 'src/event/event.service';
 import * as xmlParser from 'xml-js';
@@ -16,8 +16,7 @@ export class EventInformationDataComponent {
     private eventService: EventService,
   ) {}
 
-  // @Cron(CronExpression.EVERY_DAY_AT_MIDNIGHT)
-  @Timeout(4000)
+  @Cron(CronExpression.EVERY_DAY_AT_MIDNIGHT)
   async getEventInformationDataTrigger(): Promise<void> {
     this.logger.debug(`Called ${this.getEventInformationDataTrigger.name}`);
     for (let i = -30; i <= 30; i++) {

@@ -1,3 +1,7 @@
+import { EventSummaryResponseDto } from 'src/dto/response/event.summary.response.dto';
+import CityType from 'src/enums/city.type.enum';
+import ProgressType from 'src/enums/progress.type.enum';
+
 export interface IEventRepository {
   /**
    * title이 존재한다면 해당 event의 id를 반환한다.
@@ -31,4 +35,14 @@ export interface IEventRepository {
    * @param item
    */
   updateEventDetail(eventId: number, item: any): Promise<void>;
+
+  /**
+   * city와 progress에 해당하는 eventSummary 정보를 반환한다.
+   * @param city
+   * @param progress
+   */
+  getEventSummary(
+    city?: CityType,
+    progress?: ProgressType,
+  ): Promise<EventSummaryResponseDto[]>;
 }

@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Module, forwardRef } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { EventBookmarkModule } from './bookmark/event.bookmark.module';
 import { EventSearchModule } from './search/event.search.module';
@@ -21,11 +21,11 @@ const repo2 = {
 @Module({
   imports: [
     TypeOrmModule.forFeature([Event, EventDetail, Bookmark]),
-    EventSearchModule,
-    EventBookmarkModule,
+    forwardRef(() => EventBookmarkModule),
+    forwardRef(() => EventSearchModule),
   ],
   providers: [EventService, repo1, repo2],
   controllers: [],
-  exports: [EventService],
+  exports: [EventService, repo1, repo2],
 })
 export class EventModule {}

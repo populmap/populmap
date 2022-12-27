@@ -4,6 +4,7 @@ import CityType from 'src/enums/city.type.enum';
 import ProgressType from 'src/enums/progress.type.enum';
 import { IEventRepository } from '../repository/event.repository.interface';
 import { EventDetailResponseDto } from 'src/dto/response/event.detail.response.dto';
+import { EventPagiNationResponseDto } from 'src/dto/response/event.pagination.response.dto';
 
 @Injectable()
 export class EventSearchService {
@@ -35,6 +36,26 @@ export class EventSearchService {
         throw new NotFoundException(`🚨 존재하지 않는 이벤트입니다 🥲 🚨`);
       }
       return result;
+    } catch (err) {
+      this.logger.error(err);
+      throw err;
+    }
+  }
+
+  async getEventList(
+    page: number,
+    length: number,
+    city?: CityType,
+    progress?: ProgressType,
+  ): Promise<EventPagiNationResponseDto> {
+    this.logger.debug(`Called ${this.getEventList.name}`);
+    try {
+      return await this.eventRepository.getEventList(
+        page,
+        length,
+        city,
+        progress,
+      );
     } catch (err) {
       this.logger.error(err);
       throw err;

@@ -1,4 +1,5 @@
 import { EventDetailResponseDto } from 'src/dto/response/event.detail.response.dto';
+import { EventPagiNationResponseDto } from 'src/dto/response/event.pagination.response.dto';
 import { EventSummaryResponseDto } from 'src/dto/response/event.summary.response.dto';
 import CityType from 'src/enums/city.type.enum';
 import ProgressType from 'src/enums/progress.type.enum';
@@ -52,4 +53,19 @@ export interface IEventRepository {
    * @param eventId
    */
   getEventDetailByEventId(eventId: number): Promise<EventDetailResponseDto>;
+
+  /**
+   * city와 progress에 해당하는 eventList를 반환한다.
+   * page length를 이용하여 pagination을 적용한다.
+   * @param page
+   * @param length
+   * @param city
+   * @param progress
+   */
+  getEventList(
+    page: number,
+    length: number,
+    city?: CityType,
+    progress?: ProgressType,
+  ): Promise<EventPagiNationResponseDto>;
 }

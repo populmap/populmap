@@ -8,6 +8,7 @@ import ProgressType from 'src/enums/progress.type.enum';
 import CityType from 'src/enums/city.type.enum';
 import { EventSummaryResponseDto } from 'src/dto/response/event.summary.response.dto';
 import { EventDetailResponseDto } from 'src/dto/response/event.detail.response.dto';
+import { EventPagiNationResponseDto } from 'src/dto/response/event.pagination.response.dto';
 
 export class EventRepository implements IEventRepository {
   private logger = new Logger(EventRepository.name);
@@ -260,6 +261,49 @@ export class EventRepository implements IEventRepository {
       progress: result.event.progress,
       place: result.place,
       url: result.url,
+    };
+  }
+
+  async getEventList(
+    page: number,
+    length: number,
+    city?: CityType,
+    progress?: ProgressType,
+  ): Promise<EventPagiNationResponseDto> {
+    const results = await this.eventRepository
+      .createQueryBuilder('e')
+      .leftJoinAndSelect('e.eventDetail', 'ed', 'e.eventId = ed.eventId')
+      .select([
+        'e.eventId',
+        'e.title',
+        'e.address',
+        'ed.beginTime',
+        'ed.endTime',
+        'ed.call',
+        'e.progress',
+        'COUNT(*) OVER () AS cnt',
+      ])
+      .where('e.city LIKE :city', { city: city ? city : '%' })
+      .andWhere('e.progress LIKE :progress', {
+        progress: progress ? progress : '%',
+      })
+      .limit(length)
+      .offset(page * length)
+      .orderBy('e.eventId', 'ASC')
+      .execute();
+    return {
+      eventLists: results.map((result) => {
+        return {
+          eventId: result.e_event_id,
+          title: result.e_title,
+          address: result.e_address,
+          beginTime: result.ed_begin_time,
+          endTime: result.ed_end_time,
+          call: result.ed_call,
+          progress: result.e_progress,
+        };
+      }),
+      totalLength: results.length > 0 ? Number(results[0].cnt) : 0,
     };
   }
 }

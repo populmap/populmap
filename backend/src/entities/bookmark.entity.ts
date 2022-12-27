@@ -1,6 +1,7 @@
 import {
   Column,
   Entity,
+  JoinColumn,
   ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
@@ -26,9 +27,15 @@ export default class Bookmark {
   })
   bookmarkEventId: number;
 
-  @ManyToOne(() => User, (user) => user.bookmarks)
+  @ManyToOne(() => User, (user) => user.userId)
+  @JoinColumn({
+    name: 'bookmark_user_id',
+  })
   user: User;
 
-  @ManyToOne(() => Event, (event) => event.bookmarks)
+  @ManyToOne(() => Event, (event) => event.eventId)
+  @JoinColumn({
+    name: 'bookmark_event_id',
+  })
   event: Event;
 }

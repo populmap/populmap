@@ -21,7 +21,6 @@ const ListTemplate = ({ children }: PropsWithChildren): JSX.Element => {
     axiosEventSearchList(page, length, city, progress)
       .then((response) => console.log(response))
       .catch((err) => console.error(err));
-    console.log("effect");
   }, [page, length, city, progress]);
 
   return (

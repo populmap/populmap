@@ -35,7 +35,6 @@ export const axiosEventSearchList = async (
   progress: string
 ): Promise<any> => {
   try {
-    console.log(page, length, city, progress);
     const response = await instance.get(
       `${axiosEventSearchListUrl}?page=${page}&length=${length}&city=${city}&progress=${progress}`
     );

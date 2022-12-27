@@ -21,60 +21,16 @@ const MainSection = styled.section`
   width: 100%;
 `;
 
-const MainTemplate = (): JSX.Element => {
-  const mockData = [
-    {
-      title: "크리스마스 행사 1",
-      address: "서울시 성동구",
-      lat: 37.4872,
-      lng: 127.0638,
-      eventId: 1,
-      progress: "진행중",
-    },
-    {
-      title: "크리스마스 행사 2",
-      address: "서울시 성동구",
-      lat: 37.4862,
-      lng: 127.0628,
-      eventId: 2,
-      progress: "진행전",
-    },
-    {
-      title: "크리스마스 행사 3",
-      address: "서울시 성동구",
-      lat: 37.4852,
-      lng: 127.0618,
-      eventId: 3,
-      progress: "진행종료",
-    },
-    {
-      title: "크리스마스 행사 4",
-      address: "서울시 성동구",
-      lat: 37.4842,
-      lng: 127.0608,
-      eventId: 4,
-      progress: "진행중",
-    },
-    {
-      title: "크리스마스 행사 5",
-      address: "서울시 성동구",
-      lat: 37.4832,
-      lng: 127.0598,
-      eventId: 5,
-      progress: "진행중",
-    },
-    {
-      title:
-        "크리스마스 행사 6 타이틀이 길면 어떻게 될까욜ㅇㄹㅇㄹㅇㄹㅇㄹㅇㄹㅇㄹㅇㄹㅇㄹ",
-      address:
-        "소쩍새는올빼미목 올빼미과의 한 종으로, 한국에서는 여름철새이다. 몸 길이는 20cm 정도로",
-      lat: 37.4822,
-      lng: 127.0588,
-      eventId: 6,
-      progress: "진행중",
-    },
-  ];
+const SelectBoxStyle = styled.div`
+  position: absolute;
+  width: 100%;
+  top: 2%;
+  left: 50%;
+  transform: translate(-50%, 0%);
+  touch-action: none;
+`;
 
+const MainTemplate = (): JSX.Element => {
   const { loading, error } = useInjectKakaoMapApi({
     appkey: `${import.meta.env.VITE_KAKAO_MAP_KEY}`,
     libraries: ["services"],
@@ -91,7 +47,6 @@ const MainTemplate = (): JSX.Element => {
   useEffect(() => {
     axiosEventSearchSummary(city, progress)
       .then((response) => {
-        console.log(response.data);
         setEventInfo(response.data);
       })
       .catch((error) => console.error(error));
@@ -127,7 +82,9 @@ const MainTemplate = (): JSX.Element => {
         />
       )}
       <MapFilter />
-      <SelectBox setCity={setCity} setProgress={setProgress} />
+      <SelectBoxStyle>
+        <SelectBox setCity={setCity} setProgress={setProgress} />
+      </SelectBoxStyle>
       <MapNav />
     </MainSection>
   );

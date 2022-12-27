@@ -2,13 +2,17 @@ import styled from "@emotion/styled";
 import { useEffect, useState } from "react";
 import { useInjectKakaoMapApi } from "react-kakao-maps-sdk";
 import LoadMap from "../organisms/LoadMap";
+import SelectBox from "../organisms/SelectBox";
+import MapFilter from "../organisms/MapFilter";
 import MapNav from "../organisms/MapNav";
 import {
   axiosCityPeople,
   axiosCityAccident,
 } from "../../network/axios/axios.city";
+import { axiosEventSearchSummary } from "../../network/axios/axios.event";
 import { CityAccidentResponseDto } from "../../types/dto/CityAccidentResponse.dto";
 import { CityPeopleResponseDto } from "../../types/dto/CityPeopleResponse.dto";
+import { EventSummaryResponseDto } from "../../types/dto/EventSummaryResponse.dto";
 
 const MainSection = styled.section`
   position: relative;
@@ -80,6 +84,18 @@ const MainTemplate = (): JSX.Element => {
     useState<CityPeopleResponseDto[]>();
   const [cityAccidentInfo, setCityAccidentInfo] =
     useState<CityAccidentResponseDto[]>();
+  const [eventInfo, setEventInfo] = useState<EventSummaryResponseDto[]>();
+  const [city, setCity] = useState<string>("전국");
+  const [progress, setProgress] = useState<string>("전체");
+
+  useEffect(() => {
+    axiosEventSearchSummary(city, progress)
+      .then((response) => {
+        console.log(response.data);
+        setEventInfo(response.data);
+      })
+      .catch((error) => console.error(error));
+  }, [city, progress]);
 
   useEffect(() => {
     axiosCityPeople()
@@ -105,11 +121,13 @@ const MainTemplate = (): JSX.Element => {
     <MainSection>
       {loading ? null : (
         <LoadMap
-          eventInfo={mockData}
+          eventInfo={eventInfo}
           cityPeopleInfo={cityPeopleInfo}
           cityAccidentInfo={cityAccidentInfo}
         />
       )}
+      <MapFilter />
+      <SelectBox setCity={setCity} setProgress={setProgress} />
       <MapNav />
     </MainSection>
   );

@@ -7,7 +7,7 @@ export const axiosEventSearchSummary = async (
 ): Promise<any> => {
   try {
     const response = await instance.get(
-      `${axiosEventSearchSummaryUrl}?=${city}&=${progress}`
+      `${axiosEventSearchSummaryUrl}?city=${city}&progress=${progress}`
     );
     return response;
   } catch (error) {
@@ -35,8 +35,9 @@ export const axiosEventSearchList = async (
   progress: string
 ): Promise<any> => {
   try {
+    console.log(page, length, city, progress);
     const response = await instance.get(
-      `${axiosEventSearchListUrl}?=${page}&=${length}&=${city}&=${progress}`
+      `${axiosEventSearchListUrl}?page=${page}&length=${length}&city=${city}&progress=${progress}`
     );
     return response;
   } catch (error) {

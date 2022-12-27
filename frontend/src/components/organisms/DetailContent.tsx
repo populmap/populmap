@@ -33,7 +33,7 @@ const Information = styled.div`
 `;
 
 const Update = styled.div`
-  position: absolute;
+  position: fixed;
   top: 75%;
   left: 70%;
   font-size: 0.1rem;

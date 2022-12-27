@@ -1,6 +1,6 @@
 import { Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import Bookmark from 'src/entities/Bookmark.entity';
+import Bookmark from 'src/entities/bookmark.entity';
 import { Repository } from 'typeorm';
 import { IBookmarkRepository } from './bookmark.repository.interface';
 

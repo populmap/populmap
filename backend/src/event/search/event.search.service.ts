@@ -1,8 +1,9 @@
-import { Inject, Injectable, Logger } from '@nestjs/common';
+import { Inject, Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { EventSummaryResponseDto } from 'src/dto/response/event.summary.response.dto';
 import CityType from 'src/enums/city.type.enum';
 import ProgressType from 'src/enums/progress.type.enum';
 import { IEventRepository } from '../repository/event.repository.interface';
+import { EventDetailResponseDto } from 'src/dto/response/event.detail.response.dto';
 
 @Injectable()
 export class EventSearchService {
@@ -18,6 +19,22 @@ export class EventSearchService {
     this.logger.debug(`Called ${this.getEventSummary.name}`);
     try {
       return await this.eventRepository.getEventSummary(city, progress);
+    } catch (err) {
+      this.logger.error(err);
+      throw err;
+    }
+  }
+
+  async getEventDetail(eventId: number): Promise<EventDetailResponseDto> {
+    this.logger.debug(`Called ${this.getEventDetail.name}`);
+    try {
+      const result = await this.eventRepository.getEventDetailByEventId(
+        eventId,
+      );
+      if (!result) {
+        throw new NotFoundException(`🚨 존재하지 않는 이벤트입니다 🥲 🚨`);
+      }
+      return result;
     } catch (err) {
       this.logger.error(err);
       throw err;

@@ -7,6 +7,7 @@ import { IEventRepository } from './event.repository.interface';
 import ProgressType from 'src/enums/progress.type.enum';
 import CityType from 'src/enums/city.type.enum';
 import { EventSummaryResponseDto } from 'src/dto/response/event.summary.response.dto';
+import { EventDetailResponseDto } from 'src/dto/response/event.detail.response.dto';
 
 export class EventRepository implements IEventRepository {
   private logger = new Logger(EventRepository.name);
@@ -231,5 +232,34 @@ export class EventRepository implements IEventRepository {
         progress: result.progress,
       };
     });
+  }
+
+  async getEventDetailByEventId(
+    eventId: number,
+  ): Promise<EventDetailResponseDto> {
+    const result = await this.eventDetailRepository
+      .createQueryBuilder('ed')
+      .leftJoinAndSelect('ed.event', 'e', 'ed.eventId = e.eventId')
+      .where('ed.eventId = :eventId', { eventId })
+      .getOne();
+    if (!result) {
+      return null;
+    }
+    return {
+      eventId: result.eventId,
+      title: result.event.title,
+      address: result.event.address,
+      lat: result.event.lat,
+      lng: result.event.lng,
+      call: result.call,
+      description: result.description,
+      fee: result.fee,
+      beginTime: result.beginTime,
+      endTime: result.endTime,
+      modifiedTime: result.modifiedTime,
+      progress: result.event.progress,
+      place: result.place,
+      url: result.url,
+    };
   }
 }

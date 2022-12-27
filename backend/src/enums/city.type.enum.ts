@@ -1,4 +1,5 @@
 enum CityType {
+  ALL = '전국',
   SEOUL = '서울특별시',
   BUSAN = '부산광역시',
   DAEGU = '대구광역시',

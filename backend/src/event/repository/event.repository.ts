@@ -216,11 +216,19 @@ export class EventRepository implements IEventRepository {
     city?: CityType,
     progress?: ProgressType,
   ): Promise<EventSummaryResponseDto[]> {
+    if (!city) {
+      city = CityType.ALL;
+    }
+    if (!progress) {
+      progress = ProgressType.ALL;
+    }
     const results = await this.eventRepository
       .createQueryBuilder()
-      .where('city LIKE :city', { city: city ? city : '%' })
+      .where('city LIKE :city', {
+        city: city === CityType.ALL ? '%' : city,
+      })
       .andWhere('progress LIKE :progress', {
-        progress: progress ? progress : '%',
+        progress: progress === ProgressType.ALL ? '%' : progress,
       })
       .getMany();
     return results.map((result) => {
@@ -270,6 +278,12 @@ export class EventRepository implements IEventRepository {
     city?: CityType,
     progress?: ProgressType,
   ): Promise<EventPagiNationResponseDto> {
+    if (!city) {
+      city = CityType.ALL;
+    }
+    if (!progress) {
+      progress = ProgressType.ALL;
+    }
     const results = await this.eventRepository
       .createQueryBuilder('e')
       .leftJoinAndSelect('e.eventDetail', 'ed', 'e.eventId = ed.eventId')
@@ -283,9 +297,11 @@ export class EventRepository implements IEventRepository {
         'e.progress',
         'COUNT(*) OVER () AS cnt',
       ])
-      .where('e.city LIKE :city', { city: city ? city : '%' })
-      .andWhere('e.progress LIKE :progress', {
-        progress: progress ? progress : '%',
+      .where('city LIKE :city', {
+        city: city === CityType.ALL ? '%' : city,
+      })
+      .andWhere('progress LIKE :progress', {
+        progress: progress === ProgressType.ALL ? '%' : progress,
       })
       .limit(length)
       .offset(page * length)

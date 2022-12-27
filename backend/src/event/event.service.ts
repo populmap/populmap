@@ -46,4 +46,14 @@ export class EventService {
       throw err;
     }
   }
+
+  async findEvent(eventId: number): Promise<boolean> {
+    this.logger.debug(`Called ${this.findEvent.name}`);
+    try {
+      return await this.eventRepository.findEventByEventId(eventId);
+    } catch (err) {
+      this.logger.error(err);
+      throw err;
+    }
+  }
 }

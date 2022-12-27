@@ -76,10 +76,10 @@ export class EventRepository implements IEventRepository {
 
   async insertEventDetail(eventId: number, item: any): Promise<void> {
     // date parsing
-    const beginDate = new Date(
+    const beginTime = new Date(
       item['eventStartDate']._text + ':' + item['eventStartTime']._text,
     );
-    const endDate = new Date(
+    const endTime = new Date(
       item['eventEndDate']._text + ':' + item['eventEndTime']._text,
     );
 
@@ -108,9 +108,9 @@ export class EventRepository implements IEventRepository {
       call: item['phoneNumber']._text,
       description: item['eventCo']._text,
       fee: item['admfee']._text,
-      beginDate,
-      endDate,
-      modifiedDate: item['referenceDate']._text,
+      beginTime,
+      endTime,
+      modifiedTime: item['referenceDate']._text,
       url: url ? url : null,
       place: item['opar']._text,
     });
@@ -166,10 +166,10 @@ export class EventRepository implements IEventRepository {
 
   async updateEventDetail(eventId: number, item: any): Promise<void> {
     // date parsing
-    const beginDate = new Date(
+    const beginTime = new Date(
       item['eventStartDate']._text + ':' + item['eventStartTime']._text,
     );
-    const endDate = new Date(
+    const endTime = new Date(
       item['eventEndDate']._text + ':' + item['eventEndTime']._text,
     );
 
@@ -200,9 +200,9 @@ export class EventRepository implements IEventRepository {
         call: item['phoneNumber']._text,
         description: item['eventCo']._text,
         fee: item['admfee']._text,
-        beginDate,
-        endDate,
-        modifiedDate: item['referenceDate']._text,
+        beginTime,
+        endTime,
+        modifiedTime: item['referenceDate']._text,
         url: url ? url : null,
         place: item['opar']._text,
       })

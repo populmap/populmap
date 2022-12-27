@@ -44,25 +44,25 @@ export default class EventDetail {
   fee: string;
 
   @Column({
-    name: 'begin_date',
+    name: 'begin_time',
     type: 'datetime',
     nullable: true,
   })
-  beginDate: Date;
+  beginTime: Date;
 
   @Column({
-    name: 'end_date',
+    name: 'end_time',
     type: 'datetime',
     nullable: true,
   })
-  endDate: Date;
+  endTime: Date;
 
   @Column({
-    name: 'modified_date',
+    name: 'modified_time',
     type: 'datetime',
     nullable: true,
   })
-  modifiedDate: Date;
+  modifiedTime: Date;
 
   @Column({
     name: 'url',

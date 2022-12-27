@@ -9,7 +9,6 @@ import { CityPeopleResponseDto } from "../../types/dto/CityPeopleResponse.dto";
 import EventMarker from "./EventMarker";
 import CityMarker from "./CityMarker";
 import CityAccidentMarker from "./CityAccidentMarker";
-import MapFilter from "./MapFilter";
 
 interface LoadMapProps {
   eventInfo: EventSummaryResponseDto[] | undefined;
@@ -47,7 +46,6 @@ const LoadMap = (props: LoadMapProps): JSX.Element => {
       isPanto
     >
       <>
-        <MapFilter />
         {mapState.isEventShow &&
           eventInfo?.map((event) => {
             return (

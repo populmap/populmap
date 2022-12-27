@@ -3,6 +3,7 @@ import PageNavigateButton from "../atoms/buttons/PageNavigateButton";
 import HeaderMenu from "../organisms/HeaderMenu";
 import IconButton from "@mui/material/IconButton";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
+import { useNavigate } from "react-router-dom";
 
 const Header = styled.header`
   position: absolute;
@@ -19,11 +20,16 @@ const Header = styled.header`
 `;
 
 const HeaderTemplate = (): JSX.Element => {
+  const navigate = useNavigate();
+
   return (
     <Header>
-      <IconButton onClick={() => window.history.back()}>
-        <ArrowBackIosNewIcon />
-      </IconButton>
+      <img
+        width="40px"
+        height="40px"
+        src="../../../img/logo.ico"
+        onClick={() => navigate("/")}
+      />
       <PageNavigateButton
         style={{
           fontSize: "1rem",

@@ -65,5 +65,5 @@ export default class Event {
   eventDetail: EventDetail;
 
   @OneToMany(() => Bookmark, (bookmark) => bookmark.event)
-  bookmarks: Bookmark[];
+  bookmarks: Bookmark[] | null;
 }

@@ -29,6 +29,13 @@ export class EventRepository implements IEventRepository {
     return result ? result.eventId : null;
   }
 
+  async findEventByEventId(eventId: number): Promise<boolean> {
+    const result = await this.eventRepository.findOne({
+      where: { eventId },
+    });
+    return result ? true : false;
+  }
+
   async insertEvent(item: any): Promise<number> {
     // address parsing
     let address: string = null;

@@ -12,6 +12,12 @@ export interface IEventRepository {
   getEventIdIfExists(title: string): Promise<number>;
 
   /**
+   * eventId에 해당하는 행사가 존재하는지 확인한다.
+   * @param eventId
+   */
+  findEventByEventId(eventId: number): Promise<boolean>;
+
+  /**
    * 해당 item을 이용하여 event를 생성하고, 생성된 event의 id를 반환한다.
    * @param item
    */

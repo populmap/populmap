@@ -9,6 +9,7 @@ export default progressStatus;
 export interface EventDetailResponseDto {
   eventId: number;
   title: string;
+  address: string;
   lat: number;
   lng: number;
   call: string;
@@ -16,7 +17,7 @@ export interface EventDetailResponseDto {
   fee: string;
   beginTime: Date;
   endTime: Date;
-  modifiedDate: Date;
+  modifiedTime: Date;
   progress: progressStatus;
   place: string;
   url: string;

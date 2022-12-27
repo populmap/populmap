@@ -26,7 +26,7 @@ const DetailTemplate = (): JSX.Element => {
     fee: "50000원",
     beginTime: new Date("2022-12-01"),
     endTime: new Date("2022-12-02"),
-    modifiedDate: new Date("2022-11-31"),
+    modifiedTime: new Date("2022-11-31"),
     place: "독서당로40길 1234",
     url: "www.example.com",
   };

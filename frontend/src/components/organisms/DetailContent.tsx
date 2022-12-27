@@ -33,7 +33,7 @@ const Information = styled.div`
 `;
 
 const Update = styled.div`
-  position: absolute;
+  position: fixed;
   top: 75%;
   left: 70%;
   font-size: 0.1rem;
@@ -84,7 +84,7 @@ const DetailContent = (props: DetailContentProps): JSX.Element => {
       </Information>
       <Update>
         <p>
-          업데이트 {detailResponse?.modifiedDate.toString().substring(0, 10)}
+          업데이트 {detailResponse?.modifiedTime.toString().substring(0, 10)}
         </p>
       </Update>
     </>

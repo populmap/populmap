@@ -7,6 +7,7 @@ import CityType from 'src/enums/city.type.enum';
 import ProgressType from 'src/enums/progress.type.enum';
 import { EventSummaryGroupResponseDto } from 'src/dto/response/event.summary.group.response.dto';
 import { ToolBoxComponent } from 'src/utils/toolbox.component';
+import { EventPagiNationResponseDto } from 'src/dto/response/event.pagination.response.dto';
 
 export class BookmarkRepository implements IBookmarkRepository {
   private logger = new Logger(BookmarkRepository.name);
@@ -64,7 +65,6 @@ export class BookmarkRepository implements IBookmarkRepository {
       })
       .getRawMany();
 
-    console.log(results);
     const eventSummaries = results.map((result) => {
       return {
         eventId: result.e_event_id,
@@ -89,6 +89,61 @@ export class BookmarkRepository implements IBookmarkRepository {
         eventSummaries: eventGroup,
       };
     });
+  }
+
+  async getEventListOfBookmark(
+    userId: number,
+    page: number,
+    length: number,
+    city?: CityType,
+    progress?: ProgressType,
+  ): Promise<EventPagiNationResponseDto> {
+    if (!city) {
+      city = CityType.ALL;
+    }
+    if (!progress) {
+      progress = ProgressType.ALL;
+    }
+    const results = await this.bookmarkRepository
+      .createQueryBuilder('b')
+      .leftJoinAndSelect('b.event', 'e', 'b.bookmarkEventId = e.eventId')
+      .leftJoinAndSelect('e.eventDetail', 'ed', 'e.eventId = ed.eventId')
+      .select([
+        'e.eventId',
+        'e.title',
+        'e.address',
+        'ed.beginTime',
+        'ed.endTime',
+        'ed.call',
+        'e.progress',
+        'COUNT(*) OVER () AS cnt',
+      ])
+      .where('b.bookmarkUserId = :userId', { userId })
+      .andWhere('city LIKE :city', {
+        city: city === CityType.ALL ? '%' : city,
+      })
+      .andWhere('progress LIKE :progress', {
+        progress: progress === ProgressType.ALL ? '%' : progress,
+      })
+      .limit(length)
+      .offset(page * length)
+      .orderBy('e.eventId', 'ASC')
+      .execute();
+    console.log(results);
+    return {
+      eventLists: results.map((result) => {
+        return {
+          eventId: result.e_event_id,
+          title: result.e_title,
+          address: result.e_address,
+          beginTime: result.ed_begin_time,
+          endTime: result.ed_end_time,
+          call: result.ed_call,
+          progress: result.e_progress,
+        };
+      }),
+      totalLength: results.length > 0 ? Number(results[0].cnt) : 0,
+    };
   }
 
   async postBookmark(eventId: number, userId: number): Promise<void> {

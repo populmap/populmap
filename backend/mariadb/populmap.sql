@@ -237,6 +237,7 @@ CREATE TABLE `event` (
   `lat` double DEFAULT NULL COMMENT '위도',
   `lng` double DEFAULT NULL COMMENT '경도',
   `progress` varchar(16) NOT NULL COMMENT '행사 진행 여부',
+  `city` varchar(32) NULL COMMENT '행사가 열리는 도시',
   PRIMARY KEY (`event_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='행사 정보';
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -262,10 +263,10 @@ CREATE TABLE `event_detail` (
   `event_id` int(11) NOT NULL COMMENT '이벤트 ID',
   `call` varchar(32) DEFAULT NULL COMMENT '전화번호',
   `description` text DEFAULT NULL COMMENT '행사 부가 설명',
-  `fee` varchar(32) DEFAULT NULL COMMENT '이용 요금',
-  `begin_date` datetime DEFAULT NULL COMMENT '헹시 시작 날짜',
-  `end_date` datetime DEFAULT NULL COMMENT '행사 종료 날짜',
-  `modified_date` datetime DEFAULT NULL COMMENT '수정 날짜',
+  `fee` varchar(128) DEFAULT NULL COMMENT '이용 요금',
+  `begin_time` datetime DEFAULT NULL COMMENT '행사 시작 시간',
+  `end_time` datetime DEFAULT NULL COMMENT '행사 종료 시간',
+  `modified_time` datetime DEFAULT NULL COMMENT '수정 시간',
   `url` text DEFAULT NULL COMMENT '행사 관련 홈페이지 링크',
   `place` varchar(256) DEFAULT NULL COMMENT '행사 장소',
   PRIMARY KEY (`event_detail_id`),

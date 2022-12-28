@@ -47,5 +47,5 @@ export default class User {
   authSocial: AuthSocial | null;
 
   @OneToMany(() => Bookmark, (bookmark) => bookmark.user)
-  bookmarks: Bookmark[];
+  bookmarks: Bookmark[] | null;
 }

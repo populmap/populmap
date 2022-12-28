@@ -7,7 +7,7 @@ export const axiosEventSearchSummary = async (
 ): Promise<any> => {
   try {
     const response = await instance.get(
-      `${axiosEventSearchSummaryUrl}?=${city}&=${progress}`
+      `${axiosEventSearchSummaryUrl}?city=${city}&progress=${progress}`
     );
     return response;
   } catch (error) {
@@ -29,12 +29,14 @@ export const axiosEventSearchDetail = async (eventId: number): Promise<any> => {
 
 const axiosEventSearchListUrl = "/api/event/search/list/filter/";
 export const axiosEventSearchList = async (
+  page: number,
+  length: number,
   city: string,
   progress: string
 ): Promise<any> => {
   try {
     const response = await instance.get(
-      `${axiosEventSearchListUrl}?=${city}&=${progress}`
+      `${axiosEventSearchListUrl}?page=${page}&length=${length}&city=${city}&progress=${progress}`
     );
     return response;
   } catch (error) {
@@ -49,7 +51,7 @@ export const axiosEventBookmarkSummary = async (
 ): Promise<any> => {
   try {
     const response = await instance.get(
-      `${axiosEventBookmarkSummaryUrl}?=${city}&=${progress}`
+      `${axiosEventBookmarkSummaryUrl}?city=${city}&progress=${progress}`
     );
     return response;
   } catch (error) {
@@ -59,12 +61,14 @@ export const axiosEventBookmarkSummary = async (
 
 const axiosEventBookmarkListUrl = "/api/event/bookmark/list/filter/";
 export const axiosEventBookmarkList = async (
+  page: number,
+  length: number,
   city: string,
   progress: string
 ): Promise<any> => {
   try {
     const response = await instance.get(
-      `${axiosEventBookmarkListUrl}?=${city}&=${progress}`
+      `${axiosEventBookmarkListUrl}?page=${page}&length=${length}&city=${city}&progress=${progress}`
     );
     return response;
   } catch (error) {

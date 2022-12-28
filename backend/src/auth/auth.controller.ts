@@ -41,7 +41,10 @@ import {
 } from '@nestjs/swagger';
 import { EmailSender } from 'src/utils/email.sender.component';
 import { IdBodyRequestDto } from 'src/dto/request/id.body.request.dto';
-import { NewPasswordBodyRequestDto, PasswordBodyRequestDto } from 'src/dto/request/password.body.request.dto';
+import {
+  NewPasswordBodyRequestDto,
+  PasswordBodyRequestDto,
+} from 'src/dto/request/password.body.request.dto';
 
 @ApiTags('Auth')
 @Controller('auth')
@@ -344,8 +347,7 @@ export class AuthController {
 
   @ApiOperation({
     summary: '비밀번호 확인 요청',
-    description:
-      '비밀번호로 사용자를 추가 검증합니다.',
+    description: '비밀번호로 사용자를 추가 검증합니다.',
   })
   @ApiOkResponse({
     description: '비밀번호 검증 성공 시, 200 OK를 응답받습니다.',

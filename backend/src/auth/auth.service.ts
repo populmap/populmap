@@ -1,4 +1,10 @@
-import { ConflictException, Inject, Injectable, Logger, UnauthorizedException } from '@nestjs/common';
+import {
+  ConflictException,
+  Inject,
+  Injectable,
+  Logger,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { IAuthRepository } from './repository/auth.repository.interface';
 import { v4 as uuid } from 'uuid';
 import { UserSessionDto } from 'src/dto/user.session.dto';

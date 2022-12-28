@@ -13,10 +13,16 @@ const BookmarkApiButton = (props: BookmarkApiButtonProps): JSX.Element => {
   const { param, api, value, style, iconDisplay } = props;
   const handleClick = (e: React.MouseEvent<HTMLElement>): void => {
     e.stopPropagation();
-    api(param).catch((error: any) => {
-      console.error(error);
-      alert("🚨 요청에 실패했습니다 🚨");
-    });
+    api(param)
+      .then((response) => {
+        if (response.status === 201) alert("북마크에 추가되었습니다.");
+        else if (response.status === 204) alert("북마크에서 제거되었습니다.");
+      })
+      .catch((error: any) => {
+        console.log(error);
+        alert(error.response.data.message);
+        console.error(error);
+      });
   };
   return (
     <IconButton style={style} onClick={handleClick}>

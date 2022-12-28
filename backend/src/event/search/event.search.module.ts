@@ -1,12 +1,10 @@
-import { Module } from '@nestjs/common';
-import { TypeOrmModule } from '@nestjs/typeorm';
+import { Module, forwardRef } from '@nestjs/common';
 import { EventSearchController } from './event.search.controller';
 import { EventSearchService } from './event.search.service';
+import { EventModule } from '../event.module';
 
 @Module({
-  imports: [
-    // TypeOrmModule.forFeature([Event]),
-  ],
+  imports: [forwardRef(() => EventModule)],
   providers: [EventSearchService],
   controllers: [EventSearchController],
 })

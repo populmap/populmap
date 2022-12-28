@@ -11,6 +11,9 @@ import { EmailSender } from './email.sender.component';
 import { KakaoSearch } from './kakao.search.component';
 import { RealtimeCityDataComponent } from './realtime.city.data.component';
 import { CityModule } from 'src/city/city.module';
+import { EventInformationDataComponent } from './event.information.data.component';
+import { EventModule } from 'src/event/event.module';
+import { ToolBoxComponent } from './toolbox.component';
 
 @Module({
   imports: [
@@ -26,9 +29,16 @@ import { CityModule } from 'src/city/city.module';
     HttpModule,
     forwardRef(() => AuthModule),
     forwardRef(() => CityModule),
+    forwardRef(() => EventModule),
   ],
   controllers: [],
-  providers: [KakaoSearch, EmailSender, RealtimeCityDataComponent],
-  exports: [EmailSender, KakaoSearch],
+  providers: [
+    KakaoSearch,
+    EmailSender,
+    RealtimeCityDataComponent,
+    EventInformationDataComponent,
+    ToolBoxComponent,
+  ],
+  exports: [EmailSender, KakaoSearch, ToolBoxComponent],
 })
 export class UtilsModule {}

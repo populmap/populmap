@@ -19,13 +19,17 @@ const style = css`
   }
 
   input,
-  button {
+  button,
+  select,
+  option {
     font-family: inherit;
-  }
-
-  input {
-    outline-style: none;
+    appearance: none;
+    -moz-appearance: none;
     -webkit-appearance: none;
+    border-radius: 0;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    outline-style: none;
   }
 `;
 

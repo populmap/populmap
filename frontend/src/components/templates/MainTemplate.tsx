@@ -2,13 +2,17 @@ import styled from "@emotion/styled";
 import { useEffect, useState } from "react";
 import { useInjectKakaoMapApi } from "react-kakao-maps-sdk";
 import LoadMap from "../organisms/LoadMap";
+import SelectBox from "../organisms/SelectBox";
+import MapFilter from "../organisms/MapFilter";
 import MapNav from "../organisms/MapNav";
 import {
   axiosCityPeople,
   axiosCityAccident,
 } from "../../network/axios/axios.city";
+import { axiosEventSearchSummary } from "../../network/axios/axios.event";
 import { CityAccidentResponseDto } from "../../types/dto/CityAccidentResponse.dto";
 import { CityPeopleResponseDto } from "../../types/dto/CityPeopleResponse.dto";
+import { EventSummaryGroupResponseDto } from "../../types/dto/EventSummaryResponse.dto";
 
 const MainSection = styled.section`
   position: relative;
@@ -17,60 +21,16 @@ const MainSection = styled.section`
   width: 100%;
 `;
 
-const MainTemplate = (): JSX.Element => {
-  const mockData = [
-    {
-      title: "크리스마스 행사 1",
-      address: "서울시 성동구",
-      lat: 37.4872,
-      lng: 127.0638,
-      eventId: 1,
-      progress: "진행중",
-    },
-    {
-      title: "크리스마스 행사 2",
-      address: "서울시 성동구",
-      lat: 37.4862,
-      lng: 127.0628,
-      eventId: 2,
-      progress: "진행전",
-    },
-    {
-      title: "크리스마스 행사 3",
-      address: "서울시 성동구",
-      lat: 37.4852,
-      lng: 127.0618,
-      eventId: 3,
-      progress: "진행종료",
-    },
-    {
-      title: "크리스마스 행사 4",
-      address: "서울시 성동구",
-      lat: 37.4842,
-      lng: 127.0608,
-      eventId: 4,
-      progress: "진행중",
-    },
-    {
-      title: "크리스마스 행사 5",
-      address: "서울시 성동구",
-      lat: 37.4832,
-      lng: 127.0598,
-      eventId: 5,
-      progress: "진행중",
-    },
-    {
-      title:
-        "크리스마스 행사 6 타이틀이 길면 어떻게 될까욜ㅇㄹㅇㄹㅇㄹㅇㄹㅇㄹㅇㄹㅇㄹㅇㄹ",
-      address:
-        "소쩍새는올빼미목 올빼미과의 한 종으로, 한국에서는 여름철새이다. 몸 길이는 20cm 정도로",
-      lat: 37.4822,
-      lng: 127.0588,
-      eventId: 6,
-      progress: "진행중",
-    },
-  ];
+const SelectBoxStyle = styled.div`
+  position: absolute;
+  width: 100%;
+  top: 2%;
+  left: 50%;
+  transform: translate(-50%, 0%);
+  touch-action: none;
+`;
 
+const MainTemplate = (): JSX.Element => {
   const { loading, error } = useInjectKakaoMapApi({
     appkey: `${import.meta.env.VITE_KAKAO_MAP_KEY}`,
     libraries: ["services"],
@@ -80,8 +40,19 @@ const MainTemplate = (): JSX.Element => {
     useState<CityPeopleResponseDto[]>();
   const [cityAccidentInfo, setCityAccidentInfo] =
     useState<CityAccidentResponseDto[]>();
+  const [eventInfo, setEventInfo] = useState<EventSummaryGroupResponseDto[]>();
+  const [city, setCity] = useState<string>("전국");
+  const [progress, setProgress] = useState<string>("전체");
 
-  useEffect(() => {
+  useEffect((): void => {
+    axiosEventSearchSummary(city, progress)
+      .then((response) => {
+        setEventInfo(response.data);
+      })
+      .catch((error) => console.error(error));
+  }, [city, progress]);
+
+  useEffect((): void => {
     axiosCityPeople()
       .then((response) => {
         setCityPeopleInfo(response.data);
@@ -91,7 +62,7 @@ const MainTemplate = (): JSX.Element => {
       });
   }, []);
 
-  useEffect(() => {
+  useEffect((): void => {
     axiosCityAccident()
       .then((response) => {
         setCityAccidentInfo(response.data);
@@ -105,11 +76,15 @@ const MainTemplate = (): JSX.Element => {
     <MainSection>
       {loading ? null : (
         <LoadMap
-          eventInfo={mockData}
+          eventInfo={eventInfo}
           cityPeopleInfo={cityPeopleInfo}
           cityAccidentInfo={cityAccidentInfo}
         />
       )}
+      <MapFilter />
+      <SelectBoxStyle>
+        <SelectBox setCity={setCity} setProgress={setProgress} />
+      </SelectBoxStyle>
       <MapNav />
     </MainSection>
   );

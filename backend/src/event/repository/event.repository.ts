@@ -9,7 +9,6 @@ import CityType from 'src/enums/city.type.enum';
 import { EventSummaryGroupResponseDto } from 'src/dto/response/event.summary.group.response.dto';
 import { EventDetailResponseDto } from 'src/dto/response/event.detail.response.dto';
 import { EventPagiNationResponseDto } from 'src/dto/response/event.pagination.response.dto';
-import { EventSummaryDto } from 'src/dto/event.summary.dto';
 import { ToolBoxComponent } from 'src/utils/toolbox.component';
 
 export class EventRepository implements IEventRepository {

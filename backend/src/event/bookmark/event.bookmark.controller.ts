@@ -17,10 +17,8 @@ import {
   ApiConflictResponse,
   ApiCreatedResponse,
   ApiNoContentResponse,
-  ApiNotFoundResponse,
   ApiOkResponse,
   ApiOperation,
-  ApiParam,
   ApiQuery,
   ApiTags,
 } from '@nestjs/swagger';
@@ -131,7 +129,6 @@ export class EventBookmarkController {
     @Query('progress') progress?: ProgressType,
   ): Promise<EventPagiNationResponseDto> {
     this.logger.debug(`Called ${this.getEventListOfBookmark.name}`);
-    console.log(page, length, city, progress);
     try {
       return await this.eventBookmarkService.getEventListOfBookmark(
         user.userId,

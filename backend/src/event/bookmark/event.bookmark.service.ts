@@ -1,6 +1,5 @@
 import { ConflictException, Inject, Injectable, Logger } from '@nestjs/common';
 import { IBookmarkRepository } from '../repository/bookmark.repository.interface';
-import { UserSessionDto } from 'src/dto/user.session.dto';
 import { EventService } from '../event.service';
 import { EventSummaryGroupResponseDto } from 'src/dto/response/event.summary.group.response.dto';
 import CityType from 'src/enums/city.type.enum';

@@ -140,7 +140,6 @@ export class EventSearchController {
     @Query('progress') progress?: ProgressType,
   ): Promise<EventPagiNationResponseDto> {
     this.logger.debug(`Called ${this.getEventList.name}`);
-    console.log(page, length, city, progress);
     try {
       return await this.eventSearchService.getEventList(
         page,

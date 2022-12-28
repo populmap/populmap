@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useAppSelector, useAppDispatch } from "../../redux/hook";
 import useKakaoSearch from "../../hooks/useKakaoSearch";
 import { mapLevelSelect } from "../../redux/slices/mapSlice";
-import { EventSummaryResponseDto } from "../../types/dto/EventSummaryResponse.dto";
+import { EventSummaryGroupResponseDto } from "../../types/dto/EventSummaryResponse.dto";
 import { CityAccidentResponseDto } from "../../types/dto/CityAccidentResponse.dto";
 import { CityPeopleResponseDto } from "../../types/dto/CityPeopleResponse.dto";
 import EventMarker from "./EventMarker";
@@ -11,7 +11,7 @@ import CityMarker from "./CityMarker";
 import CityAccidentMarker from "./CityAccidentMarker";
 
 interface LoadMapProps {
-  eventInfo: EventSummaryResponseDto[] | undefined;
+  eventInfo: EventSummaryGroupResponseDto[] | undefined;
   cityPeopleInfo: CityPeopleResponseDto[] | undefined;
   cityAccidentInfo: CityAccidentResponseDto[] | undefined;
 }
@@ -44,15 +44,17 @@ const LoadMap = (props: LoadMapProps): JSX.Element => {
         dispatch(mapLevelSelect(map.getLevel()));
       }}
       isPanto
+      draggable={currentMarker === -1}
+      zoomable={currentMarker === -1}
     >
       <>
         {mapState.isEventShow &&
           eventInfo?.map((event) => {
             return (
               <EventMarker
-                key={event.eventId}
+                key={event.eventSummaries[0].eventId}
                 eventInfo={event}
-                isShow={currentMarker === event.eventId}
+                isShow={currentMarker === event.eventSummaries[0].eventId}
                 setCurrentMarker={setCurrentMarker}
               />
             );

@@ -1,12 +1,17 @@
 import { CustomOverlayMap } from "react-kakao-maps-sdk";
 import styled from "@emotion/styled";
 import { useNavigate } from "react-router-dom";
-import { EventSummaryResponseDto } from "../../types/dto/EventSummaryResponse.dto";
+import {
+  EventSummaryResponseDto,
+  EventSummaryGroupResponseDto,
+} from "../../types/dto/EventSummaryResponse.dto";
 import progressStatus from "../../types/dto/EventDetailResponse.dto";
 import DetailBookmarkNav from "./DetailBookmarkNav";
 
 interface EventSummaryOverlayProps {
   eventInfo: EventSummaryResponseDto;
+  lat: number;
+  lng: number;
 }
 
 const SummaryBox = styled.div`
@@ -25,7 +30,7 @@ const DetailBookmarkNavStyle = styled.div`
 `;
 
 const EventSummaryOverlay = (props: EventSummaryOverlayProps): JSX.Element => {
-  const { eventInfo } = props;
+  const { eventInfo, lat, lng } = props;
   const navigate = useNavigate();
   const progressColor = (status: string): string => {
     switch (status) {
@@ -43,8 +48,8 @@ const EventSummaryOverlay = (props: EventSummaryOverlayProps): JSX.Element => {
   return (
     <CustomOverlayMap
       position={{
-        lat: eventInfo.lat,
-        lng: eventInfo.lng,
+        lat: lat,
+        lng: lng,
       }}
       clickable
     >
@@ -73,7 +78,10 @@ const EventSummaryOverlay = (props: EventSummaryOverlayProps): JSX.Element => {
         </p>
         <p style={{ whiteSpace: "normal" }}>{eventInfo.address}</p>
         <DetailBookmarkNavStyle>
-          <DetailBookmarkNav eventId={eventInfo.eventId} />
+          <DetailBookmarkNav
+            eventId={eventInfo.eventId}
+            isBookmarked={eventInfo.isBookmarked}
+          />
         </DetailBookmarkNavStyle>
       </SummaryBox>
     </CustomOverlayMap>

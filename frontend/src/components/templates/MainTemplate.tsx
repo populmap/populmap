@@ -12,7 +12,7 @@ import {
 import { axiosEventSearchSummary } from "../../network/axios/axios.event";
 import { CityAccidentResponseDto } from "../../types/dto/CityAccidentResponse.dto";
 import { CityPeopleResponseDto } from "../../types/dto/CityPeopleResponse.dto";
-import { EventSummaryResponseDto } from "../../types/dto/EventSummaryResponse.dto";
+import { EventSummaryGroupResponseDto } from "../../types/dto/EventSummaryResponse.dto";
 
 const MainSection = styled.section`
   position: relative;
@@ -40,7 +40,7 @@ const MainTemplate = (): JSX.Element => {
     useState<CityPeopleResponseDto[]>();
   const [cityAccidentInfo, setCityAccidentInfo] =
     useState<CityAccidentResponseDto[]>();
-  const [eventInfo, setEventInfo] = useState<EventSummaryResponseDto[]>();
+  const [eventInfo, setEventInfo] = useState<EventSummaryGroupResponseDto[]>();
   const [city, setCity] = useState<string>("전국");
   const [progress, setProgress] = useState<string>("전체");
 

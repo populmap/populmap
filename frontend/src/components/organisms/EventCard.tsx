@@ -20,8 +20,8 @@ const EventCardStyle = styled.div`
 `;
 
 const InformationStyle = styled.div`
-  margin: 1rem 0 2rem 0.9rem;
-  height: 5rem;
+  margin: 0.5rem 1rem;
+  height: 7rem;
 `;
 
 const DetailBookmarkNavStyle = styled.div`
@@ -41,7 +41,12 @@ const EventCard = (props: EventCardProps): JSX.Element => {
         <p>{cardInfo?.address}</p>
         {cardInfo?.call && (
           <p>
-            <a href={`tel:${cardInfo?.call}`}>{cardInfo?.call}</a>
+            <a
+              style={{ textDecoration: "none" }}
+              href={`tel:${cardInfo?.call}`}
+            >
+              {cardInfo?.call}
+            </a>
           </p>
         )}
         {cardInfo?.progress && <p>{cardInfo?.progress}</p>}
@@ -52,7 +57,10 @@ const EventCard = (props: EventCardProps): JSX.Element => {
           </p>
         )}
       </InformationStyle>
-      <DetailBookmarkNav eventId={cardInfo.eventId} />
+      <DetailBookmarkNav
+        eventId={cardInfo.eventId}
+        isBookmarked={cardInfo.isBookmarked}
+      />
     </EventCardStyle>
   );
 };

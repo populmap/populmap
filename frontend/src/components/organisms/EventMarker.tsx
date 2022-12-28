@@ -3,10 +3,11 @@ import { SetStateAction, Dispatch } from "react";
 import { useAppDispatch } from "../../redux/hook";
 import { mapLocationChange } from "../../redux/slices/mapSlice";
 import EventSummaryOverlay from "./EventSummaryOverlay";
-import { EventSummaryResponseDto } from "../../types/dto/EventSummaryResponse.dto";
+import EventSummaryList from "./EventSummaryList";
+import { EventSummaryGroupResponseDto } from "../../types/dto/EventSummaryResponse.dto";
 
 interface EventMarkerProps {
-  eventInfo: EventSummaryResponseDto;
+  eventInfo: EventSummaryGroupResponseDto;
   setCurrentMarker: Dispatch<SetStateAction<number>>;
   isShow: boolean;
 }
@@ -31,14 +32,27 @@ const EventMarker = (props: EventMarkerProps): JSX.Element => {
               lng: marker.getPosition().getLng(),
             })
           );
-          setCurrentMarker(eventInfo.eventId);
+          setCurrentMarker(eventInfo.eventSummaries[0].eventId);
         }}
         image={{
           src: "../../img/event.png",
           size: { width: 32, height: 32 },
         }}
       />
-      {isShow && <EventSummaryOverlay eventInfo={eventInfo} />}
+      {isShow &&
+        (eventInfo.eventSummaries.length === 1 ? (
+          <EventSummaryOverlay
+            eventInfo={eventInfo.eventSummaries[0]}
+            lat={eventInfo.lat}
+            lng={eventInfo.lng}
+          />
+        ) : (
+          <EventSummaryList
+            eventList={eventInfo.eventSummaries}
+            lat={eventInfo.lat}
+            lng={eventInfo.lng}
+          />
+        ))}
     </>
   );
 };

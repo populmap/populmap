@@ -157,4 +157,14 @@ export class BookmarkRepository implements IBookmarkRepository {
       })
       .execute();
   }
+
+  async deleteBookmark(eventId: number, userId: number): Promise<void> {
+    await this.bookmarkRepository
+      .createQueryBuilder()
+      .delete()
+      .from(Bookmark)
+      .where('bookmarkEventId = :eventId', { eventId })
+      .andWhere('bookmarkUserId = :userId', { userId })
+      .execute();
+  }
 }

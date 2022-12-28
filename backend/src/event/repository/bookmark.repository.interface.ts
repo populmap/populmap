@@ -46,4 +46,11 @@ export interface IBookmarkRepository {
    * @param userId
    */
   postBookmark(eventId: number, userId: number): Promise<void>;
+
+  /**
+   * eventId와 userId에 해당하는 북마크를 삭제한다.
+   * @param eventId
+   * @param userId
+   */
+  deleteBookmark(eventId: number, userId: number): Promise<void>;
 }

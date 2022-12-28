@@ -1,5 +1,5 @@
 import { Inject, Injectable, Logger, NotFoundException } from '@nestjs/common';
-import { EventSummaryResponseDto } from 'src/dto/response/event.summary.response.dto';
+import { EventSummaryGroupResponseDto } from 'src/dto/response/event.summary.group.response.dto';
 import CityType from 'src/enums/city.type.enum';
 import ProgressType from 'src/enums/progress.type.enum';
 import { IEventRepository } from '../repository/event.repository.interface';
@@ -16,7 +16,7 @@ export class EventSearchService {
   async getEventSummary(
     city?: CityType,
     progress?: ProgressType,
-  ): Promise<EventSummaryResponseDto[]> {
+  ): Promise<EventSummaryGroupResponseDto[]> {
     this.logger.debug(`Called ${this.getEventSummary.name}`);
     try {
       return await this.eventRepository.getEventSummary(city, progress);

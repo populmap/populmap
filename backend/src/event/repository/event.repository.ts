@@ -6,7 +6,7 @@ import { Repository } from 'typeorm';
 import { IEventRepository } from './event.repository.interface';
 import ProgressType from 'src/enums/progress.type.enum';
 import CityType from 'src/enums/city.type.enum';
-import { EventSummaryResponseDto } from 'src/dto/response/event.summary.response.dto';
+import { EventSummaryGroupResponseDto } from 'src/dto/response/event.summary.group.response.dto';
 import { EventDetailResponseDto } from 'src/dto/response/event.detail.response.dto';
 import { EventPagiNationResponseDto } from 'src/dto/response/event.pagination.response.dto';
 
@@ -222,7 +222,7 @@ export class EventRepository implements IEventRepository {
   async getEventSummary(
     city?: CityType,
     progress?: ProgressType,
-  ): Promise<EventSummaryResponseDto[]> {
+  ): Promise<EventSummaryGroupResponseDto[]> {
     if (!city) {
       city = CityType.ALL;
     }

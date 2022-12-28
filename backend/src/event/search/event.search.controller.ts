@@ -9,6 +9,7 @@ import {
   InternalServerErrorException,
   Param,
   ParseIntPipe,
+  UseGuards,
 } from '@nestjs/common';
 import {
   ApiNotFoundResponse,
@@ -23,6 +24,9 @@ import ProgressType from 'src/enums/progress.type.enum';
 import { EventSummaryGroupResponseDto } from 'src/dto/response/event.summary.group.response.dto';
 import { EventDetailResponseDto } from 'src/dto/response/event.detail.response.dto';
 import { EventPagiNationResponseDto } from 'src/dto/response/event.pagination.response.dto';
+import { JwtOptionalAuthGuard } from 'src/auth/jwt/guard/jwt.optional.auth.guard';
+import { User } from 'src/decorator/user.decorator';
+import { UserSessionDto } from 'src/dto/user.session.dto';
 
 @ApiTags('/api/event/search')
 @Controller({
@@ -53,13 +57,20 @@ export class EventSearchController {
   })
   @Get('summary/filter')
   @HttpCode(HttpStatus.OK)
+  @UseGuards(JwtOptionalAuthGuard)
   async getEventSummary(
+    @User() user?: UserSessionDto,
     @Query('city') city?: CityType,
     @Query('progress') progress?: ProgressType,
   ): Promise<EventSummaryGroupResponseDto[]> {
     this.logger.debug(`Called ${this.getEventSummary.name}`);
+    const userId = user ? user.userId : -1;
     try {
-      return await this.eventSearchService.getEventSummary(city, progress);
+      return await this.eventSearchService.getEventSummary(
+        userId,
+        city,
+        progress,
+      );
     } catch (err) {
       this.logger.error(err);
       if (err instanceof HttpException) {
@@ -133,17 +144,21 @@ export class EventSearchController {
   })
   @Get('list/filter')
   @HttpCode(HttpStatus.OK)
+  @UseGuards(JwtOptionalAuthGuard)
   async getEventList(
     @Query('page', ParseIntPipe) page: number,
     @Query('length', ParseIntPipe) length: number,
+    @User() user?: UserSessionDto,
     @Query('city') city?: CityType,
     @Query('progress') progress?: ProgressType,
   ): Promise<EventPagiNationResponseDto> {
     this.logger.debug(`Called ${this.getEventList.name}`);
+    const userId = user ? user.userId : -1;
     try {
       return await this.eventSearchService.getEventList(
         page,
         length,
+        userId,
         city,
         progress,
       );

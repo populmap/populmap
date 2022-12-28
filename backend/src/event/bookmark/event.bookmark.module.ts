@@ -14,5 +14,6 @@ import { EventModule } from '../event.module';
   ],
   providers: [EventBookmarkService],
   controllers: [EventBookmarkController],
+  exports: [EventBookmarkService],
 })
 export class EventBookmarkModule {}

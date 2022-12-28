@@ -42,4 +42,10 @@ export class EventListDto {
     example: '진행중',
   })
   progress: string;
+
+  @ApiProperty({
+    description: '행사가 북마크에 추가되어있는지 여부',
+    example: true,
+  })
+  isBookmarked: boolean;
 }

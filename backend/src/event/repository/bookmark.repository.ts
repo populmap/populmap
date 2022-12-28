@@ -8,6 +8,7 @@ import ProgressType from 'src/enums/progress.type.enum';
 import { EventSummaryGroupResponseDto } from 'src/dto/response/event.summary.group.response.dto';
 import { ToolBoxComponent } from 'src/utils/toolbox.component';
 import { EventPagiNationResponseDto } from 'src/dto/response/event.pagination.response.dto';
+import { EventSummaryDto } from 'src/dto/event.summary.dto';
 
 export class BookmarkRepository implements IBookmarkRepository {
   private logger = new Logger(BookmarkRepository.name);
@@ -74,7 +75,8 @@ export class BookmarkRepository implements IBookmarkRepository {
         lat: result.e_lat,
         lng: result.e_lng,
         progress: result.e_progress,
-      };
+        isBookmarked: true,
+      } as EventSummaryDto;
     });
     // eventSummaries에서 lat과 lng가 같은 object의 배열을 eventGroupResponse의 하나의 프로퍼티로 넣는다.
     const eventGroupResponse = this.toolBoxComponent.groupBy(

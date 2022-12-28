@@ -68,7 +68,7 @@ export const axiosEventBookmarkList = async (
 ): Promise<any> => {
   try {
     const response = await instance.get(
-      `${axiosEventBookmarkListUrl}?=${page}&=${length}&=${city}&=${progress}`
+      `${axiosEventBookmarkListUrl}?page=${page}&length=${length}&city=${city}&progress=${progress}`
     );
     return response;
   } catch (error) {

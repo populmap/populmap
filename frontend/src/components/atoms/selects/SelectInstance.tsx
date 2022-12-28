@@ -32,6 +32,8 @@ SelectInstance.defaultProps = {
     height: "1.5rem",
     border: "0.05rem solid gray",
     borderRadius: "0.7rem",
+    color: "black",
+    backgroundColor: "white",
     textAlign: "center",
   },
 };

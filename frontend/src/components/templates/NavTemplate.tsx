@@ -9,7 +9,6 @@ import BookmarkIcon from "@mui/icons-material/Bookmark";
 import { useAppDispatch, useAppSelector } from "../../redux/hook";
 import { userPageSelected } from "../../redux/slices/userSlice";
 
-// TODO: handleClick 함수를 통해 navigate되도록 수정 필요.
 const NavSection = styled.section`
   position: fixed;
   top: ${window.ontouchstart ? "70%" : "85%"};

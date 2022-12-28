@@ -32,7 +32,7 @@ const CardListStyle = styled.div`
   &::-webkit-scrollbar {
     display: none;
   }
-  height: 88%;
+  height: ${window.ontouchstart ? "60%" : "88%"}; ;
 `;
 
 const PaginationStyle = styled.div`

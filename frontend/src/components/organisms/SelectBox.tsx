@@ -8,6 +8,18 @@ interface SelectBoxProps {
   setProgress: Dispatch<SetStateAction<string>>;
 }
 
+const progressStyle = {
+  fontSize: "0.6rem",
+  width: "4rem",
+  height: "1.5rem",
+  border: "0.05rem solid gray",
+  borderRadius: "0.7rem",
+  color: "black",
+  backgroundColor: "white",
+  textAlign: "center",
+  marginLeft: "0.3rem",
+};
+
 const SelectBox = (props: SelectBoxProps): JSX.Element => {
   const { setCity, setProgress } = props;
 
@@ -22,15 +34,7 @@ const SelectBox = (props: SelectBoxProps): JSX.Element => {
         options={Object.values(progressStatus)}
         type="progress"
         setValue={setProgress}
-        style={{
-          fontSize: "0.6rem",
-          width: "4rem",
-          height: "1.5rem",
-          border: "0.05rem solid gray",
-          borderRadius: "0.7rem",
-          textAlign: "center",
-          marginLeft: "0.3rem",
-        }}
+        style={progressStyle}
       />
     </>
   );

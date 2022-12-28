@@ -6,6 +6,7 @@ export interface EventListDto {
   endTime: Date;
   call: string;
   progress: string;
+  isBookmarked: boolean;
 }
 
 export interface EventPagiNationResponseDto {

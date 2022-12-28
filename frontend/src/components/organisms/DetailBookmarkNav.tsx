@@ -1,6 +1,10 @@
+import { useState } from "react";
 import PageNavigateButton from "../atoms/buttons/PageNavigateButton";
 import BookmarkApiButton from "../atoms/buttons/BookmarkApiButton";
-import { axiosEventBookmarkPost } from "../../network/axios/axios.event";
+import {
+  axiosEventBookmarkPost,
+  axiosEventBookmarkDelete,
+} from "../../network/axios/axios.event";
 
 const ButtonStyle = {
   fontSize: "0.5rem",
@@ -11,10 +15,11 @@ const ButtonStyle = {
 
 interface DetailBookmarkNavProps {
   eventId: number;
+  isBookmarked: boolean;
 }
 
 const DetailBookmarkNav = (props: DetailBookmarkNavProps): JSX.Element => {
-  const { eventId } = props;
+  const { eventId, isBookmarked } = props;
   return (
     <>
       <PageNavigateButton
@@ -22,13 +27,23 @@ const DetailBookmarkNav = (props: DetailBookmarkNavProps): JSX.Element => {
         value="상세보기"
         route={`/detail/${eventId}`}
       />
-      <BookmarkApiButton
-        style={ButtonStyle}
-        iconDisplay={false}
-        param={eventId}
-        value="북마크 추가"
-        api={axiosEventBookmarkPost}
-      />
+      {isBookmarked ? (
+        <BookmarkApiButton
+          style={ButtonStyle}
+          iconDisplay={false}
+          param={eventId}
+          value="북마크 제거"
+          api={axiosEventBookmarkDelete}
+        />
+      ) : (
+        <BookmarkApiButton
+          style={ButtonStyle}
+          iconDisplay={false}
+          param={eventId}
+          value="북마크 추가"
+          api={axiosEventBookmarkPost}
+        />
+      )}
     </>
   );
 };

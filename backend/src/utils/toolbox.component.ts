@@ -2,8 +2,6 @@ import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class ToolBoxComponent {
-  constructor() {}
-
   groupBy(array: Array<any>, func: Function) {
     let groups = {};
     array.forEach(function (obj) {

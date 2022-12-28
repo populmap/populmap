@@ -143,6 +143,7 @@ export class BookmarkRepository implements IBookmarkRepository {
           endTime: result.ed_end_time,
           call: result.ed_call,
           progress: result.e_progress,
+          isBookmarked: true,
         };
       }),
       totalLength: results.length > 0 ? Number(results[0].cnt) : 0,

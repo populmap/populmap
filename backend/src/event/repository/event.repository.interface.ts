@@ -1,6 +1,6 @@
 import { EventDetailResponseDto } from 'src/dto/response/event.detail.response.dto';
 import { EventPagiNationResponseDto } from 'src/dto/response/event.pagination.response.dto';
-import { EventSummaryResponseDto } from 'src/dto/response/event.summary.response.dto';
+import { EventSummaryGroupResponseDto } from 'src/dto/response/event.summary.group.response.dto';
 import CityType from 'src/enums/city.type.enum';
 import ProgressType from 'src/enums/progress.type.enum';
 
@@ -52,7 +52,7 @@ export interface IEventRepository {
   getEventSummary(
     city?: CityType,
     progress?: ProgressType,
-  ): Promise<EventSummaryResponseDto[]>;
+  ): Promise<EventSummaryGroupResponseDto[]>;
 
   /**
    * eventId에 해당하는 eventDetail 정보를 반환한다.

@@ -8,6 +8,7 @@ import { EventRepository } from './repository/event.repository';
 import { BookmarkRepository } from './repository/bookmark.repository';
 import EventDetail from 'src/entities/event.detail.entity';
 import { EventService } from './event.service';
+import { UtilsModule } from 'src/utils/utils.module';
 
 const repo1 = {
   provide: 'IEventRepository',
@@ -23,6 +24,7 @@ const repo2 = {
     TypeOrmModule.forFeature([Event, EventDetail, Bookmark]),
     forwardRef(() => EventBookmarkModule),
     forwardRef(() => EventSearchModule),
+    forwardRef(() => UtilsModule),
   ],
   providers: [EventService, repo1, repo2],
   controllers: [],

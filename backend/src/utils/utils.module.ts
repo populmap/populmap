@@ -13,6 +13,7 @@ import { RealtimeCityDataComponent } from './realtime.city.data.component';
 import { CityModule } from 'src/city/city.module';
 import { EventInformationDataComponent } from './event.information.data.component';
 import { EventModule } from 'src/event/event.module';
+import { ToolBoxComponent } from './toolbox.component';
 
 @Module({
   imports: [
@@ -28,7 +29,7 @@ import { EventModule } from 'src/event/event.module';
     HttpModule,
     forwardRef(() => AuthModule),
     forwardRef(() => CityModule),
-    EventModule,
+    forwardRef(() => EventModule),
   ],
   controllers: [],
   providers: [
@@ -36,7 +37,8 @@ import { EventModule } from 'src/event/event.module';
     EmailSender,
     RealtimeCityDataComponent,
     EventInformationDataComponent,
+    ToolBoxComponent,
   ],
-  exports: [EmailSender, KakaoSearch],
+  exports: [EmailSender, KakaoSearch, ToolBoxComponent],
 })
 export class UtilsModule {}

@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class ToolBoxComponent {
-  groupBy(array: Array<any>, func: Function) {
+  groupBy(array: Array<any>, func: any) {
     let groups = {};
     array.forEach(function (obj) {
       const group = JSON.stringify(func(obj));

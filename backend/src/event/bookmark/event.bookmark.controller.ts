@@ -1,5 +1,6 @@
 import {
   Controller,
+  Delete,
   Get,
   HttpCode,
   HttpException,
@@ -14,6 +15,7 @@ import {
 } from '@nestjs/common';
 import {
   ApiConflictResponse,
+  ApiCreatedResponse,
   ApiNoContentResponse,
   ApiNotFoundResponse,
   ApiOkResponse,
@@ -154,16 +156,15 @@ export class EventBookmarkController {
     summary: '이벤트를 북마크에 추가',
     description: 'eventId에 해당하는 이벤트를 북마크에 추가합니다.',
   })
-  @ApiNoContentResponse({
-    description:
-      '이벤트를 북마크에 추가 성공 시, 204 No Content를 응답받습니다.',
+  @ApiCreatedResponse({
+    description: '이벤트를 북마크에 추가 성공 시, 201 Created를 응답받습니다.',
   })
   @ApiConflictResponse({
     description:
       '해당하는 이벤트가 없거나 이미 북마크에 추가된 이벤트인 경우, 409 Conflict를 응답받습니다.',
   })
   @Post('/post/:eventId')
-  @HttpCode(HttpStatus.NO_CONTENT)
+  @HttpCode(HttpStatus.CREATED)
   @UseGuards(JwtAuthGuard)
   async postBookmark(
     @Param('eventId', ParseIntPipe) eventId: number,
@@ -172,6 +173,43 @@ export class EventBookmarkController {
     this.logger.debug(`Called ${this.postBookmark.name}`);
     try {
       return await this.eventBookmarkService.postBookmark(eventId, user.userId);
+    } catch (err) {
+      this.logger.error(err);
+      if (err instanceof HttpException) {
+        throw err;
+      } else {
+        throw new InternalServerErrorException(
+          `🚨 populmap 내부 서버 에러가 발생했습니다 🥲 🚨`,
+        );
+      }
+    }
+  }
+
+  @ApiOperation({
+    summary: '이벤트를 북마크에서 삭제',
+    description: 'eventId에 해당하는 이벤트를 북마크에서 삭제합니다.',
+  })
+  @ApiNoContentResponse({
+    description:
+      '북마크에서 이벤트 삭제 성공 시, 24 No Content를 응답받습니다.',
+  })
+  @ApiConflictResponse({
+    description:
+      '해당하는 이벤트가 없거나 북마크에 없는 이벤트를 삭제 시도한 경우, 409 Conflict를 응답받습니다.',
+  })
+  @Delete('/delete/:eventId')
+  @HttpCode(HttpStatus.NO_CONTENT)
+  @UseGuards(JwtAuthGuard)
+  async deleteBookmark(
+    @Param('eventId', ParseIntPipe) eventId: number,
+    @User() user: UserSessionDto,
+  ): Promise<void> {
+    this.logger.debug(`Called ${this.deleteBookmark.name}`);
+    try {
+      return await this.eventBookmarkService.deleteBookmark(
+        eventId,
+        user.userId,
+      );
     } catch (err) {
       this.logger.error(err);
       if (err instanceof HttpException) {

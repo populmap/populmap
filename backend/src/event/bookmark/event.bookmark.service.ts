@@ -72,4 +72,20 @@ export class EventBookmarkService {
       throw err;
     }
   }
+
+  async deleteBookmark(eventId: number, userId: number): Promise<void> {
+    this.logger.debug(`Called ${this.deleteBookmark.name}`);
+    try {
+      if (!(await this.eventService.findEvent(eventId))) {
+        throw new ConflictException(`🚨 해당 이벤트가 존재하지 않습니다 🥲 🚨`);
+      }
+      if (!(await this.bookmarkRepository.findBookmark(eventId, userId))) {
+        throw new ConflictException(`🚨 북마크한 이벤트가 아닙니다 🥲 🚨`);
+      }
+      return await this.bookmarkRepository.deleteBookmark(eventId, userId);
+    } catch (err) {
+      this.logger.error(err);
+      throw err;
+    }
+  }
 }

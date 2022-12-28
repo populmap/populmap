@@ -1,32 +1,55 @@
 import { CustomOverlayMap } from "react-kakao-maps-sdk";
 import styled from "@emotion/styled";
-import { Button } from "@mui/material";
 import { useEffect, useState } from "react";
+import dayjs from "dayjs";
 import { axiosCityRoadAvg } from "../../network/axios/axios.city";
 import { CityRoadAvgResponseDto } from "../../types/dto/CityRoadAvgResponse.dto";
 import { CityPeopleResponseDto } from "../../types/dto/CityPeopleResponse.dto";
+import { levelColor } from "../../types/dto/CityPeopleResponse.dto";
 
 interface CityMarkerOverlayProps {
   cityPeopleInfo: CityPeopleResponseDto;
 }
 
 const SummaryBox = styled.div`
+  position: relative;
   width: 10rem;
   height: 11rem;
   border-radius: 0.5rem;
   background-color: white;
   font-size: 0.2rem;
+  padding: 0.5rem 1rem;
 `;
 
-const ButtonStyle = {
-  border: "0.01rem solid gray",
-  fontSize: "0.5rem",
-  height: "1.5rem",
+type buttonProps = {
+  isChange: boolean;
 };
+
+const TypeButtonStyle = styled.button<buttonProps>`
+  border-radius: 0.3rem;
+  height: 1.5rem;
+  border: 0;
+  width: 50%;
+  background-color: ${(props): string =>
+    props.isChange ? "#0080FE" : "white"};
+  color: ${(props): string => (props.isChange ? "white" : "inherit")};
+  font-size: 0.5rem;
+`;
+
+const SummaryNavStyle = styled.div`
+  height: 1.5rem;
+  width: 100%;
+`;
+
+const UpdateStyle = styled.div`
+  position: fixed;
+  transform: translate(15%, 100%);
+  font-size: 0.1rem;
+`;
 
 const CityMarkerOverlay = (props: CityMarkerOverlayProps): JSX.Element => {
   const { cityPeopleInfo } = props;
-  const [type, setType] = useState<string>("people");
+  const [isChange, setIsChange] = useState<boolean>(true);
   const [roadAvgResponse, setRoadAvgResponse] = useState<
     CityRoadAvgResponseDto | undefined
   >(undefined);
@@ -37,7 +60,7 @@ const CityMarkerOverlay = (props: CityMarkerOverlayProps): JSX.Element => {
         setRoadAvgResponse(response.data);
       })
       .catch((error) => console.error(error));
-  }, [type]);
+  }, [isChange]);
 
   return (
     <CustomOverlayMap
@@ -48,32 +71,77 @@ const CityMarkerOverlay = (props: CityMarkerOverlayProps): JSX.Element => {
       clickable
     >
       <SummaryBox>
-        <p>{cityPeopleInfo.place}</p>
-        <div>
-          <Button style={ButtonStyle} onClick={(): void => setType("people")}>
-            People
-          </Button>
-          <Button style={ButtonStyle} onClick={(): void => setType("road")}>
-            Road
-          </Button>
-        </div>
-        <hr style={{ width: "80%" }} />
-        {type === "people" ? (
+        <SummaryNavStyle>
+          <TypeButtonStyle
+            isChange={isChange}
+            onClick={(): void => setIsChange((state) => !state)}
+          >
+            인구 복잡도
+          </TypeButtonStyle>
+          <TypeButtonStyle
+            isChange={!isChange}
+            onClick={(): void => setIsChange((state) => !state)}
+          >
+            도로 상태
+          </TypeButtonStyle>
+        </SummaryNavStyle>
+        <p style={{ fontWeight: "bold", fontSize: "0.6rem" }}>
+          {cityPeopleInfo.place}
+        </p>
+        {isChange ? (
           <>
-            <p>{cityPeopleInfo.type}</p>
-            <p>{cityPeopleInfo.level}</p>
-            <p>{cityPeopleInfo.densityMin}</p>
-            <p>{cityPeopleInfo.densityMax}</p>
-            <p>{cityPeopleInfo.residentRatio}</p>
-            <p>{cityPeopleInfo.nonResidentRatio}</p>
-            <p>{cityPeopleInfo.updateTime.toString().substring(0, 10)}</p>
+            {/* <p>{cityPeopleInfo.type}</p> */}
+            <></>
+            <p
+              style={{
+                height: "1rem",
+                fontSize: "0.5rem",
+                border: `0.01rem solid ${levelColor(cityPeopleInfo.level)}`,
+                borderRadius: "0.2rem",
+                backgroundColor: `${levelColor(cityPeopleInfo.level)}`,
+              }}
+            >
+              {cityPeopleInfo.level}
+            </p>
+            <p>최소 {cityPeopleInfo.densityMin}(명)</p>
+            <p>최대 {cityPeopleInfo.densityMax}(명)</p>
+            <p>
+              상주({cityPeopleInfo.residentRatio}%) 비상주(
+              {cityPeopleInfo.nonResidentRatio}%)
+            </p>
+            <UpdateStyle>
+              <p>
+                업데이트{" "}
+                {dayjs(cityPeopleInfo.updateTime).format("YYYY/MM/DD HH:mm")}
+              </p>
+            </UpdateStyle>
           </>
         ) : (
           <>
-            <p>{roadAvgResponse?.level}</p>
-            <p>{roadAvgResponse?.message}</p>
-            <p>{roadAvgResponse?.speed}</p>
-            <p>{roadAvgResponse?.updateTime.toString().substring(0, 10)}</p>
+            <p
+              style={{
+                height: "1rem",
+                fontSize: "0.5rem",
+                border: `0.01rem solid ${levelColor(roadAvgResponse?.level)}`,
+                borderRadius: "0.2rem",
+                backgroundColor: `${levelColor(roadAvgResponse?.level)}`,
+              }}
+            >
+              {roadAvgResponse?.level}
+            </p>
+            <p style={{ whiteSpace: "normal", marginBottom: "1rem" }}>
+              {roadAvgResponse?.message}
+            </p>
+            <span>평균 주행 속도 </span>
+            <span style={{ color: `${levelColor(roadAvgResponse?.level)}` }}>
+              {roadAvgResponse?.speed}km/h
+            </span>
+            <UpdateStyle>
+              <p>
+                업데이트{" "}
+                {dayjs(roadAvgResponse?.updateTime).format("YYYY/MM/DD HH:mm")}
+              </p>
+            </UpdateStyle>
           </>
         )}
       </SummaryBox>

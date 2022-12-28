@@ -92,7 +92,12 @@ const DetailContent = (props: DetailContentProps): JSX.Element => {
         {detailResponse?.url && (
           <p>
             <LanguageIcon />{" "}
-            <a href={`https://${detailResponse?.url}`}>{detailResponse?.url}</a>
+            <a
+              style={{ textDecoration: "none" }}
+              href={`https://${detailResponse?.url}`}
+            >
+              {detailResponse?.url}
+            </a>
           </p>
         )}
         {detailResponse?.call && (

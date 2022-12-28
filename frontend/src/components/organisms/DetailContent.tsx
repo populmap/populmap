@@ -5,6 +5,7 @@ import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import CallIcon from "@mui/icons-material/Call";
 import PaymentIcon from "@mui/icons-material/Payment";
+import dayjs from "dayjs";
 import PageNavigateButton from "../atoms/buttons/PageNavigateButton";
 import BookmarkApiButton from "../atoms/buttons/BookmarkApiButton";
 import ShareButton from "../atoms/buttons/ShareButton";
@@ -16,26 +17,39 @@ interface DetailContentProps {
   detailResponse: EventDetailResponseDto | undefined;
 }
 
-const Summary = styled.div`
-  font-size: 1rem;
-  border-bottom: 0.05rem solid gray;
+const SummaryStyle = styled.div`
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  font-size: 0.9rem;
   height: 10rem;
+  padding: 1rem 1.7rem;
 `;
 
-const Information = styled.div`
+const ButtonDivStyle = styled.div`
+  height: 2.5rem;
+`;
+
+const InformationStyle = styled.div`
   text-align: left;
   font-size: 0.8rem;
   display: flex;
   justify-content: start;
   flex-direction: column;
-  margin: 2rem;
-  height: 25rem;
+  margin-left: 1.7rem;
+  height: 18rem;
+  overflow-y: scroll;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
-const Update = styled.div`
+const UpdateStyle = styled.div`
   position: fixed;
-  top: 75%;
-  left: 70%;
+  top: 81%;
+  left: 55%;
   font-size: 0.1rem;
 `;
 
@@ -44,49 +58,63 @@ const DetailContent = (props: DetailContentProps): JSX.Element => {
   if (!detailResponse) return <h2>Loading....</h2>;
   return (
     <>
-      <Summary>
-        <h2>{detailResponse?.title}</h2>
-        <p style={{ marginBottom: "2rem" }}>{detailResponse?.description}</p>
+      <SummaryStyle>
+        <h3>{detailResponse?.title}</h3>
+        <p>{detailResponse?.description}</p>
+      </SummaryStyle>
+      <ButtonDivStyle>
         <BookmarkApiButton
           param={detailResponse?.eventId}
           value="북마크"
           api={axiosEventBookmarkPost}
         />
         <ShareButton />
-      </Summary>
-      <Information>
-        <p>
-          <PlaceIcon />
-          {detailResponse?.place}
-        </p>
-        <p>
-          <AccessTimeIcon />
-          {detailResponse?.progress}
-        </p>
-        {detailResponse?.progress === "진행중" && (
+      </ButtonDivStyle>
+      <InformationStyle>
+        {detailResponse?.place && (
           <p>
-            <CalendarMonthIcon />
-            {detailResponse?.beginTime.toString().substring(0, 10)} ~{" "}
-            {detailResponse?.endTime.toString().substring(0, 10)}
+            <PlaceIcon /> {detailResponse?.place}
           </p>
         )}
-        <p>
-          <LanguageIcon />
-          <a href={`https://${detailResponse?.url}`}>{detailResponse?.url}</a>
-        </p>
-        <p>
-          <CallIcon />
-          <a href={`tel:${detailResponse?.call}`}>{detailResponse?.call}</a>
-        </p>
-        <p>
-          <PaymentIcon /> {detailResponse?.fee}
-        </p>
-      </Information>
-      <Update>
-        <p>
-          업데이트 {detailResponse?.modifiedTime.toString().substring(0, 10)}
-        </p>
-      </Update>
+        {detailResponse?.progress && (
+          <p>
+            <AccessTimeIcon /> {detailResponse?.progress}
+          </p>
+        )}
+        {(detailResponse?.beginTime || detailResponse?.endTime) && (
+          <p>
+            <CalendarMonthIcon />{" "}
+            {dayjs(detailResponse?.beginTime).format("YYYY/MM/DD HH:mm")}{" "}
+            {" ~ "}
+            {dayjs(detailResponse?.endTime).format("YYYY/MM/DD HH:mm")}
+          </p>
+        )}
+        {detailResponse?.url && (
+          <p>
+            <LanguageIcon />{" "}
+            <a href={`https://${detailResponse?.url}`}>{detailResponse?.url}</a>
+          </p>
+        )}
+        {detailResponse?.call && (
+          <p>
+            <CallIcon />{" "}
+            <a href={`tel:${detailResponse?.call}`}>{detailResponse?.call}</a>
+          </p>
+        )}
+        {detailResponse?.fee && (
+          <p>
+            <PaymentIcon /> {detailResponse?.fee}
+          </p>
+        )}
+      </InformationStyle>
+      <UpdateStyle>
+        {detailResponse?.modifiedTime && (
+          <p>
+            업데이트{" "}
+            {dayjs(detailResponse?.modifiedTime).format("YYYY/MM/DD HH:mm")}
+          </p>
+        )}
+      </UpdateStyle>
     </>
   );
 };

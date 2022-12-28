@@ -155,15 +155,14 @@ export class EventBookmarkController {
     description: 'eventId에 해당하는 이벤트를 북마크에 추가합니다.',
   })
   @ApiNoContentResponse({
-    description:
-      '이벤트를 북마크에 추가 성공 시, 204 No Content를 응답받습니다.',
+    description: '이벤트를 북마크에 추가 성공 시, 201 Created를 응답받습니다.',
   })
   @ApiConflictResponse({
     description:
       '해당하는 이벤트가 없거나 이미 북마크에 추가된 이벤트인 경우, 409 Conflict를 응답받습니다.',
   })
   @Post('/post/:eventId')
-  @HttpCode(HttpStatus.NO_CONTENT)
+  @HttpCode(HttpStatus.CREATED)
   @UseGuards(JwtAuthGuard)
   async postBookmark(
     @Param('eventId', ParseIntPipe) eventId: number,

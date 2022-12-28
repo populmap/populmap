@@ -3,12 +3,17 @@ import { InjectRepository } from '@nestjs/typeorm';
 import Bookmark from 'src/entities/bookmark.entity';
 import { Repository } from 'typeorm';
 import { IBookmarkRepository } from './bookmark.repository.interface';
+import CityType from 'src/enums/city.type.enum';
+import ProgressType from 'src/enums/progress.type.enum';
+import { EventSummaryGroupResponseDto } from 'src/dto/response/event.summary.group.response.dto';
+import { ToolBoxComponent } from 'src/utils/toolbox.component';
 
 export class BookmarkRepository implements IBookmarkRepository {
   private logger = new Logger(BookmarkRepository.name);
   constructor(
     @InjectRepository(Bookmark)
     private bookmarkRepository: Repository<Bookmark>,
+    private toolBoxComponent: ToolBoxComponent,
   ) {}
 
   async findBookmark(eventId: number, userId: number): Promise<boolean> {
@@ -25,6 +30,65 @@ export class BookmarkRepository implements IBookmarkRepository {
       return false;
     }
     return true;
+  }
+
+  async getEventSummaryOfBookmark(
+    userId: number,
+    city?: CityType,
+    progress?: ProgressType,
+  ): Promise<EventSummaryGroupResponseDto[]> {
+    if (!city) {
+      city = CityType.ALL;
+    }
+    if (!progress) {
+      progress = ProgressType.ALL;
+    }
+    // userId로 bookmark를 찾고, bookmark에서 eventId를 기준으로 leftJoin하여 event를 찾는다.
+    const results = await this.bookmarkRepository
+      .createQueryBuilder('b')
+      .leftJoinAndSelect('b.event', 'e', 'b.bookmarkEventId = e.eventId')
+      .select([
+        'e.eventId',
+        'e.title',
+        'e.address',
+        'e.lat',
+        'e.lng',
+        'e.progress',
+      ])
+      .where('b.bookmarkUserId = :userId', { userId })
+      .andWhere('e.city LIKE :city', {
+        city: city === CityType.ALL ? '%' : city,
+      })
+      .andWhere('e.progress LIKE :progress', {
+        progress: progress === ProgressType.ALL ? '%' : progress,
+      })
+      .getRawMany();
+
+    console.log(results);
+    const eventSummaries = results.map((result) => {
+      return {
+        eventId: result.e_event_id,
+        title: result.e_title,
+        address: result.e_address,
+        lat: result.e_lat,
+        lng: result.e_lng,
+        progress: result.e_progress,
+      };
+    });
+    // eventSummaries에서 lat과 lng가 같은 object의 배열을 eventGroupResponse의 하나의 프로퍼티로 넣는다.
+    const eventGroupResponse = this.toolBoxComponent.groupBy(
+      eventSummaries,
+      function (item: any) {
+        return [item.lat, item.lng];
+      },
+    );
+    return eventGroupResponse.map((eventGroup) => {
+      return {
+        lat: eventGroup[0].lat,
+        lng: eventGroup[0].lng,
+        eventSummaries: eventGroup,
+      };
+    });
   }
 
   async postBookmark(eventId: number, userId: number): Promise<void> {

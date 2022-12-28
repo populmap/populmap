@@ -1,5 +1,6 @@
 import {
   Controller,
+  Get,
   HttpCode,
   HttpException,
   HttpStatus,
@@ -8,20 +9,26 @@ import {
   Param,
   ParseIntPipe,
   Post,
+  Query,
   UseGuards,
 } from '@nestjs/common';
 import {
   ApiConflictResponse,
   ApiNoContentResponse,
   ApiNotFoundResponse,
+  ApiOkResponse,
   ApiOperation,
   ApiParam,
+  ApiQuery,
   ApiTags,
 } from '@nestjs/swagger';
 import { EventBookmarkService } from './event.bookmark.service';
 import { User } from 'src/decorator/user.decorator';
 import { UserSessionDto } from 'src/dto/user.session.dto';
 import { JwtAuthGuard } from 'src/auth/jwt/guard/jwt.auth.guard';
+import { EventSummaryGroupResponseDto } from 'src/dto/response/event.summary.group.response.dto';
+import ProgressType from 'src/enums/progress.type.enum';
+import CityType from 'src/enums/city.type.enum';
 
 @ApiTags('/api/event/bookmark')
 @Controller({
@@ -30,6 +37,54 @@ import { JwtAuthGuard } from 'src/auth/jwt/guard/jwt.auth.guard';
 export class EventBookmarkController {
   private logger = new Logger(EventBookmarkController.name);
   constructor(private eventBookmarkService: EventBookmarkService) {}
+
+  @ApiOperation({
+    summary: '북마크한 이벤트 요약 정보 조회',
+    description:
+      '유저가 북마크한 이벤트 중 city와 progress로 필터링 된 요약 정보를 조회합니다.',
+  })
+  @ApiOkResponse({
+    description:
+      '북마크한 이벤트 요약 정보 조회 성공 시, 200 OK를 응답받습니다.',
+  })
+  @ApiQuery({
+    name: 'city',
+    description: '이벤트가 열리는 도시',
+    required: false,
+    enum: CityType,
+  })
+  @ApiQuery({
+    name: 'progress',
+    description: '이벤트 진행 상태',
+    required: false,
+    enum: ProgressType,
+  })
+  @Get('summary/filter')
+  @HttpCode(HttpStatus.OK)
+  @UseGuards(JwtAuthGuard)
+  async getEventSummaryOfBookmark(
+    @User() user: UserSessionDto,
+    @Query('city') city?: CityType,
+    @Query('progress') progress?: ProgressType,
+  ): Promise<EventSummaryGroupResponseDto[]> {
+    this.logger.debug(`Called ${this.getEventSummaryOfBookmark.name}`);
+    try {
+      return await this.eventBookmarkService.getEventSummaryOfBookmark(
+        user.userId,
+        city,
+        progress,
+      );
+    } catch (err) {
+      this.logger.error(err);
+      if (err instanceof HttpException) {
+        throw err;
+      } else {
+        throw new InternalServerErrorException(
+          `🚨 populmap 내부 서버 에러가 발생했습니다 🥲 🚨`,
+        );
+      }
+    }
+  }
 
   @ApiOperation({
     summary: '이벤트를 북마크에 추가',

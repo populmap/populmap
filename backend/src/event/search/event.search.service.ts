@@ -1,18 +1,10 @@
-import {
-  Inject,
-  Injectable,
-  Logger,
-  NotFoundException,
-  forwardRef,
-} from '@nestjs/common';
+import { Inject, Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { EventSummaryGroupResponseDto } from 'src/dto/response/event.summary.group.response.dto';
 import CityType from 'src/enums/city.type.enum';
 import ProgressType from 'src/enums/progress.type.enum';
 import { IEventRepository } from '../repository/event.repository.interface';
 import { EventDetailResponseDto } from 'src/dto/response/event.detail.response.dto';
 import { EventPagiNationResponseDto } from 'src/dto/response/event.pagination.response.dto';
-import { IBookmarkRepository } from '../repository/bookmark.repository.interface';
-import { EventBookmarkService } from '../bookmark/event.bookmark.service';
 
 @Injectable()
 export class EventSearchService {

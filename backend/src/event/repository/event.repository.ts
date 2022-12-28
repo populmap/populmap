@@ -2,7 +2,7 @@ import { Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import EventDetail from 'src/entities/event.detail.entity';
 import Event from 'src/entities/event.entity';
-import { Like, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import { IEventRepository } from './event.repository.interface';
 import ProgressType from 'src/enums/progress.type.enum';
 import CityType from 'src/enums/city.type.enum';
@@ -11,8 +11,6 @@ import { EventDetailResponseDto } from 'src/dto/response/event.detail.response.d
 import { EventPagiNationResponseDto } from 'src/dto/response/event.pagination.response.dto';
 import { ToolBoxComponent } from 'src/utils/toolbox.component';
 import { EventSummaryDto } from 'src/dto/event.summary.dto';
-import Bookmark from 'src/entities/bookmark.entity';
-import User from 'src/entities/user.entity';
 import { EventListDto } from 'src/dto/event.list.dto';
 
 export class EventRepository implements IEventRepository {

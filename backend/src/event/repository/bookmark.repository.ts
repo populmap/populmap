@@ -63,6 +63,7 @@ export class BookmarkRepository implements IBookmarkRepository {
       .andWhere('e.progress LIKE :progress', {
         progress: progress === ProgressType.ALL ? '%' : progress,
       })
+      .orderBy('b.bookmarkId', 'DESC')
       .getRawMany();
 
     const eventSummaries = results.map((result) => {
@@ -127,9 +128,9 @@ export class BookmarkRepository implements IBookmarkRepository {
       })
       .limit(length)
       .offset(page * length)
-      .orderBy('e.eventId', 'ASC')
+      .orderBy('b.bookmarkId', 'DESC')
+      .addOrderBy('e.eventId', 'ASC')
       .execute();
-    console.log(results);
     return {
       eventLists: results.map((result) => {
         return {

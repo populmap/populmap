@@ -27,9 +27,12 @@ const SelectInstance = (props: SelectInstanceProps): JSX.Element => {
 
 SelectInstance.defaultProps = {
   style: {
-    width: "5rem",
+    fontSize: "0.6rem",
+    width: "7rem",
     height: "1.5rem",
+    border: "0.05rem solid gray",
     borderRadius: "0.7rem",
+    textAlign: "center",
   },
 };
 

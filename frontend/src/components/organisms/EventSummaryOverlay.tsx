@@ -3,9 +3,7 @@ import styled from "@emotion/styled";
 import { useNavigate } from "react-router-dom";
 import { EventSummaryResponseDto } from "../../types/dto/EventSummaryResponse.dto";
 import progressStatus from "../../types/dto/EventDetailResponse.dto";
-import PageNavigateButton from "../atoms/buttons/PageNavigateButton";
-import BookmarkApiButton from "../atoms/buttons/BookmarkApiButton";
-import { axiosEventBookmarkPost } from "../../network/axios/axios.event";
+import DetailBookmarkNav from "./DetailBookmarkNav";
 
 interface EventSummaryOverlayProps {
   eventInfo: EventSummaryResponseDto;
@@ -17,19 +15,14 @@ const SummaryBox = styled.div`
   border-radius: 0.5rem;
   background-color: white;
   font-size: 0.5rem;
+  padding: 1rem;
 `;
 
-const SummaryButton = styled.div`
+const DetailBookmarkNavStyle = styled.div`
   position: absolute;
   top: 80%;
-  left: 20%;
+  left: 10%;
 `;
-const ButtonStyle = {
-  fontSize: "0.5rem",
-  height: "1.5rem",
-  width: "3rem",
-  color: "#3d75cc",
-};
 
 const EventSummaryOverlay = (props: EventSummaryOverlayProps): JSX.Element => {
   const { eventInfo } = props;
@@ -60,7 +53,6 @@ const EventSummaryOverlay = (props: EventSummaryOverlayProps): JSX.Element => {
       >
         <p
           style={{
-            paddingTop: "0.6rem",
             fontSize: "0.7rem",
             textOverflow: "ellipsis",
             overflow: "hidden",
@@ -68,32 +60,21 @@ const EventSummaryOverlay = (props: EventSummaryOverlayProps): JSX.Element => {
         >
           {eventInfo.title}
         </p>
-        <span
+        <p
           style={{
+            height: "1rem",
             fontSize: "0.5rem",
             border: `0.01rem solid ${progressColor(eventInfo.progress)}`,
             borderRadius: "0.2rem",
             backgroundColor: `${progressColor(eventInfo.progress)}`,
-            padding: "0.07rem",
           }}
         >
           {eventInfo.progress}
-        </span>
+        </p>
         <p style={{ whiteSpace: "normal" }}>{eventInfo.address}</p>
-        <SummaryButton>
-          <PageNavigateButton
-            style={ButtonStyle}
-            value="상세보기"
-            route={`/detail/${eventInfo.eventId}`}
-          />
-          <BookmarkApiButton
-            style={ButtonStyle}
-            iconDisplay={false}
-            param={eventInfo.eventId}
-            value="북마크 추가"
-            api={axiosEventBookmarkPost}
-          />
-        </SummaryButton>
+        <DetailBookmarkNavStyle>
+          <DetailBookmarkNav eventId={eventInfo.eventId} />
+        </DetailBookmarkNavStyle>
       </SummaryBox>
     </CustomOverlayMap>
   );

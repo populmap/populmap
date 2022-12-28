@@ -44,7 +44,7 @@ const MainTemplate = (): JSX.Element => {
   const [city, setCity] = useState<string>("전국");
   const [progress, setProgress] = useState<string>("전체");
 
-  useEffect(() => {
+  useEffect((): void => {
     axiosEventSearchSummary(city, progress)
       .then((response) => {
         setEventInfo(response.data);
@@ -52,7 +52,7 @@ const MainTemplate = (): JSX.Element => {
       .catch((error) => console.error(error));
   }, [city, progress]);
 
-  useEffect(() => {
+  useEffect((): void => {
     axiosCityPeople()
       .then((response) => {
         setCityPeopleInfo(response.data);
@@ -62,7 +62,7 @@ const MainTemplate = (): JSX.Element => {
       });
   }, []);
 
-  useEffect(() => {
+  useEffect((): void => {
     axiosCityAccident()
       .then((response) => {
         setCityAccidentInfo(response.data);

@@ -17,19 +17,27 @@ interface DetailContentProps {
   detailResponse: EventDetailResponseDto | undefined;
 }
 
-const Summary = styled.div`
-  font-size: 1rem;
+const SummaryStyle = styled.div`
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  font-size: 0.9rem;
   height: 10rem;
+  padding: 1rem 1.7rem;
 `;
 
-const Information = styled.div`
+const ButtonDivStyle = styled.div`
+  height: 2.5rem;
+`;
+
+const InformationStyle = styled.div`
   text-align: left;
   font-size: 0.8rem;
   display: flex;
   justify-content: start;
   flex-direction: column;
-  margin: 2rem;
-  height: 17rem;
+  margin-left: 1.7rem;
+  height: 18rem;
   overflow-y: scroll;
   -ms-overflow-style: none;
   scrollbar-width: none;
@@ -38,9 +46,9 @@ const Information = styled.div`
   }
 `;
 
-const Update = styled.div`
+const UpdateStyle = styled.div`
   position: fixed;
-  top: 80%;
+  top: 81%;
   left: 55%;
   font-size: 0.1rem;
 `;
@@ -50,17 +58,19 @@ const DetailContent = (props: DetailContentProps): JSX.Element => {
   if (!detailResponse) return <h2>Loading....</h2>;
   return (
     <>
-      <Summary>
+      <SummaryStyle>
         <h3>{detailResponse?.title}</h3>
-        <p style={{ marginBottom: "2rem" }}>{detailResponse?.description}</p>
+        <p>{detailResponse?.description}</p>
+      </SummaryStyle>
+      <ButtonDivStyle>
         <BookmarkApiButton
           param={detailResponse?.eventId}
           value="북마크"
           api={axiosEventBookmarkPost}
         />
         <ShareButton />
-      </Summary>
-      <Information>
+      </ButtonDivStyle>
+      <InformationStyle>
         {detailResponse?.place && (
           <p>
             <PlaceIcon /> {detailResponse?.place}
@@ -96,15 +106,15 @@ const DetailContent = (props: DetailContentProps): JSX.Element => {
             <PaymentIcon /> {detailResponse?.fee}
           </p>
         )}
-      </Information>
-      <Update>
+      </InformationStyle>
+      <UpdateStyle>
         {detailResponse?.modifiedTime && (
           <p>
             업데이트{" "}
             {dayjs(detailResponse?.modifiedTime).format("YYYY/MM/DD HH:mm")}
           </p>
         )}
-      </Update>
+      </UpdateStyle>
     </>
   );
 };

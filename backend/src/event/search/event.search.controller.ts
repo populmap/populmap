@@ -59,13 +59,18 @@ export class EventSearchController {
   @HttpCode(HttpStatus.OK)
   @UseGuards(JwtOptionalAuthGuard)
   async getEventSummary(
-    @User() user: UserSessionDto,
+    @User() user?: UserSessionDto,
     @Query('city') city?: CityType,
     @Query('progress') progress?: ProgressType,
   ): Promise<EventSummaryGroupResponseDto[]> {
     this.logger.debug(`Called ${this.getEventSummary.name}`);
+    const userId = user ? user.userId : -1;
     try {
-      return await this.eventSearchService.getEventSummary(city, progress);
+      return await this.eventSearchService.getEventSummary(
+        userId,
+        city,
+        progress,
+      );
     } catch (err) {
       this.logger.error(err);
       if (err instanceof HttpException) {

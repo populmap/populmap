@@ -50,6 +50,7 @@ export interface IEventRepository {
    * @param progress
    */
   getEventSummary(
+    userId: number,
     city?: CityType,
     progress?: ProgressType,
   ): Promise<EventSummaryGroupResponseDto[]>;

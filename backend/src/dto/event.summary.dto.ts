@@ -25,4 +25,10 @@ export class EventSummaryDto {
     example: ProgressType.BEFOREPROGRESS,
   })
   progress: ProgressType;
+
+  @ApiProperty({
+    description: '행사가 북마크에 추가되어있는지 여부',
+    example: true,
+  })
+  isBookmarked: boolean;
 }

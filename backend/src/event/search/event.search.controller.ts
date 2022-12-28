@@ -146,17 +146,19 @@ export class EventSearchController {
   @HttpCode(HttpStatus.OK)
   @UseGuards(JwtOptionalAuthGuard)
   async getEventList(
-    @User() user: UserSessionDto,
     @Query('page', ParseIntPipe) page: number,
     @Query('length', ParseIntPipe) length: number,
+    @User() user?: UserSessionDto,
     @Query('city') city?: CityType,
     @Query('progress') progress?: ProgressType,
   ): Promise<EventPagiNationResponseDto> {
     this.logger.debug(`Called ${this.getEventList.name}`);
+    const userId = user ? user.userId : -1;
     try {
       return await this.eventSearchService.getEventList(
         page,
         length,
+        userId,
         city,
         progress,
       );

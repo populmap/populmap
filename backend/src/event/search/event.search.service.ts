@@ -55,6 +55,7 @@ export class EventSearchService {
   async getEventList(
     page: number,
     length: number,
+    userId: number,
     city?: CityType,
     progress?: ProgressType,
   ): Promise<EventPagiNationResponseDto> {
@@ -63,6 +64,7 @@ export class EventSearchService {
       return await this.eventRepository.getEventList(
         page,
         length,
+        userId,
         city,
         progress,
       );

@@ -46,6 +46,7 @@ export interface IEventRepository {
 
   /**
    * city와 progress에 해당하는 eventSummary 정보를 반환한다.
+   * @param userId
    * @param city
    * @param progress
    */
@@ -66,12 +67,14 @@ export interface IEventRepository {
    * page length를 이용하여 pagination을 적용한다.
    * @param page
    * @param length
+   * @param userId
    * @param city
    * @param progress
    */
   getEventList(
     page: number,
     length: number,
+    userId: number,
     city?: CityType,
     progress?: ProgressType,
   ): Promise<EventPagiNationResponseDto>;

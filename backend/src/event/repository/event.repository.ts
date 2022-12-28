@@ -13,6 +13,7 @@ import { ToolBoxComponent } from 'src/utils/toolbox.component';
 import { EventSummaryDto } from 'src/dto/event.summary.dto';
 import Bookmark from 'src/entities/bookmark.entity';
 import User from 'src/entities/user.entity';
+import { EventListDto } from 'src/dto/event.list.dto';
 
 export class EventRepository implements IEventRepository {
   private logger = new Logger(EventRepository.name);
@@ -316,6 +317,7 @@ export class EventRepository implements IEventRepository {
   async getEventList(
     page: number,
     length: number,
+    userId: number,
     city?: CityType,
     progress?: ProgressType,
   ): Promise<EventPagiNationResponseDto> {
@@ -327,17 +329,20 @@ export class EventRepository implements IEventRepository {
     }
     const results = await this.eventRepository
       .createQueryBuilder('e')
-      .leftJoinAndSelect('e.eventDetail', 'ed', 'e.eventId = ed.eventId')
       .select([
-        'e.eventId',
-        'e.title',
-        'e.address',
-        'ed.beginTime',
-        'ed.endTime',
-        'ed.call',
-        'e.progress',
+        'e.eventId as e_event_id',
+        'e.title as e_title',
+        'e.address as e_address',
+        'ed.beginTime as ed_begin_time',
+        'ed.endTime as ed_end_time',
+        'ed.call as ed_call',
+        'e.progress as e_progress',
+        'u.userId as u_user_id',
         'COUNT(*) OVER () AS cnt',
       ])
+      .leftJoin('e.bookmarks', 'b', 'b.bookmarkEventId = e.eventId')
+      .leftJoin('b.user', 'u', 'b.bookmarkUserId = u.userId')
+      .leftJoin('e.eventDetail', 'ed', 'e.eventId = ed.eventId')
       .where('city LIKE :city', {
         city: city === CityType.ALL ? '%' : city,
       })
@@ -358,7 +363,8 @@ export class EventRepository implements IEventRepository {
           endTime: result.ed_end_time,
           call: result.ed_call,
           progress: result.e_progress,
-        };
+          isBookmarked: result.u_user_id === userId ? true : false,
+        } as EventListDto;
       }),
       totalLength: results.length > 0 ? Number(results[0].cnt) : 0,
     };

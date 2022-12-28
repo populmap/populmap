@@ -9,6 +9,8 @@ import CityType from 'src/enums/city.type.enum';
 import { EventSummaryGroupResponseDto } from 'src/dto/response/event.summary.group.response.dto';
 import { EventDetailResponseDto } from 'src/dto/response/event.detail.response.dto';
 import { EventPagiNationResponseDto } from 'src/dto/response/event.pagination.response.dto';
+import { EventSummaryDto } from 'src/dto/event.summary.dto';
+import { ToolBoxComponent } from 'src/utils/toolbox.component';
 
 export class EventRepository implements IEventRepository {
   private logger = new Logger(EventRepository.name);
@@ -17,6 +19,7 @@ export class EventRepository implements IEventRepository {
     private eventRepository: Repository<Event>,
     @InjectRepository(EventDetail)
     private eventDetailRepository: Repository<EventDetail>,
+    private toolBoxComponent: ToolBoxComponent,
   ) {}
 
   async getEventIdIfExists(title: string): Promise<number> {
@@ -238,7 +241,7 @@ export class EventRepository implements IEventRepository {
         progress: progress === ProgressType.ALL ? '%' : progress,
       })
       .getMany();
-    return results.map((result) => {
+    const eventSummaries = results.map((result) => {
       return {
         eventId: result.eventId,
         title: result.title,
@@ -246,6 +249,20 @@ export class EventRepository implements IEventRepository {
         lat: result.lat,
         lng: result.lng,
         progress: result.progress,
+      };
+    });
+    // eventSummaries에서 lat과 lng가 같은 object의 배열을 eventGroupResponse의 하나의 프로퍼티로 넣는다.
+    const eventGroupResponse = this.toolBoxComponent.groupBy(
+      eventSummaries,
+      function (item: any) {
+        return [item.lat, item.lng];
+      },
+    );
+    return eventGroupResponse.map((eventGroup) => {
+      return {
+        lat: eventGroup[0].lat,
+        lng: eventGroup[0].lng,
+        eventSummaries: eventGroup,
       };
     });
   }

@@ -132,7 +132,7 @@ export class EventBookmarkController {
     console.log(page, length, city, progress);
     try {
       return await this.eventBookmarkService.getEventListOfBookmark(
-        user,
+        user.userId,
         page,
         length,
         city,

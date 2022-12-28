@@ -5,6 +5,7 @@ import { EventService } from '../event.service';
 import { EventSummaryGroupResponseDto } from 'src/dto/response/event.summary.group.response.dto';
 import CityType from 'src/enums/city.type.enum';
 import ProgressType from 'src/enums/progress.type.enum';
+import { EventPagiNationResponseDto } from 'src/dto/response/event.pagination.response.dto';
 
 @Injectable()
 export class EventBookmarkService {
@@ -25,6 +26,28 @@ export class EventBookmarkService {
     try {
       return await this.bookmarkRepository.getEventSummaryOfBookmark(
         userId,
+        city,
+        progress,
+      );
+    } catch (err) {
+      this.logger.error(err);
+      throw err;
+    }
+  }
+
+  async getEventListOfBookmark(
+    userId: number,
+    page: number,
+    length: number,
+    city?: CityType,
+    progress?: ProgressType,
+  ): Promise<EventPagiNationResponseDto> {
+    this.logger.debug(`Called ${this.getEventListOfBookmark.name}`);
+    try {
+      return await this.bookmarkRepository.getEventListOfBookmark(
+        userId,
+        page,
+        length,
         city,
         progress,
       );

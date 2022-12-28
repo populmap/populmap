@@ -29,6 +29,7 @@ import { JwtAuthGuard } from 'src/auth/jwt/guard/jwt.auth.guard';
 import { EventSummaryGroupResponseDto } from 'src/dto/response/event.summary.group.response.dto';
 import ProgressType from 'src/enums/progress.type.enum';
 import CityType from 'src/enums/city.type.enum';
+import { EventPagiNationResponseDto } from 'src/dto/response/event.pagination.response.dto';
 
 @ApiTags('/api/event/bookmark')
 @Controller({
@@ -71,6 +72,69 @@ export class EventBookmarkController {
     try {
       return await this.eventBookmarkService.getEventSummaryOfBookmark(
         user.userId,
+        city,
+        progress,
+      );
+    } catch (err) {
+      this.logger.error(err);
+      if (err instanceof HttpException) {
+        throw err;
+      } else {
+        throw new InternalServerErrorException(
+          `🚨 populmap 내부 서버 에러가 발생했습니다 🥲 🚨`,
+        );
+      }
+    }
+  }
+
+  @ApiOperation({
+    summary: '북마크한 이벤트 list 정보 조회',
+    description:
+      '유저가 북마크한 이벤트 중 city와 progress로 필터링 된 list 정보를 조회합니다.',
+  })
+  @ApiOkResponse({
+    description:
+      '북마크한 이벤트 list 정보 조회 성공 시, 200 OK를 응답받습니다.',
+  })
+  @ApiQuery({
+    name: 'page',
+    description: '조회할 페이지(0부터 시작)',
+    type: 'number',
+  })
+  @ApiQuery({
+    name: 'length',
+    description: '가져올 데이터 수',
+    type: 'number',
+  })
+  @ApiQuery({
+    name: 'city',
+    description: '이벤트가 열리는 도시',
+    required: false,
+    enum: CityType,
+  })
+  @ApiQuery({
+    name: 'progress',
+    description: '이벤트 진행 상태',
+    required: false,
+    enum: ProgressType,
+  })
+  @Get('list/filter')
+  @HttpCode(HttpStatus.OK)
+  @UseGuards(JwtAuthGuard)
+  async getEventListOfBookmark(
+    @User() user: UserSessionDto,
+    @Query('page', ParseIntPipe) page: number,
+    @Query('length', ParseIntPipe) length: number,
+    @Query('city') city?: CityType,
+    @Query('progress') progress?: ProgressType,
+  ): Promise<EventPagiNationResponseDto> {
+    this.logger.debug(`Called ${this.getEventListOfBookmark.name}`);
+    console.log(page, length, city, progress);
+    try {
+      return await this.eventBookmarkService.getEventListOfBookmark(
+        user,
+        page,
+        length,
         city,
         progress,
       );

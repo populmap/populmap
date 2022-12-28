@@ -103,11 +103,11 @@ export class EventSearchController {
   }
 
   @ApiOperation({
-    summary: '이벤트 요약 정보 조회',
-    description: 'city와 progress로 필터링 된 이벤트 요약 정보를 조회합니다.',
+    summary: '이벤트 요약 list 정보 조회',
+    description: 'city와 progress로 필터링 된 이벤트 list 정보를 조회합니다.',
   })
   @ApiOkResponse({
-    description: '이벤트 요약 정보 조회 성공 시, 200 OK를 응답받습니다.',
+    description: '이벤트 list 정보 조회 성공 시, 200 OK를 응답받습니다.',
   })
   @ApiQuery({
     name: 'page',

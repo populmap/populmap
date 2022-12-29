@@ -1,11 +1,11 @@
-enum progressStatus {
+enum progressType {
   ALL = "전체",
   BEFOREPROGRESS = "진행전",
   INPROGRESS = "진행중",
   AFTERPROGRESS = "진행종료",
 }
 
-export default progressStatus;
+export default progressType;
 
 export interface EventDetailResponseDto {
   eventId: number;
@@ -19,7 +19,7 @@ export interface EventDetailResponseDto {
   beginTime: Date;
   endTime: Date;
   modifiedTime: Date;
-  progress: progressStatus;
+  progress: progressType;
   place: string;
   url: string;
 }

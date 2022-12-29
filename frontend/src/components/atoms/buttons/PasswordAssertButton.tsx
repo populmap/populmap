@@ -21,7 +21,6 @@ const PasswordAssertButton = (
       axiosAuthPasswordAssert({ password })
         .then((response) => {
           setIsAssert(true);
-          console.log(response);
         })
 
         .catch((error: any) => {

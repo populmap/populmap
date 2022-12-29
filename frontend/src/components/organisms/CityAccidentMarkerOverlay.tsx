@@ -1,5 +1,6 @@
 import { CustomOverlayMap } from "react-kakao-maps-sdk";
 import styled from "@emotion/styled";
+import dayjs from "dayjs";
 import { CityAccidentResponseDto } from "../../types/dto/CityAccidentResponse.dto";
 
 interface CityAccidentMarkerOverlayProps {
@@ -7,11 +8,13 @@ interface CityAccidentMarkerOverlayProps {
 }
 
 const SummaryBox = styled.div`
+  position: relative;
   width: 10rem;
-  height: 7rem;
+  height: 11rem;
   border-radius: 0.5rem;
   background-color: white;
-  font-size: 0.5rem;
+  font-size: 0.2rem;
+  padding: 0.5rem 1rem;
 `;
 
 const ButtonStyle = {
@@ -19,6 +22,12 @@ const ButtonStyle = {
   fontSize: "0.5rem",
   height: "1.5rem",
 };
+
+const UpdateStyle = styled.div`
+  position: fixed;
+  transform: translate(15%, 65%);
+  font-size: 0.1rem;
+`;
 
 const CityAccidentMarkerOverlay = (
   props: CityAccidentMarkerOverlayProps
@@ -34,11 +43,20 @@ const CityAccidentMarkerOverlay = (
       clickable
     >
       <SummaryBox>
-        <p>{cityAccidentInfo.beginTime}</p>
-        <p>{cityAccidentInfo.endTime}</p>
-        <p>{cityAccidentInfo.type}</p>
-        <p>{cityAccidentInfo.detailType}</p>
-        <p>{cityAccidentInfo.updateTime.toString().substring(0, 10)}</p>
+        <p style={{ fontWeight: "bold", fontSize: "0.8rem" }}>
+          {cityAccidentInfo.type}
+        </p>
+        <p style={{ fontSize: "0.6rem" }}>{cityAccidentInfo.detailType}</p>
+        <p>{dayjs(cityAccidentInfo.beginTime).format("YYYY/MM/DD HH:mm")}</p>
+        <p>{"~"}</p>
+        <p>{dayjs(cityAccidentInfo.endTime).format("YYYY/MM/DD HH:mm")}</p>
+        <UpdateStyle>
+          <p>
+            {" "}
+            업데이트{" "}
+            {dayjs(cityAccidentInfo.updateTime).format("YYYY/MM/DD HH:mm")}
+          </p>
+        </UpdateStyle>
       </SummaryBox>
     </CustomOverlayMap>
   );

@@ -43,7 +43,7 @@ const SummaryNavStyle = styled.div`
 
 const UpdateStyle = styled.div`
   position: fixed;
-  transform: translate(15%, 100%);
+  transform: translate(15%, 50%);
   font-size: 0.1rem;
 `;
 
@@ -90,7 +90,6 @@ const CityMarkerOverlay = (props: CityMarkerOverlayProps): JSX.Element => {
         </p>
         {isChange ? (
           <>
-            {/* <p>{cityPeopleInfo.type}</p> */}
             <></>
             <p
               style={{

@@ -1,19 +1,25 @@
 import { MapMarker, useMap } from "react-kakao-maps-sdk";
-import { SetStateAction, Dispatch } from "react";
 import { useAppDispatch } from "../../redux/hook";
-import { mapLocationChange } from "../../redux/slices/mapSlice";
+import {
+  mapLocationChange,
+  mapSetIsEventOverlayShow,
+  mapSetIsBookmarkOverlayShow,
+  mapCloseOverlay,
+} from "../../redux/slices/mapSlice";
 import EventSummaryOverlay from "./EventSummaryOverlay";
 import EventSummaryList from "./EventSummaryList";
 import { EventSummaryGroupResponseDto } from "../../types/dto/EventSummaryResponse.dto";
+import EventImage from "../../../img/event.png";
+import BookmarkImage from "../../../img/bookmark.png";
 
 interface EventMarkerProps {
   eventInfo: EventSummaryGroupResponseDto;
-  setCurrentMarker: Dispatch<SetStateAction<number>>;
   isShow: boolean;
+  type: string;
 }
 
 const EventMarker = (props: EventMarkerProps): JSX.Element => {
-  const { eventInfo, setCurrentMarker, isShow } = props;
+  const { eventInfo, isShow, type } = props;
   const dispatch = useAppDispatch();
   const map = useMap();
 
@@ -32,10 +38,17 @@ const EventMarker = (props: EventMarkerProps): JSX.Element => {
               lng: marker.getPosition().getLng(),
             })
           );
-          setCurrentMarker(eventInfo.eventSummaries[0].eventId);
+          dispatch(mapCloseOverlay());
+          type === "event"
+            ? dispatch(
+                mapSetIsEventOverlayShow(eventInfo.eventSummaries[0].eventId)
+              )
+            : dispatch(
+                mapSetIsBookmarkOverlayShow(eventInfo.eventSummaries[0].eventId)
+              );
         }}
         image={{
-          src: "../../img/event.png",
+          src: type === "event" ? EventImage : BookmarkImage,
           size: { width: 32, height: 32 },
         }}
       />

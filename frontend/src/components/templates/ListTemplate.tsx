@@ -55,7 +55,6 @@ const ListTemplate = (): JSX.Element => {
     } else if (type === "/bookmark") {
       axiosEventBookmarkList(page, length, city, progress)
         .then((response) => {
-          console.log(response.data);
           setEventLists(response.data);
         })
         .catch((err) => console.error(err));

@@ -1,5 +1,5 @@
 import { SetStateAction, Dispatch } from "react";
-import progressStatus from "../../types/dto/EventDetailResponse.dto";
+import progressType from "../../types/dto/EventDetailResponse.dto";
 import CityType from "../../../../backend/src/enums/city.type.enum";
 import SelectInstance from "../atoms/selects/SelectInstance";
 
@@ -31,7 +31,7 @@ const SelectBox = (props: SelectBoxProps): JSX.Element => {
         setValue={setCity}
       />
       <SelectInstance
-        options={Object.values(progressStatus)}
+        options={Object.values(progressType)}
         type="progress"
         setValue={setProgress}
         style={progressStyle}

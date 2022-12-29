@@ -44,9 +44,10 @@ const EventSummaryList = (props: EventSummaryListProps): JSX.Element => {
       clickable
     >
       <SummaryBox>
-        {eventList.map((event) => {
+        {eventList.map((event, index) => {
           return (
             <ListButtonStyle
+              key={index}
               onClick={() => navigate(`/detail/${event.eventId}`)}
             >
               {event.title}

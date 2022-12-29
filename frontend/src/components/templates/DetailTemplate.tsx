@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import { useEffect, useState } from "react";
 import { axiosEventSearchDetail } from "../../network/axios/axios.event";
-import progressStatus, {
+import progressType, {
   EventDetailResponseDto,
 } from "../../types/dto/EventDetailResponse.dto";
 import DetailContent from "../organisms/DetailContent";

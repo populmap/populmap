@@ -1,41 +1,25 @@
 import { MapMarker, useMap } from "react-kakao-maps-sdk";
-import { Dispatch, SetStateAction } from "react";
 import densityLevel, {
   CityPeopleResponseDto,
+  setImage,
 } from "../../types/dto/CityPeopleResponse.dto";
 import { useAppDispatch } from "../../redux/hook";
 import CityMarkerOverlay from "./CityMarkerOverlay";
-import orangeCircle from "../../../img/orangeCircle.png";
-import greenCircle from "../../../img/greenCircle.png";
-import yellowCircle from "../../../img/yellowCircle.png";
-import redCircle from "../../../img/redCircle.png";
-import { mapLocationChange } from "../../redux/slices/mapSlice";
+import {
+  mapLocationChange,
+  mapSetIsCityOverlayShow,
+  mapCloseOverlay,
+} from "../../redux/slices/mapSlice";
 
 interface CityMarkerProps {
   cityPeopleInfo: CityPeopleResponseDto;
-  setCurrentMarker: Dispatch<SetStateAction<number>>;
   isShow: boolean;
 }
 
 const CityMarker = (props: CityMarkerProps): JSX.Element => {
-  const { cityPeopleInfo, setCurrentMarker, isShow } = props;
+  const { cityPeopleInfo, isShow } = props;
   const map = useMap();
   const dispatch = useAppDispatch();
-
-  const setImage = (status: string): string => {
-    switch (status) {
-      case densityLevel.SMOOTH:
-        return greenCircle;
-      case densityLevel.NORMAL:
-        return yellowCircle;
-      case densityLevel.CROWDED:
-        return orangeCircle;
-      case densityLevel.VERYCROWDED:
-        return redCircle;
-      default:
-        return "";
-    }
-  };
 
   return (
     <>
@@ -52,7 +36,8 @@ const CityMarker = (props: CityMarkerProps): JSX.Element => {
               lng: marker.getPosition().getLng(),
             })
           );
-          setCurrentMarker(cityPeopleInfo.cityId);
+          dispatch(mapCloseOverlay());
+          dispatch(mapSetIsCityOverlayShow(cityPeopleInfo.cityId));
         }}
         image={{
           src: setImage(cityPeopleInfo.level),

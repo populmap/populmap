@@ -5,7 +5,7 @@ import {
   EventSummaryResponseDto,
   EventSummaryGroupResponseDto,
 } from "../../types/dto/EventSummaryResponse.dto";
-import progressStatus from "../../types/dto/EventDetailResponse.dto";
+import { progressColor } from "../../types/dto/EventSummaryResponse.dto";
 import DetailBookmarkNav from "./DetailBookmarkNav";
 
 interface EventSummaryOverlayProps {
@@ -32,18 +32,6 @@ const DetailBookmarkNavStyle = styled.div`
 const EventSummaryOverlay = (props: EventSummaryOverlayProps): JSX.Element => {
   const { eventInfo, lat, lng } = props;
   const navigate = useNavigate();
-  const progressColor = (status: string): string => {
-    switch (status) {
-      case progressStatus.BEFOREPROGRESS:
-        return "#ff6f0f";
-      case progressStatus.INPROGRESS:
-        return "#18ce5f";
-      case progressStatus.AFTERPROGRESS:
-        return "#ff0200";
-      default:
-        return "#ffffff";
-    }
-  };
 
   return (
     <CustomOverlayMap

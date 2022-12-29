@@ -32,8 +32,8 @@ const DetailBookmarkNavStyle = styled.div`
 
 const EventCard = (props: EventCardProps): JSX.Element => {
   const { cardInfo } = props;
+  console.log(cardInfo);
   const navigate = useNavigate();
-
   return (
     <EventCardStyle onClick={() => navigate(`/detail/${cardInfo.eventId}`)}>
       <InformationStyle>

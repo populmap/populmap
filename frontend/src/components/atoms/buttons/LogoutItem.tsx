@@ -11,7 +11,6 @@ const LogoutItem = (): JSX.Element => {
   const handleLogout = (): void => {
     axiosAuthLogout()
       .then((response) => {
-        console.log(response);
         if (response.status === 200) {
           dispatch(userInitialize());
           navigate("/");

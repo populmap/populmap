@@ -12,12 +12,13 @@ import CityAccidentMarker from "./CityAccidentMarker";
 
 interface LoadMapProps {
   eventInfo: EventSummaryGroupResponseDto[] | undefined;
+  bookmarkInfo: EventSummaryGroupResponseDto[] | undefined;
   cityPeopleInfo: CityPeopleResponseDto[] | undefined;
   cityAccidentInfo: CityAccidentResponseDto[] | undefined;
 }
 
 const LoadMap = (props: LoadMapProps): JSX.Element => {
-  const { eventInfo, cityPeopleInfo, cityAccidentInfo } = props;
+  const { eventInfo, bookmarkInfo, cityPeopleInfo, cityAccidentInfo } = props;
 
   const dispatch = useAppDispatch();
   const mapState = useAppSelector((state) => state.map);
@@ -57,6 +58,21 @@ const LoadMap = (props: LoadMapProps): JSX.Element => {
                   mapState.isEventOverlayShow ===
                   event.eventSummaries[0].eventId
                 }
+                type="event"
+              />
+            );
+          })}
+        {mapState.isBookmarkShow &&
+          bookmarkInfo?.map((event) => {
+            return (
+              <EventMarker
+                key={event.eventSummaries[0].eventId}
+                eventInfo={event}
+                isShow={
+                  mapState.isBookmarkOverlayShow ===
+                  event.eventSummaries[0].eventId
+                }
+                type="bookmark"
               />
             );
           })}

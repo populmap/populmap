@@ -9,7 +9,10 @@ import {
   axiosCityPeople,
   axiosCityAccident,
 } from "../../network/axios/axios.city";
-import { axiosEventSearchSummary } from "../../network/axios/axios.event";
+import {
+  axiosEventSearchSummary,
+  axiosEventBookmarkSummary,
+} from "../../network/axios/axios.event";
 import { CityAccidentResponseDto } from "../../types/dto/CityAccidentResponse.dto";
 import { CityPeopleResponseDto } from "../../types/dto/CityPeopleResponse.dto";
 import { EventSummaryGroupResponseDto } from "../../types/dto/EventSummaryResponse.dto";
@@ -41,6 +44,8 @@ const MainTemplate = (): JSX.Element => {
   const [cityAccidentInfo, setCityAccidentInfo] =
     useState<CityAccidentResponseDto[]>();
   const [eventInfo, setEventInfo] = useState<EventSummaryGroupResponseDto[]>();
+  const [bookmarkInfo, setBookmarkInfo] =
+    useState<EventSummaryGroupResponseDto[]>();
   const [city, setCity] = useState<string>("전국");
   const [progress, setProgress] = useState<string>("전체");
 
@@ -48,6 +53,14 @@ const MainTemplate = (): JSX.Element => {
     axiosEventSearchSummary(city, progress)
       .then((response) => {
         setEventInfo(response.data);
+      })
+      .catch((error) => console.error(error));
+  }, [city, progress]);
+
+  useEffect((): void => {
+    axiosEventBookmarkSummary(city, progress)
+      .then((response) => {
+        setBookmarkInfo(response.data);
       })
       .catch((error) => console.error(error));
   }, [city, progress]);
@@ -77,6 +90,7 @@ const MainTemplate = (): JSX.Element => {
       {loading ? null : (
         <LoadMap
           eventInfo={eventInfo}
+          bookmarkInfo={bookmarkInfo}
           cityPeopleInfo={cityPeopleInfo}
           cityAccidentInfo={cityAccidentInfo}
         />

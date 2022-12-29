@@ -27,7 +27,7 @@ const HeaderTemplate = (): JSX.Element => {
       <img
         width="40px"
         height="40px"
-        src="../../../img/logo.ico"
+        src="../../../img/homeLogo.ico"
         onClick={() => navigate("/")}
       />
       <PageNavigateButton

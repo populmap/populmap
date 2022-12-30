@@ -1,11 +1,12 @@
 import { MapMarker, useMap } from "react-kakao-maps-sdk";
 import { useAppDispatch } from "../../redux/hook";
+import { mapLocationChange } from "../../redux/slices/mapSlice";
 import {
-  mapLocationChange,
-  mapSetIsEventOverlayShow,
-  mapSetIsBookmarkOverlayShow,
-  mapCloseOverlay,
-} from "../../redux/slices/mapSlice";
+  overlaySetIsEventOverlayNumber,
+  overlaySetIsBookmarkOverlayNumber,
+  overlayClose,
+} from "../../redux/slices/overlaySlice";
+
 import EventSummaryOverlay from "./EventSummaryOverlay";
 import EventSummaryList from "./EventSummaryList";
 import { EventSummaryGroupResponseDto } from "../../types/dto/EventSummaryResponse.dto";
@@ -38,13 +39,17 @@ const EventMarker = (props: EventMarkerProps): JSX.Element => {
               lng: marker.getPosition().getLng(),
             })
           );
-          dispatch(mapCloseOverlay());
+          dispatch(overlayClose());
           type === "event"
             ? dispatch(
-                mapSetIsEventOverlayShow(eventInfo.eventSummaries[0].eventId)
+                overlaySetIsEventOverlayNumber(
+                  eventInfo.eventSummaries[0].eventId
+                )
               )
             : dispatch(
-                mapSetIsBookmarkOverlayShow(eventInfo.eventSummaries[0].eventId)
+                overlaySetIsBookmarkOverlayNumber(
+                  eventInfo.eventSummaries[0].eventId
+                )
               );
         }}
         image={{

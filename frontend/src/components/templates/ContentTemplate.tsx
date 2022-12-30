@@ -1,5 +1,6 @@
 import styled from "@emotion/styled";
-import { PropsWithChildren } from "react";
+import { PropsWithChildren, useEffect } from "react";
+import { useAppDispatch } from "../../redux/hook";
 
 const ContentSection = styled.article`
   height: 100vh;

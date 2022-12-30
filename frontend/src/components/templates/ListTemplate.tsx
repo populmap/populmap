@@ -79,7 +79,7 @@ const ListTemplate = (): JSX.Element => {
       </CardListStyle>
       <PaginationStyle>
         <Pagination
-          totalLength={293}
+          totalLength={eventLists?.totalLength}
           length={length}
           page={page}
           setPage={setPage}

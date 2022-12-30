@@ -77,7 +77,7 @@ export class EventRepository implements IEventRepository {
     }
 
     const result = await this.eventRepository.insert({
-      title: item['eventNm']._text,
+      title: this.toolBoxComponent.decodeHtmlEntity(item['eventNm']._text),
       address: address ? address : null,
       lat: item['latitude']._text,
       lng: item['longitude']._text,
@@ -119,13 +119,15 @@ export class EventRepository implements IEventRepository {
     await this.eventDetailRepository.insert({
       eventId,
       call: item['phoneNumber']._text,
-      description: item['eventCo']._text,
+      description: this.toolBoxComponent.decodeHtmlEntity(
+        item['eventCo']._text,
+      ),
       fee: item['admfee']._text,
       beginTime,
       endTime,
       modifiedTime: item['referenceDate']._text,
       url: url ? url : null,
-      place: item['opar']._text,
+      place: this.toolBoxComponent.decodeHtmlEntity(item['opar']._text),
     });
   }
 
@@ -166,7 +168,7 @@ export class EventRepository implements IEventRepository {
       .createQueryBuilder()
       .update(Event)
       .set({
-        title: item['eventNm']._text,
+        title: this.toolBoxComponent.decodeHtmlEntity(item['eventNm']._text),
         address: address ? address : null,
         lat: item['latitude']._text,
         lng: item['longitude']._text,
@@ -211,13 +213,15 @@ export class EventRepository implements IEventRepository {
       .update(EventDetail)
       .set({
         call: item['phoneNumber']._text,
-        description: item['eventCo']._text,
+        description: this.toolBoxComponent.decodeHtmlEntity(
+          item['eventCo']._text,
+        ),
         fee: item['admfee']._text,
         beginTime,
         endTime,
         modifiedTime: item['referenceDate']._text,
         url: url ? url : null,
-        place: item['opar']._text,
+        place: this.toolBoxComponent.decodeHtmlEntity(item['opar']._text),
       })
       .where('eventId = :eventId', { eventId })
       .execute();

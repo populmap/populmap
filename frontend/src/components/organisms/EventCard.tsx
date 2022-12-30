@@ -33,6 +33,7 @@ const DetailBookmarkNavStyle = styled.div`
 const EventCard = (props: EventCardProps): JSX.Element => {
   const { cardInfo } = props;
   const navigate = useNavigate();
+
   return (
     <EventCardStyle onClick={() => navigate(`/detail/${cardInfo.eventId}`)}>
       <InformationStyle>
@@ -51,8 +52,8 @@ const EventCard = (props: EventCardProps): JSX.Element => {
         {cardInfo?.progress && <p>{cardInfo?.progress}</p>}
         {(cardInfo?.beginTime || cardInfo?.endTime) && (
           <p>
-            {dayjs(cardInfo?.beginTime).format("YYYY/MM/DD HH:mm")} {" ~ "}
-            {dayjs(cardInfo?.endTime).format("YYYY/MM/DD HH:mm")}
+            {`${dayjs(cardInfo?.beginTime).format("YYYY/MM/DD HH:mm")}`} {" ~ "}
+            {`${dayjs(cardInfo?.endTime).format("YYYY/MM/DD HH:mm")}`}
           </p>
         )}
       </InformationStyle>

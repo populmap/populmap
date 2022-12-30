@@ -25,7 +25,7 @@ const ButtonStyle = {
 
 const UpdateStyle = styled.div`
   position: fixed;
-  transform: translate(15%, 65%);
+  transform: translate(15%, 20%);
   font-size: 0.1rem;
 `;
 
@@ -47,14 +47,16 @@ const CityAccidentMarkerOverlay = (
           {cityAccidentInfo.type}
         </p>
         <p style={{ fontSize: "0.6rem" }}>{cityAccidentInfo.detailType}</p>
-        <p>{dayjs(cityAccidentInfo.beginTime).format("YYYY/MM/DD HH:mm")}</p>
+        <p>{`${dayjs(cityAccidentInfo.beginTime).format(
+          "YYYY/MM/DD HH:mm"
+        )}`}</p>
         <p>{"~"}</p>
-        <p>{dayjs(cityAccidentInfo.endTime).format("YYYY/MM/DD HH:mm")}</p>
+        <p>{`${dayjs(cityAccidentInfo.endTime).format("YYYY/MM/DD HH:mm")}`}</p>
         <UpdateStyle>
           <p>
             {" "}
             업데이트{" "}
-            {dayjs(cityAccidentInfo.updateTime).format("YYYY/MM/DD HH:mm")}
+            {`${dayjs(cityAccidentInfo.updateTime).format("YYYY/MM/DD HH:mm")}`}
           </p>
         </UpdateStyle>
       </SummaryBox>

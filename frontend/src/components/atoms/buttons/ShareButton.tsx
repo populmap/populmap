@@ -5,7 +5,7 @@ const ShareButton = (): JSX.Element => {
   const handleClick = async () => {
     try {
       await navigator.clipboard.writeText(window.location.href);
-      alert("주소가 복사되었습니다.");
+      alert("복사되었습니다.");
     } catch (e) {
       alert("복사에 실패했습니다.");
     }

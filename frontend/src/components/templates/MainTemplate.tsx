@@ -16,6 +16,7 @@ import {
 import { CityAccidentResponseDto } from "../../types/dto/CityAccidentResponse.dto";
 import { CityPeopleResponseDto } from "../../types/dto/CityPeopleResponse.dto";
 import { EventSummaryGroupResponseDto } from "../../types/dto/EventSummaryResponse.dto";
+import { useAppSelector } from "../../redux/hook";
 
 const MainSection = styled.section`
   position: relative;
@@ -38,6 +39,7 @@ const MainTemplate = (): JSX.Element => {
     appkey: `${import.meta.env.VITE_KAKAO_MAP_KEY}`,
     libraries: ["services"],
   });
+  const user = useAppSelector((state) => state.user);
 
   const [cityPeopleInfo, setCityPeopleInfo] =
     useState<CityPeopleResponseDto[]>();
@@ -58,11 +60,13 @@ const MainTemplate = (): JSX.Element => {
   }, [city, progress]);
 
   useEffect((): void => {
-    axiosEventBookmarkSummary(city, progress)
-      .then((response) => {
-        setBookmarkInfo(response.data);
-      })
-      .catch((error) => console.error(error));
+    if (user.userId !== -1) {
+      axiosEventBookmarkSummary(city, progress)
+        .then((response) => {
+          setBookmarkInfo(response.data);
+        })
+        .catch((error) => console.error(error));
+    }
   }, [city, progress]);
 
   useEffect((): void => {

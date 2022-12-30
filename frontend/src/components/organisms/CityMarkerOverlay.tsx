@@ -43,7 +43,7 @@ const SummaryNavStyle = styled.div`
 
 const UpdateStyle = styled.div`
   position: fixed;
-  transform: translate(15%, 50%);
+  transform: translate(15%, 20%);
   font-size: 0.1rem;
 `;
 
@@ -111,7 +111,9 @@ const CityMarkerOverlay = (props: CityMarkerOverlayProps): JSX.Element => {
             <UpdateStyle>
               <p>
                 업데이트{" "}
-                {dayjs(cityPeopleInfo.updateTime).format("YYYY/MM/DD HH:mm")}
+                {`${dayjs(cityPeopleInfo.updateTime).format(
+                  "YYYY/MM/DD HH:mm"
+                )}`}
               </p>
             </UpdateStyle>
           </>
@@ -138,7 +140,9 @@ const CityMarkerOverlay = (props: CityMarkerOverlayProps): JSX.Element => {
             <UpdateStyle>
               <p>
                 업데이트{" "}
-                {dayjs(roadAvgResponse?.updateTime).format("YYYY/MM/DD HH:mm")}
+                {`${dayjs(roadAvgResponse?.updateTime).format(
+                  "YYYY/MM/DD HH:mm"
+                )}`}
               </p>
             </UpdateStyle>
           </>

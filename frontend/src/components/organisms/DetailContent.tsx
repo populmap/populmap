@@ -71,9 +71,9 @@ const DetailContent = (props: DetailContentProps): JSX.Element => {
         <ShareButton />
       </ButtonDivStyle>
       <InformationStyle>
-        {detailResponse?.place && (
+        {detailResponse?.address && (
           <p>
-            <PlaceIcon /> {detailResponse?.place}
+            <PlaceIcon /> {detailResponse?.address}
           </p>
         )}
         {detailResponse?.progress && (
@@ -84,9 +84,9 @@ const DetailContent = (props: DetailContentProps): JSX.Element => {
         {(detailResponse?.beginTime || detailResponse?.endTime) && (
           <p>
             <CalendarMonthIcon />{" "}
-            {dayjs(detailResponse?.beginTime).format("YYYY/MM/DD HH:mm")}{" "}
+            {`${dayjs(detailResponse?.beginTime).format("YYYY/MM/DD HH:mm")}`}{" "}
             {" ~ "}
-            {dayjs(detailResponse?.endTime).format("YYYY/MM/DD HH:mm")}
+            {`${dayjs(detailResponse?.endTime).format("YYYY/MM/DD HH:mm")}`}
           </p>
         )}
         {detailResponse?.url && (
@@ -121,7 +121,9 @@ const DetailContent = (props: DetailContentProps): JSX.Element => {
         {detailResponse?.modifiedTime && (
           <p>
             업데이트{" "}
-            {dayjs(detailResponse?.modifiedTime).format("YYYY/MM/DD HH:mm")}
+            {`${dayjs(detailResponse?.modifiedTime).format(
+              "YYYY/MM/DD HH:mm"
+            )}`}
           </p>
         )}
       </UpdateStyle>

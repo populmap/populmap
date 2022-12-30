@@ -33,6 +33,7 @@ const HeaderMenu = (): JSX.Element => {
       <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
         <MenuItem onClick={(): void => navigate("/event")}>행사</MenuItem>
         <MenuItem onClick={(): void => navigate("/bookmark")}>북마크</MenuItem>
+        <MenuItem onClick={(): void => navigate("/signup")}>회원가입</MenuItem>
         <MenuItem onClick={handleChangePassword}>비밀번호 변경</MenuItem>
         {userState.userId === -1 ? (
           <MenuItem onClick={(): void => navigate("/login")}>로그인</MenuItem>

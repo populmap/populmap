@@ -22,7 +22,7 @@ const Pagination = (props: PaginationProps): JSX.Element => {
   const [pageNum, setPageNum] = useState<number>(-1);
   const [pageList, setPageList] = useState<Array<number>>();
   const [isChange, setIsChange] = useState<string>("next");
-  console.log(page);
+
   const handleNext = (): void => {
     if (totalLength && page < totalLength) setPage(page + 1);
     if ((page + 1) % 5 === 0) setIsChange("next");

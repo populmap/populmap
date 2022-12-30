@@ -15,10 +15,6 @@ export interface mapStateType {
   isBookmarkShow: boolean;
   isPeopleShow: boolean;
   isAccidentShow: boolean;
-  isEventOverlayShow: number;
-  isCityAccidentOverlayShow: number;
-  isCityOverlayShow: number;
-  isBookmarkOverlayShow: number;
 }
 
 const initialState: mapStateType = {
@@ -36,10 +32,6 @@ const initialState: mapStateType = {
   isBookmarkShow: false,
   isPeopleShow: false,
   isAccidentShow: false,
-  isEventOverlayShow: -1,
-  isCityAccidentOverlayShow: -1,
-  isCityOverlayShow: -1,
-  isBookmarkOverlayShow: -1,
 };
 
 export const mapSlice = createSlice({
@@ -76,24 +68,6 @@ export const mapSlice = createSlice({
     mapSetIsAccidentShow: (state) => {
       state.isAccidentShow = !state.isAccidentShow;
     },
-    mapSetIsEventOverlayShow: (state, action: PayloadAction<number>) => {
-      state.isEventOverlayShow = action.payload;
-    },
-    mapSetIsCityAccidentOverlayShow: (state, action: PayloadAction<number>) => {
-      state.isCityAccidentOverlayShow = action.payload;
-    },
-    mapSetIsCityOverlayShow: (state, action: PayloadAction<number>) => {
-      state.isCityOverlayShow = action.payload;
-    },
-    mapSetIsBookmarkOverlayShow: (state, action: PayloadAction<number>) => {
-      state.isBookmarkOverlayShow = action.payload;
-    },
-    mapCloseOverlay: (state) => {
-      state.isEventOverlayShow = -1;
-      state.isCityAccidentOverlayShow = -1;
-      state.isCityOverlayShow = -1;
-      state.isBookmarkOverlayShow = -1;
-    },
     mapInitialize: () => {
       return initialState;
     },
@@ -111,10 +85,5 @@ export const {
   mapSetIsBookmarkShow,
   mapSetIsPeopleShow,
   mapSetIsAccidentShow,
-  mapSetIsEventOverlayShow,
-  mapSetIsCityAccidentOverlayShow,
-  mapSetIsCityOverlayShow,
-  mapSetIsBookmarkOverlayShow,
-  mapCloseOverlay,
 } = mapSlice.actions;
 export default mapSlice.reducer;

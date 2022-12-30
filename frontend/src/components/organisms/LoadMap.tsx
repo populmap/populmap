@@ -1,8 +1,8 @@
 import { Map } from "react-kakao-maps-sdk";
-import { useState } from "react";
 import { useAppSelector, useAppDispatch } from "../../redux/hook";
 import useKakaoSearch from "../../hooks/useKakaoSearch";
-import { mapLevelSelect, mapCloseOverlay } from "../../redux/slices/mapSlice";
+import { mapLevelSelect } from "../../redux/slices/mapSlice";
+import { overlayClose } from "../../redux/slices/overlaySlice";
 import { EventSummaryGroupResponseDto } from "../../types/dto/EventSummaryResponse.dto";
 import { CityAccidentResponseDto } from "../../types/dto/CityAccidentResponse.dto";
 import { CityPeopleResponseDto } from "../../types/dto/CityPeopleResponse.dto";
@@ -22,6 +22,7 @@ const LoadMap = (props: LoadMapProps): JSX.Element => {
 
   const dispatch = useAppDispatch();
   const mapState = useAppSelector((state) => state.map);
+  const overlayState = useAppSelector((state) => state.overlay);
   useKakaoSearch();
 
   return (
@@ -38,14 +39,14 @@ const LoadMap = (props: LoadMapProps): JSX.Element => {
       }}
       level={mapState.level}
       onClick={(): void => {
-        dispatch(mapCloseOverlay());
+        dispatch(overlayClose());
       }}
       onZoomChanged={(map): void => {
         dispatch(mapLevelSelect(map.getLevel()));
       }}
       isPanto
-      draggable={mapState.isEventOverlayShow === -1}
-      zoomable={mapState.isEventOverlayShow === -1}
+      draggable={overlayState.isEventOverlayNumber === -1}
+      zoomable={overlayState.isEventOverlayNumber === -1}
     >
       <>
         {mapState.isBookmarkShow &&
@@ -55,7 +56,7 @@ const LoadMap = (props: LoadMapProps): JSX.Element => {
                 key={event.eventSummaries[0].eventId}
                 eventInfo={event}
                 isShow={
-                  mapState.isBookmarkOverlayShow ===
+                  overlayState.isBookmarkOverlayNumber ===
                   event.eventSummaries[0].eventId
                 }
                 type="bookmark"
@@ -69,7 +70,7 @@ const LoadMap = (props: LoadMapProps): JSX.Element => {
                 key={event.eventSummaries[0].eventId}
                 eventInfo={event}
                 isShow={
-                  mapState.isEventOverlayShow ===
+                  overlayState.isEventOverlayNumber ===
                   event.eventSummaries[0].eventId
                 }
                 type="event"
@@ -82,7 +83,7 @@ const LoadMap = (props: LoadMapProps): JSX.Element => {
               <CityMarker
                 key={people.cityId}
                 cityPeopleInfo={people}
-                isShow={mapState.isCityOverlayShow === people.cityId}
+                isShow={overlayState.isCityOverlayNumber === people.cityId}
               />
             );
           })}
@@ -93,7 +94,8 @@ const LoadMap = (props: LoadMapProps): JSX.Element => {
                 key={accident.accidentId}
                 cityAccidentInfo={accident}
                 isShow={
-                  mapState.isCityAccidentOverlayShow === accident.accidentId
+                  overlayState.isCityAccidentOverlayNumber ===
+                  accident.accidentId
                 }
               />
             );

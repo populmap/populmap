@@ -5,11 +5,12 @@ import densityLevel, {
 } from "../../types/dto/CityPeopleResponse.dto";
 import { useAppDispatch } from "../../redux/hook";
 import CityMarkerOverlay from "./CityMarkerOverlay";
+import { mapLocationChange } from "../../redux/slices/mapSlice";
+
 import {
-  mapLocationChange,
-  mapSetIsCityOverlayShow,
-  mapCloseOverlay,
-} from "../../redux/slices/mapSlice";
+  overlaySetIsCityOverlayNumber,
+  overlayClose,
+} from "../../redux/slices/overlaySlice";
 
 interface CityMarkerProps {
   cityPeopleInfo: CityPeopleResponseDto;
@@ -36,8 +37,8 @@ const CityMarker = (props: CityMarkerProps): JSX.Element => {
               lng: marker.getPosition().getLng(),
             })
           );
-          dispatch(mapCloseOverlay());
-          dispatch(mapSetIsCityOverlayShow(cityPeopleInfo.cityId));
+          dispatch(overlayClose());
+          dispatch(overlaySetIsCityOverlayNumber(cityPeopleInfo.cityId));
         }}
         image={{
           src: setImage(cityPeopleInfo.level),

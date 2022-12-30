@@ -2,11 +2,11 @@ import { MapMarker, useMap } from "react-kakao-maps-sdk";
 import { CityAccidentResponseDto } from "../../types/dto/CityAccidentResponse.dto";
 import { useAppDispatch } from "../../redux/hook";
 import CityAccidentMarkerOverlay from "./CityAccidentMarkerOverlay";
+import { mapLocationChange } from "../../redux/slices/mapSlice";
 import {
-  mapLocationChange,
-  mapSetIsCityAccidentOverlayShow,
-  mapCloseOverlay,
-} from "../../redux/slices/mapSlice";
+  overlaySetIsCityAccidentOverlayNumber,
+  overlayClose,
+} from "../../redux/slices/overlaySlice";
 
 interface CityAccidentMarkerProps {
   cityAccidentInfo: CityAccidentResponseDto;
@@ -33,9 +33,9 @@ const CityAccidentMarker = (props: CityAccidentMarkerProps): JSX.Element => {
               lng: marker.getPosition().getLng(),
             })
           );
-          dispatch(mapCloseOverlay());
+          dispatch(overlayClose());
           dispatch(
-            mapSetIsCityAccidentOverlayShow(cityAccidentInfo.accidentId)
+            overlaySetIsCityAccidentOverlayNumber(cityAccidentInfo.accidentId)
           );
         }}
         image={{

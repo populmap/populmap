@@ -3,15 +3,18 @@ import { persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import mapSlice from "./slices/mapSlice";
 import userSlice from "./slices/userSlice";
+import overlaySlice from "./slices/overlaySlice";
 
 const reducer = combineReducers({
   map: mapSlice,
   user: userSlice,
+  overlay: overlaySlice,
 });
 
 const persistConfig = {
   key: "root",
   storage,
+  blacklist: ["overlay"],
 };
 
 const persistedReducer = persistReducer(persistConfig, reducer);

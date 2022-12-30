@@ -48,20 +48,6 @@ const LoadMap = (props: LoadMapProps): JSX.Element => {
       zoomable={mapState.isEventOverlayShow === -1}
     >
       <>
-        {mapState.isEventShow &&
-          eventInfo?.map((event) => {
-            return (
-              <EventMarker
-                key={event.eventSummaries[0].eventId}
-                eventInfo={event}
-                isShow={
-                  mapState.isEventOverlayShow ===
-                  event.eventSummaries[0].eventId
-                }
-                type="event"
-              />
-            );
-          })}
         {mapState.isBookmarkShow &&
           bookmarkInfo?.map((event) => {
             return (
@@ -73,6 +59,20 @@ const LoadMap = (props: LoadMapProps): JSX.Element => {
                   event.eventSummaries[0].eventId
                 }
                 type="bookmark"
+              />
+            );
+          })}
+        {mapState.isEventShow &&
+          eventInfo?.map((event) => {
+            return (
+              <EventMarker
+                key={event.eventSummaries[0].eventId}
+                eventInfo={event}
+                isShow={
+                  mapState.isEventOverlayShow ===
+                  event.eventSummaries[0].eventId
+                }
+                type="event"
               />
             );
           })}

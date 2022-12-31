@@ -1,3 +1,4 @@
+import { EventProgressDto } from 'src/dto/event.progress.dto';
 import { EventDetailResponseDto } from 'src/dto/response/event.detail.response.dto';
 import { EventPagiNationResponseDto } from 'src/dto/response/event.pagination.response.dto';
 import { EventSummaryGroupResponseDto } from 'src/dto/response/event.summary.group.response.dto';
@@ -16,6 +17,18 @@ export interface IEventRepository {
    * @param eventId
    */
   findEventByEventId(eventId: number): Promise<boolean>;
+
+  /**
+   * 모든 행사 정보를 반환한다.
+   */
+  getAllEvents(): Promise<EventProgressDto[]>;
+
+  /**
+   * event progress를 업데이트한다.
+   * @param eventId
+   * @param progress
+   */
+  updateEventProgress(eventId: number, progress: ProgressType): Promise<void>;
 
   /**
    * 해당 item을 이용하여 event를 생성하고, 생성된 event의 id를 반환한다.

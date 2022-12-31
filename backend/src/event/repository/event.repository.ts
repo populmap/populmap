@@ -12,6 +12,7 @@ import { EventPagiNationResponseDto } from 'src/dto/response/event.pagination.re
 import { ToolBoxComponent } from 'src/utils/toolbox.component';
 import { EventSummaryDto } from 'src/dto/event.summary.dto';
 import { EventListDto } from 'src/dto/event.list.dto';
+import { EventProgressDto } from 'src/dto/event.progress.dto';
 
 export class EventRepository implements IEventRepository {
   private logger = new Logger(EventRepository.name);
@@ -38,6 +39,39 @@ export class EventRepository implements IEventRepository {
       where: { eventId },
     });
     return result ? true : false;
+  }
+
+  async getAllEvents(): Promise<EventProgressDto[]> {
+    const results = await this.eventRepository
+      .createQueryBuilder('e')
+      .select([
+        'e.eventId AS e_event_id',
+        'ed.beginTime AS ed_begin_time',
+        'ed.endTime AS ed_end_time',
+        'e.progress AS e_progress',
+      ])
+      .leftJoin('e.eventDetail', 'ed', 'ed.eventId = e.eventId')
+      .getRawMany();
+    return results.map((result) => {
+      return {
+        eventId: result.e_event_id,
+        beginTime: result.ed_begin_time,
+        endTime: result.ed_end_time,
+        progress: result.e_progress,
+      };
+    }) as EventProgressDto[];
+  }
+
+  async updateEventProgress(
+    eventId: number,
+    progress: ProgressType,
+  ): Promise<void> {
+    await this.eventRepository
+      .createQueryBuilder()
+      .update(Event)
+      .set({ progress })
+      .where('eventId = :eventId', { eventId })
+      .execute();
   }
 
   async insertEvent(item: any): Promise<number> {

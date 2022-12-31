@@ -3,6 +3,7 @@ import {
   Inject,
   Injectable,
   Logger,
+  NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common';
 import { IAuthRepository } from './repository/auth.repository.interface';
@@ -17,6 +18,13 @@ import LoginType from 'src/enums/login.type.enum';
 import { ConfigService } from '@nestjs/config';
 import { firstValueFrom, map } from 'rxjs';
 import { HttpService } from '@nestjs/axios';
+import {
+  IsolationLevel,
+  Propagation,
+  Transactional,
+  runOnTransactionComplete,
+} from 'typeorm-transactional';
+import { EmailSender } from 'src/utils/email.sender.component';
 
 @Injectable()
 export class AuthService {
@@ -26,6 +34,7 @@ export class AuthService {
     private jwtService: JwtService,
     @Inject(ConfigService) private configService: ConfigService,
     private readonly httpService: HttpService,
+    private emailSender: EmailSender,
   ) {}
 
   async validateSiteUser(id: string, password: string): Promise<UserDto> {
@@ -44,6 +53,26 @@ export class AuthService {
     return null;
   }
 
+  @Transactional({
+    propagation: Propagation.REQUIRED,
+    isolationLevel: IsolationLevel.REPEATABLE_READ,
+  })
+  async findPassword(id: string): Promise<void> {
+    this.logger.debug(`Called ${this.findPassword.name}`);
+    const user = await this.getSiteUserDto(id);
+    if (!user) {
+      throw new NotFoundException(`🚨 존재하지 않는 유저입니다. 🥲 🚨`);
+    }
+    const password = await this.generatePasswordAndUpdate(user);
+    this.emailSender.sendPasswordEmail(user.email, password);
+    await this.updateIsTemporary(user.userId, true);
+    runOnTransactionComplete((err) => err && this.logger.error(err));
+  }
+
+  @Transactional({
+    propagation: Propagation.REQUIRED,
+    isolationLevel: IsolationLevel.REPEATABLE_READ,
+  })
   async getSiteUserDto(id: string): Promise<UserDto> {
     this.logger.debug(`Called ${this.getSiteUserDto.name}`);
     let user = await this.authRepository.getUserByEmail(id);
@@ -56,6 +85,10 @@ export class AuthService {
     return user;
   }
 
+  @Transactional({
+    propagation: Propagation.REQUIRED,
+    isolationLevel: IsolationLevel.REPEATABLE_READ,
+  })
   async generatePasswordAndUpdate(user: UserDto): Promise<string> {
     this.logger.debug(`Called ${this.generatePasswordAndUpdate.name}`);
     const password = uuid();
@@ -65,13 +98,23 @@ export class AuthService {
     return password;
   }
 
+  @Transactional({
+    propagation: Propagation.REQUIRED,
+    isolationLevel: IsolationLevel.REPEATABLE_READ,
+  })
   async changePassword(userId: number, newPassword: string): Promise<void> {
     this.logger.debug(`Called ${this.changePassword.name}`);
     const hashedPassword = await bcrypt.hash(newPassword, 12);
     await this.authRepository.updatePassword(userId, hashedPassword);
+    await this.updateIsTemporary(userId, false);
     this.logger.log('password updated!');
+    runOnTransactionComplete((err) => err && this.logger.error(err));
   }
 
+  @Transactional({
+    propagation: Propagation.REQUIRED,
+    isolationLevel: IsolationLevel.REPEATABLE_READ,
+  })
   async createSocialUserIfNotExists(user: UserSessionDto): Promise<UserDto> {
     this.logger.debug(`Called ${this.createSocialUserIfNotExists.name}`);
     let userDto: UserDto;
@@ -93,9 +136,14 @@ export class AuthService {
     );
     // auth_social에 삽입.
     await this.authRepository.insertAuthSocial(userId, user);
+    runOnTransactionComplete((err) => err && this.logger.error(err));
     return { userId, userName };
   }
 
+  @Transactional({
+    propagation: Propagation.REQUIRED,
+    isolationLevel: IsolationLevel.REPEATABLE_READ,
+  })
   async createSiteUserIfNotExists(
     user: UserRegisterRequestDto,
   ): Promise<UserDto> {
@@ -112,6 +160,7 @@ export class AuthService {
       user.email,
     );
     await this.authRepository.insertAuthSite(userId, hashedPassword);
+    runOnTransactionComplete((err) => err && this.logger.error(err));
     return { userId, userName: user.userName };
   }
 

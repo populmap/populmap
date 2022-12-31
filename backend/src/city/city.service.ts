@@ -6,6 +6,12 @@ import { CityPeopleResponseDto } from 'src/dto/response/city.people.response.dto
 import { CityRoadAvgResponseDto } from 'src/dto/response/city.road.avg.response.dto';
 import { KakaoSearch } from 'src/utils/kakao.search.component';
 import { ICityRepository } from './repository/city.repository.interface';
+import {
+  IsolationLevel,
+  Propagation,
+  Transactional,
+  runOnTransactionComplete,
+} from 'typeorm-transactional';
 
 @Injectable()
 export class CityService {
@@ -15,6 +21,10 @@ export class CityService {
     private kakaoSearch: KakaoSearch,
   ) {}
 
+  @Transactional({
+    propagation: Propagation.REQUIRED,
+    isolationLevel: IsolationLevel.REPEATABLE_READ,
+  })
   async putRealtimeCityData(
     area: IAreaMap,
     type: string,
@@ -22,58 +32,54 @@ export class CityService {
   ): Promise<void> {
     this.logger.debug(`Called ${this.putRealtimeCityData.name}`);
     area.place;
-    try {
-      const cityId = await this.cityRepository.getCityIdIfExists(
-        area.place,
-        type,
+    const cityId = await this.cityRepository.getCityIdIfExists(
+      area.place,
+      type,
+    );
+    if (!cityId) {
+      const { lat, lng } = await this.kakaoSearch.requestSearchByKeyword(
+        area.keyword,
       );
-      if (!cityId) {
-        const { lat, lng } = await this.kakaoSearch.requestSearchByKeyword(
-          area.keyword,
-        );
-        const cityPeoplePlaceData: CityPeoplePlaceDataDto = {
-          place: area.place,
-          type,
-          lat,
-          lng,
-        };
-        await this.insertRealtimeCityData(cityPeoplePlaceData, parsed);
-      } else {
-        await this.updateRealtimeCityData(cityId, parsed);
-      }
-    } catch (err) {
-      this.logger.error(err);
-      throw err;
+      const cityPeoplePlaceData: CityPeoplePlaceDataDto = {
+        place: area.place,
+        type,
+        lat,
+        lng,
+      };
+      await this.insertRealtimeCityData(cityPeoplePlaceData, parsed);
+    } else {
+      await this.updateRealtimeCityData(cityId, parsed);
     }
+    runOnTransactionComplete((err) => err && this.logger.error(err));
   }
 
+  @Transactional({
+    propagation: Propagation.REQUIRED,
+    isolationLevel: IsolationLevel.REPEATABLE_READ,
+  })
   async insertRealtimeCityData(
     cityPeoplePlaceData: CityPeoplePlaceDataDto,
     parsed: any,
   ) {
     this.logger.debug(`Called ${this.insertRealtimeCityData.name}`);
-    try {
-      const { place, type, lat, lng } = cityPeoplePlaceData;
-      const cityId = await this.cityRepository.insertCity(place, type);
-      await this.cityRepository.insertCityPeople(cityId, lat, lng, parsed);
-      await this.cityRepository.insertCityRoad(cityId, parsed);
-      await this.cityRepository.insertCityAccident(cityId, parsed);
-    } catch (err) {
-      this.logger.error(err);
-      throw err;
-    }
+
+    const { place, type, lat, lng } = cityPeoplePlaceData;
+    const cityId = await this.cityRepository.insertCity(place, type);
+    await this.cityRepository.insertCityPeople(cityId, lat, lng, parsed);
+    await this.cityRepository.insertCityRoad(cityId, parsed);
+    await this.cityRepository.insertCityAccident(cityId, parsed);
   }
 
+  @Transactional({
+    propagation: Propagation.REQUIRED,
+    isolationLevel: IsolationLevel.REPEATABLE_READ,
+  })
   async updateRealtimeCityData(cityId: number, parsed: object) {
     this.logger.debug(`Called ${this.updateRealtimeCityData.name}`);
-    try {
-      await this.cityRepository.updateCityPeople(cityId, parsed);
-      await this.cityRepository.updateCityRoad(cityId, parsed);
-      await this.cityRepository.updateCityAccident(cityId, parsed);
-    } catch (err) {
-      this.logger.error(err);
-      throw err;
-    }
+
+    await this.cityRepository.updateCityPeople(cityId, parsed);
+    await this.cityRepository.updateCityRoad(cityId, parsed);
+    await this.cityRepository.updateCityAccident(cityId, parsed);
   }
 
   async getCityPeople(): Promise<CityPeopleResponseDto[]> {

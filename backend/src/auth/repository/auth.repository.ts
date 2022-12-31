@@ -9,6 +9,11 @@ import SocialType from 'src/enums/social.type.enum';
 import { UserDto } from 'src/dto/user.dto';
 import AuthSite from 'src/entities/auth.site.entity';
 import { UserValidateDto } from 'src/dto/user.validate.dto';
+import {
+  IsolationLevel,
+  Propagation,
+  Transactional,
+} from 'typeorm-transactional';
 
 export class AuthRepository implements IAuthRepository {
   constructor(
@@ -20,6 +25,10 @@ export class AuthRepository implements IAuthRepository {
     private userRepository: Repository<User>,
   ) {}
 
+  @Transactional({
+    propagation: Propagation.REQUIRED,
+    isolationLevel: IsolationLevel.REPEATABLE_READ,
+  })
   async getUserByEmail(email: string): Promise<UserDto> {
     const result = await this.userRepository.findOne({
       where: {
@@ -36,6 +45,10 @@ export class AuthRepository implements IAuthRepository {
     };
   }
 
+  @Transactional({
+    propagation: Propagation.REQUIRED,
+    isolationLevel: IsolationLevel.REPEATABLE_READ,
+  })
   async getUserByUserName(userName: string): Promise<UserDto> {
     const result = await this.userRepository.findOne({
       where: {
@@ -108,6 +121,10 @@ export class AuthRepository implements IAuthRepository {
     };
   }
 
+  @Transactional({
+    propagation: Propagation.REQUIRED,
+    isolationLevel: IsolationLevel.REPEATABLE_READ,
+  })
   async updatePassword(userId: number, hashedPassword: string): Promise<void> {
     await this.authSiteRepository
       .createQueryBuilder()
@@ -121,6 +138,10 @@ export class AuthRepository implements IAuthRepository {
       .execute();
   }
 
+  @Transactional({
+    propagation: Propagation.REQUIRED,
+    isolationLevel: IsolationLevel.REPEATABLE_READ,
+  })
   async getSocialUserByUserId(
     socialUserId: string,
     socialType: SocialType,
@@ -140,6 +161,10 @@ export class AuthRepository implements IAuthRepository {
     return { userId: result.userId, userName: result.user.userName };
   }
 
+  @Transactional({
+    propagation: Propagation.REQUIRED,
+    isolationLevel: IsolationLevel.REPEATABLE_READ,
+  })
   async createSocialUser(userName: string, email: string): Promise<number> {
     const result = await this.userRepository.insert({
       userName: userName,
@@ -149,6 +174,10 @@ export class AuthRepository implements IAuthRepository {
     return result.identifiers.pop()['userId'];
   }
 
+  @Transactional({
+    propagation: Propagation.REQUIRED,
+    isolationLevel: IsolationLevel.REPEATABLE_READ,
+  })
   async insertAuthSocial(userId: number, user: UserSessionDto): Promise<void> {
     await this.authSocialRepository.insert({
       userId: userId,

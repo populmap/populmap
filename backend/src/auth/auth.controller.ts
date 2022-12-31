@@ -8,7 +8,6 @@ import {
   HttpStatus,
   InternalServerErrorException,
   Logger,
-  NotFoundException,
   Patch,
   Post,
   Res,
@@ -39,7 +38,6 @@ import {
   ApiConsumes,
   ApiAcceptedResponse,
 } from '@nestjs/swagger';
-import { EmailSender } from 'src/utils/email.sender.component';
 import { IdBodyRequestDto } from 'src/dto/request/id.body.request.dto';
 import {
   NewPasswordBodyRequestDto,
@@ -50,10 +48,7 @@ import {
 @Controller('auth')
 export class AuthController {
   private logger = new Logger(AuthController.name);
-  constructor(
-    private authService: AuthService,
-    private emailSender: EmailSender,
-  ) {}
+  constructor(private authService: AuthService) {}
 
   @ApiOperation({
     summary: '사이트 자체 회원가입 요청',
@@ -273,13 +268,7 @@ export class AuthController {
   async findPassword(@Body() idBody: IdBodyRequestDto) {
     this.logger.debug(`Called ${this.findPassword.name}`);
     try {
-      const user = await this.authService.getSiteUserDto(idBody.id);
-      if (!user) {
-        throw new NotFoundException(`🚨 존재하지 않는 유저입니다. 🥲 🚨`);
-      }
-      const password = await this.authService.generatePasswordAndUpdate(user);
-      this.emailSender.sendPasswordEmail(user.email, password);
-      await this.authService.updateIsTemporary(user.userId, true);
+      await this.authService.findPassword(idBody.id);
     } catch (err) {
       this.logger.error(err);
       if (err instanceof HttpException) {
@@ -332,7 +321,6 @@ export class AuthController {
         user.userId,
         passwordBody.newPassword,
       );
-      await this.authService.updateIsTemporary(user.userId, false);
     } catch (err) {
       this.logger.error(err);
       if (err instanceof HttpException) {

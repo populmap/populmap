@@ -6,6 +6,7 @@ import { firstValueFrom, map } from 'rxjs';
 import { EventService } from 'src/event/event.service';
 import * as xmlParser from 'xml-js';
 import * as dayjs from 'dayjs';
+import ProgressType from 'src/enums/progress.type.enum';
 
 @Injectable()
 export class EventInformationDataComponent {
@@ -52,6 +53,37 @@ export class EventInformationDataComponent {
           }
         }
       }
+    }
+  }
+
+  @Cron(CronExpression.EVERY_DAY_AT_1AM)
+  async checkEventProgress(): Promise<void> {
+    this.logger.debug(`Called ${this.checkEventProgress.name}`);
+    try {
+      const events = await this.eventService.getAllEvents();
+      for (const event of events) {
+        const now = new Date();
+        if (
+          now.getTime() >= event.beginTime.getTime() &&
+          now.getTime() <= event.endTime.getTime()
+        ) {
+          if (event.progress !== ProgressType.INPROGRESS) {
+            await this.eventService.updateEventProgress(
+              event.eventId,
+              ProgressType.INPROGRESS,
+            );
+          }
+        } else if (now.getTime() > event.endTime.getTime()) {
+          if (event.progress !== ProgressType.AFTERPROGRESS) {
+            await this.eventService.updateEventProgress(
+              event.eventId,
+              ProgressType.AFTERPROGRESS,
+            );
+          }
+        }
+      }
+    } catch (err) {
+      throw err;
     }
   }
 }

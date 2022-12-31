@@ -10,6 +10,8 @@ import TypeOrmConfigService from './config/typeorm.config';
 import { EventModule } from './event/event.module';
 import { SessionMiddleware } from './middleware/session.middleware';
 import { UtilsModule } from './utils/utils.module';
+import { addTransactionalDataSource } from 'typeorm-transactional';
+import { DataSource } from 'typeorm';
 
 @Module({
   imports: [
@@ -20,6 +22,12 @@ import { UtilsModule } from './utils/utils.module';
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       useClass: TypeOrmConfigService,
+      async dataSourceFactory(options) {
+        if (!options) {
+          throw new Error('No options');
+        }
+        return addTransactionalDataSource(new DataSource(options));
+      },
     }),
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '../../', 'frontend/build'),

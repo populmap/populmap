@@ -6,6 +6,8 @@ import {
   Transactional,
   runOnTransactionComplete,
 } from 'typeorm-transactional';
+import { EventProgressDto } from 'src/dto/event.progress.dto';
+import ProgressType from 'src/enums/progress.type.enum';
 
 @Injectable()
 export class EventService {
@@ -55,6 +57,29 @@ export class EventService {
     this.logger.debug(`Called ${this.findEvent.name}`);
     try {
       return await this.eventRepository.findEventByEventId(eventId);
+    } catch (err) {
+      this.logger.error(err);
+      throw err;
+    }
+  }
+
+  async getAllEvents(): Promise<EventProgressDto[]> {
+    this.logger.debug(`Called ${this.getAllEvents.name}`);
+    try {
+      return await this.eventRepository.getAllEvents();
+    } catch (err) {
+      this.logger.error(err);
+      throw err;
+    }
+  }
+
+  async updateEventProgress(
+    eventId: number,
+    progress: ProgressType,
+  ): Promise<void> {
+    this.logger.debug(`Called ${this.updateEventProgress.name}`);
+    try {
+      await this.eventRepository.updateEventProgress(eventId, progress);
     } catch (err) {
       this.logger.error(err);
       throw err;

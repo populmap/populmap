@@ -340,6 +340,7 @@ export class EventRepository implements IEventRepository {
         'ed.call as ed_call',
         'e.progress as e_progress',
         'u.userId as u_user_id',
+        'b.bookmarkId as b_bookmark_id',
         'COUNT(*) OVER () AS cnt',
       ])
       .leftJoin('e.bookmarks', 'b', 'b.bookmarkEventId = e.eventId')
@@ -365,7 +366,8 @@ export class EventRepository implements IEventRepository {
           endTime: result.ed_end_time,
           call: result.ed_call,
           progress: result.e_progress,
-          isBookmarked: result.u_user_id === userId ? true : false,
+          isBookmarked:
+            result.b_bookmark_id && result.u_user_id === userId ? true : false,
         } as EventListDto;
       }),
       totalLength: results.length > 0 ? Number(results[0].cnt) : 0,

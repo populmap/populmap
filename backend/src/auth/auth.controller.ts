@@ -8,7 +8,6 @@ import {
   HttpStatus,
   InternalServerErrorException,
   Logger,
-  NotFoundException,
   Patch,
   Post,
   Res,
@@ -39,7 +38,6 @@ import {
   ApiConsumes,
   ApiAcceptedResponse,
 } from '@nestjs/swagger';
-import { EmailSender } from 'src/utils/email.sender.component';
 import { IdBodyRequestDto } from 'src/dto/request/id.body.request.dto';
 import {
   NewPasswordBodyRequestDto,

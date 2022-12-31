@@ -9,6 +9,11 @@ import CityPeople from 'src/entities/city.people.entity';
 import CityRoad from 'src/entities/city.road.entity';
 import { Repository } from 'typeorm';
 import { ICityRepository } from './city.repository.interface';
+import {
+  IsolationLevel,
+  Propagation,
+  Transactional,
+} from 'typeorm-transactional';
 
 export class CityRepository implements ICityRepository {
   private logger = new Logger(CityRepository.name);
@@ -33,6 +38,10 @@ export class CityRepository implements ICityRepository {
     return result ? result.cityId : null;
   }
 
+  @Transactional({
+    propagation: Propagation.REQUIRED,
+    isolationLevel: IsolationLevel.REPEATABLE_READ,
+  })
   async insertCity(place: string, type: string): Promise<number> {
     const result = await this.cityRepository
       .createQueryBuilder()
@@ -43,6 +52,10 @@ export class CityRepository implements ICityRepository {
     return result.identifiers[0].cityId;
   }
 
+  @Transactional({
+    propagation: Propagation.REQUIRED,
+    isolationLevel: IsolationLevel.REPEATABLE_READ,
+  })
   async insertCityPeople(
     cityId: number,
     lat: number,
@@ -82,6 +95,10 @@ export class CityRepository implements ICityRepository {
       .execute();
   }
 
+  @Transactional({
+    propagation: Propagation.REQUIRED,
+    isolationLevel: IsolationLevel.REPEATABLE_READ,
+  })
   async insertCityRoad(cityId: number, parsed: any): Promise<void> {
     await this.cityRoadRepository
       .createQueryBuilder()
@@ -105,6 +122,10 @@ export class CityRepository implements ICityRepository {
       .execute();
   }
 
+  @Transactional({
+    propagation: Propagation.REQUIRED,
+    isolationLevel: IsolationLevel.REPEATABLE_READ,
+  })
   async insertCityAccident(cityId: number, parsed: any): Promise<void> {
     if (
       Object.keys(parsed['SeoulRtd.citydata'].CITYDATA.ACDNT_CNTRL_STTS)
@@ -140,6 +161,10 @@ export class CityRepository implements ICityRepository {
       .execute();
   }
 
+  @Transactional({
+    propagation: Propagation.REQUIRED,
+    isolationLevel: IsolationLevel.REPEATABLE_READ,
+  })
   async updateCityPeople(cityId: number, parsed): Promise<void> {
     await this.cityPeopleRepository
       .createQueryBuilder()
@@ -173,6 +198,10 @@ export class CityRepository implements ICityRepository {
       .execute();
   }
 
+  @Transactional({
+    propagation: Propagation.REQUIRED,
+    isolationLevel: IsolationLevel.REPEATABLE_READ,
+  })
   async updateCityRoad(cityId: number, parsed): Promise<void> {
     await this.cityRoadRepository
       .createQueryBuilder()
@@ -197,6 +226,10 @@ export class CityRepository implements ICityRepository {
       .execute();
   }
 
+  @Transactional({
+    propagation: Propagation.REQUIRED,
+    isolationLevel: IsolationLevel.REPEATABLE_READ,
+  })
   async updateCityAccident(cityId: number, parsed): Promise<void> {
     if (
       Object.keys(parsed['SeoulRtd.citydata'].CITYDATA.ACDNT_CNTRL_STTS)

@@ -13,6 +13,7 @@ import { ToolBoxComponent } from 'src/utils/toolbox.component';
 import { EventSummaryDto } from 'src/dto/event.summary.dto';
 import { EventListDto } from 'src/dto/event.list.dto';
 import { EventProgressDto } from 'src/dto/event.progress.dto';
+import Bookmark from 'src/entities/bookmark.entity';
 
 export class EventRepository implements IEventRepository {
   private logger = new Logger(EventRepository.name);
@@ -21,6 +22,8 @@ export class EventRepository implements IEventRepository {
     private eventRepository: Repository<Event>,
     @InjectRepository(EventDetail)
     private eventDetailRepository: Repository<EventDetail>,
+    @InjectRepository(Bookmark)
+    private bookmarkRepository: Repository<Bookmark>,
     private toolBoxComponent: ToolBoxComponent,
   ) {}
 
@@ -272,6 +275,12 @@ export class EventRepository implements IEventRepository {
     if (!progress) {
       progress = ProgressType.ALL;
     }
+    const isBookmarked = await this.bookmarkRepository.findOne({
+      where: {
+        bookmarkUserId: userId,
+      },
+    });
+
     const results = await this.eventRepository
       .createQueryBuilder('e')
       .select([
@@ -281,11 +290,7 @@ export class EventRepository implements IEventRepository {
         'e.lat as e_lat',
         'e.lng as e_lng',
         'e.progress as e_progress',
-        'b.bookmarkId as b_bookmark_id',
-        'u.userId as u_user_id',
       ])
-      .leftJoin('e.bookmarks', 'b', 'b.bookmarkEventId = e.eventId')
-      .leftJoin('b.user', 'u', 'b.bookmarkUserId = u.userId')
       .where('e.city LIKE :city', {
         city: city === CityType.ALL ? '%' : city,
       })
@@ -302,7 +307,9 @@ export class EventRepository implements IEventRepository {
         lng: result.e_lng,
         progress: result.e_progress,
         isBookmarked:
-          result.b_bookmark_id && result.u_user_id === userId ? true : false,
+          isBookmarked && isBookmarked.bookmarkEventId === result.e_event_id
+            ? true
+            : false,
       } as EventSummaryDto;
     });
     // eventSummaries에서 lat과 lng가 같은 object의 배열을 eventGroupResponse의 하나의 프로퍼티로 넣는다.
@@ -363,6 +370,12 @@ export class EventRepository implements IEventRepository {
     if (!progress) {
       progress = ProgressType.ALL;
     }
+    const isBookmarked = await this.bookmarkRepository.findOne({
+      where: {
+        bookmarkUserId: userId,
+      },
+    });
+
     const results = await this.eventRepository
       .createQueryBuilder('e')
       .select([
@@ -373,12 +386,8 @@ export class EventRepository implements IEventRepository {
         'ed.endTime as ed_end_time',
         'ed.call as ed_call',
         'e.progress as e_progress',
-        'u.userId as u_user_id',
-        'b.bookmarkId as b_bookmark_id',
         'COUNT(*) OVER () AS cnt',
       ])
-      .leftJoin('e.bookmarks', 'b', 'b.bookmarkEventId = e.eventId')
-      .leftJoin('b.user', 'u', 'b.bookmarkUserId = u.userId')
       .leftJoin('e.eventDetail', 'ed', 'e.eventId = ed.eventId')
       .where('city LIKE :city', {
         city: city === CityType.ALL ? '%' : city,
@@ -401,7 +410,9 @@ export class EventRepository implements IEventRepository {
           call: result.ed_call,
           progress: result.e_progress,
           isBookmarked:
-            result.b_bookmark_id && result.u_user_id === userId ? true : false,
+            isBookmarked && isBookmarked.bookmarkEventId === result.e_event_id
+              ? true
+              : false,
         } as EventListDto;
       }),
       totalLength: results.length > 0 ? Number(results[0].cnt) : 0,

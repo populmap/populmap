@@ -48,6 +48,7 @@ const ListTemplate = (): JSX.Element => {
   const [length, setLength] = useState<number>(10);
   const [eventLists, setEventLists] = useState<EventPagiNationResponseDto>();
   const user = useAppSelector((state) => state.user);
+  const reload = useAppSelector((state) => state.reload);
   const type = window.location.pathname;
 
   useEffect((): void => {
@@ -62,7 +63,7 @@ const ListTemplate = (): JSX.Element => {
         })
         .catch((err) => console.error(err));
     }
-  }, [page, length, city, progress]);
+  }, [page, length, city, progress, reload.active]);
 
   return (
     <ListSectionStyle>
@@ -71,7 +72,7 @@ const ListTemplate = (): JSX.Element => {
       </SelectBoxStyle>
       <CardListStyle>
         {eventLists?.eventLists.length === 0 && (
-          <p style={{ marginTop: "15rem" }}>등록된 행사가 없습니다...</p>
+          <p style={{ marginTop: "20rem" }}>등록된 행사가 없습니다.</p>
         )}
         {eventLists?.eventLists.map((cardInfo, index) => {
           return <EventCard cardInfo={cardInfo} key={index} />;

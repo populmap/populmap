@@ -20,7 +20,7 @@ const SignupSubmitButton = (props: SignupSubmitButtonProps): JSX.Element => {
       .then((response) => {
         if (response.status === 201) {
           alert("회원가입에 성공했습니다.");
-          navigate("/login");
+          navigate("/");
         }
       })
       .catch((error) => setIsSignupFail(true));

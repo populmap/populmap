@@ -17,6 +17,7 @@ import { CityAccidentResponseDto } from "../../types/dto/CityAccidentResponse.dt
 import { CityPeopleResponseDto } from "../../types/dto/CityPeopleResponse.dto";
 import { EventSummaryGroupResponseDto } from "../../types/dto/EventSummaryResponse.dto";
 import { useAppSelector } from "../../redux/hook";
+import useGetToken from "../../hooks/useGetToken";
 
 const MainSection = styled.section`
   position: relative;
@@ -51,6 +52,7 @@ const MainTemplate = (): JSX.Element => {
   const [city, setCity] = useState<string>("전국");
   const [progress, setProgress] = useState<string>("전체");
 
+  useGetToken();
   useEffect((): void => {
     axiosEventSearchSummary(city, progress)
       .then((response) => {

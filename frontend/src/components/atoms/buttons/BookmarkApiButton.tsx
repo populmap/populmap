@@ -1,6 +1,7 @@
 import IconButton from "@mui/material/IconButton";
 import BookmarkIcon from "@mui/icons-material/Bookmark";
-import { useAppSelector } from "../../../redux/hook";
+import { useAppSelector, useAppDispatch } from "../../../redux/hook";
+import { reloadComponent } from "../../../redux/slices/reloadSlice";
 
 interface BookmarkApiButtonProps {
   api: (eventId: number) => Promise<any>;
@@ -13,6 +14,7 @@ interface BookmarkApiButtonProps {
 const BookmarkApiButton = (props: BookmarkApiButtonProps): JSX.Element => {
   const { param, api, value, style, iconDisplay } = props;
   const user = useAppSelector((state) => state.user);
+  const dispatch = useAppDispatch();
 
   const handleClick = (e: React.MouseEvent<HTMLElement>): void => {
     e.stopPropagation();
@@ -22,6 +24,7 @@ const BookmarkApiButton = (props: BookmarkApiButtonProps): JSX.Element => {
         .then((response) => {
           if (response.status === 201) alert("북마크에 추가되었습니다.");
           else if (response.status === 204) alert("북마크에서 제거되었습니다.");
+          dispatch(reloadComponent());
         })
         .catch((error: any) => {
           alert(error.response.data.message);

@@ -1,5 +1,5 @@
 import IconButton from "@mui/material/IconButton";
-import BookmarkIcon from "@mui/icons-material/Bookmark";
+import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
 import { useAppSelector, useAppDispatch } from "../../../redux/hook";
 import { reloadComponent } from "../../../redux/slices/reloadSlice";
 
@@ -34,7 +34,7 @@ const BookmarkApiButton = (props: BookmarkApiButtonProps): JSX.Element => {
   };
   return (
     <IconButton style={style} onClick={handleClick}>
-      {iconDisplay && <BookmarkIcon />}
+      {iconDisplay && <BookmarkBorderIcon style={{ color: "#1b73e8" }} />}
       {value}
     </IconButton>
   );

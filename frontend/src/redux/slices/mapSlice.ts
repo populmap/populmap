@@ -19,19 +19,19 @@ export interface mapStateType {
 
 const initialState: mapStateType = {
   center: {
-    lat: 37.4882,
-    lng: 127.0648,
+    lat: 37.57225,
+    lng: 126.98535,
   },
   mousePosition: {
     lat: 0,
     lng: 0,
   },
-  level: 3,
+  level: 7,
   search: "",
-  isEventShow: false,
-  isBookmarkShow: false,
-  isPeopleShow: false,
-  isAccidentShow: false,
+  isEventShow: true,
+  isBookmarkShow: true,
+  isPeopleShow: true,
+  isAccidentShow: true,
 };
 
 export const mapSlice = createSlice({

@@ -34,11 +34,12 @@ const CardListStyle = styled.div`
   &::-webkit-scrollbar {
     display: none;
   }
-  height: ${window.ontouchstart ? "60%" : "88%"}; ;
+  height: 80%;
 `;
 
 const PaginationStyle = styled.div`
-  height: 7%;
+  margin-top: 2.5rem;
+  height: 15%;
 `;
 
 const ListTemplate = (): JSX.Element => {

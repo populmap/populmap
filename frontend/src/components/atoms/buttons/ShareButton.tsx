@@ -18,11 +18,11 @@ const ShareButton = (): JSX.Element => {
         fontSize: "0.5rem",
         height: "1.5rem",
         width: "3rem",
-        color: "black",
+        color: "#1b73e8",
       }}
       onClick={handleClick}
     >
-      <IosShareIcon />
+      <IosShareIcon style={{ color: "#1b73e8" }} />
       공유
     </IconButton>
   );

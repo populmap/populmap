@@ -1,10 +1,6 @@
 import Button from "@mui/material/Button";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import jwtDecode from "jwt-decode";
-import { useAppDispatch } from "../../../redux/hook";
-import { userInfoUpdate } from "../../../redux/slices/userSlice";
-import { getCookie } from "../../../network/react-cookie/cookie";
 import { axiosAuthLogin } from "../../../network/axios/axios.auth";
 
 interface LoginSumbitButtonProps {
@@ -18,14 +14,11 @@ const LoginSumbitButton = (props: LoginSumbitButtonProps): JSX.Element => {
   const [isLoginFail, setIsLoginFail] = useState<boolean>(false);
 
   const navigate = useNavigate();
-  const dispatch = useAppDispatch();
 
   const handleClick = (): void => {
     axiosAuthLogin({ id, password })
       .then((response) => {
         if (response.status === 200) {
-          const token = getCookie("populmap_token");
-          dispatch(userInfoUpdate(jwtDecode(token)));
           navigate("/");
         } else if (response.status === 202) navigate("/changepassword");
       })

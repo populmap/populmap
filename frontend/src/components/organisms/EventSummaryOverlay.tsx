@@ -6,7 +6,7 @@ import {
   EventSummaryGroupResponseDto,
 } from "../../types/dto/EventSummaryResponse.dto";
 import { progressColor } from "../../types/dto/EventSummaryResponse.dto";
-import DetailBookmarkNav from "./DetailBookmarkNav";
+import DetailAndBookmarkNav from "./DetailAndBookmarkNav";
 
 interface EventSummaryOverlayProps {
   eventInfo: EventSummaryResponseDto;
@@ -23,7 +23,7 @@ const SummaryBox = styled.div`
   padding: 1rem;
 `;
 
-const DetailBookmarkNavStyle = styled.div`
+const DetailAndBookmarkNavStyle = styled.div`
   position: absolute;
   top: 80%;
   left: 10%;
@@ -65,12 +65,12 @@ const EventSummaryOverlay = (props: EventSummaryOverlayProps): JSX.Element => {
           {eventInfo.progress}
         </p>
         <p style={{ whiteSpace: "normal" }}>{eventInfo.address}</p>
-        <DetailBookmarkNavStyle>
-          <DetailBookmarkNav
+        <DetailAndBookmarkNavStyle>
+          <DetailAndBookmarkNav
             eventId={eventInfo.eventId}
             isBookmarked={eventInfo.isBookmarked}
           />
-        </DetailBookmarkNavStyle>
+        </DetailAndBookmarkNavStyle>
       </SummaryBox>
     </CustomOverlayMap>
   );

@@ -16,6 +16,9 @@ const style = css`
     margin: 0;
     max-height: 60rem;
     font-family: "EliceDigitalBaeum_Regular";
+    -webkit-text-size-adjust: none;
+    -ms-text-size-adjust: none;
+    -moz-text-size-adjust: none;
   }
 
   input,

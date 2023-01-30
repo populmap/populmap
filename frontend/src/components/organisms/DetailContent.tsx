@@ -22,21 +22,24 @@ const SummaryStyle = styled.div`
   justify-content: center;
   flex-direction: column;
   font-size: 0.9rem;
-  height: 10rem;
+  height: 9rem;
   padding: 1rem 1.7rem;
 `;
 
 const ButtonDivStyle = styled.div`
-  height: 2.5rem;
+  border-top: 0.05rem solid gray;
+  border-bottom: 0.05rem solid gray;
+  padding-top: 1.5rem;
+  height: 3.5rem;
 `;
 
 const InformationStyle = styled.div`
   text-align: left;
   font-size: 0.8rem;
+  padding: 2.5rem;
   display: flex;
   justify-content: start;
   flex-direction: column;
-  margin-left: 1.7rem;
   height: 18rem;
   overflow-y: scroll;
   -ms-overflow-style: none;
@@ -66,11 +69,19 @@ const DetailContent = (props: DetailContentProps): JSX.Element => {
         <BookmarkApiButton
           param={detailResponse?.eventId}
           value="북마크"
+          style={{
+            flexDirection: "column",
+            fontSize: "0.5rem",
+            height: "1.5rem",
+            width: "5rem",
+            color: "#1b73e8",
+          }}
           api={axiosEventBookmarkPost}
         />
         <ShareButton />
       </ButtonDivStyle>
       <InformationStyle>
+        <h3>상세정보</h3>
         {detailResponse?.address && (
           <p>
             <PlaceIcon /> {detailResponse?.address}
@@ -93,7 +104,7 @@ const DetailContent = (props: DetailContentProps): JSX.Element => {
           <p>
             <LanguageIcon />{" "}
             <a
-              style={{ textDecoration: "none" }}
+              style={{ textDecoration: "none", color: "#1b73e8" }}
               href={`https://${detailResponse?.url}`}
             >
               {detailResponse?.url}
@@ -104,7 +115,7 @@ const DetailContent = (props: DetailContentProps): JSX.Element => {
           <p>
             <CallIcon />{" "}
             <a
-              style={{ textDecoration: "none" }}
+              style={{ textDecoration: "none", color: "#1b73e8" }}
               href={`tel:${detailResponse?.call}`}
             >
               {detailResponse?.call}

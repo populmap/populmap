@@ -2,7 +2,7 @@ import styled from "@emotion/styled";
 import { useNavigate } from "react-router-dom";
 import dayjs from "dayjs";
 import { EventListDto } from "../../types/dto/EventPagiNationResponse.dto";
-import DetailBookmarkNav from "./DetailBookmarkNav";
+import DetailAndBookmarkNav from "./DetailAndBookmarkNav";
 
 interface EventCardProps {
   cardInfo: EventListDto;
@@ -24,7 +24,7 @@ const InformationStyle = styled.div`
   height: 7rem;
 `;
 
-const DetailBookmarkNavStyle = styled.div`
+const DetailAndBookmarkNavStyle = styled.div`
   position: absolute;
   top: 80%;
   left: 10%;
@@ -42,7 +42,7 @@ const EventCard = (props: EventCardProps): JSX.Element => {
         {cardInfo?.call && (
           <p>
             <a
-              style={{ textDecoration: "none" }}
+              style={{ textDecoration: "none", color: "#1b73e8" }}
               href={`tel:${cardInfo?.call}`}
             >
               {cardInfo?.call}
@@ -57,7 +57,7 @@ const EventCard = (props: EventCardProps): JSX.Element => {
           </p>
         )}
       </InformationStyle>
-      <DetailBookmarkNav
+      <DetailAndBookmarkNav
         eventId={cardInfo.eventId}
         isBookmarked={cardInfo.isBookmarked}
       />

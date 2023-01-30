@@ -13,12 +13,14 @@ const ButtonStyle = {
   color: "#3d75cc",
 };
 
-interface DetailBookmarkNavProps {
+interface DetailAndBookmarkNavProps {
   eventId: number;
   isBookmarked: boolean;
 }
 
-const DetailBookmarkNav = (props: DetailBookmarkNavProps): JSX.Element => {
+const DetailAndBookmarkNav = (
+  props: DetailAndBookmarkNavProps
+): JSX.Element => {
   const { eventId, isBookmarked } = props;
   return (
     <>
@@ -48,4 +50,4 @@ const DetailBookmarkNav = (props: DetailBookmarkNavProps): JSX.Element => {
   );
 };
 
-export default DetailBookmarkNav;
+export default DetailAndBookmarkNav;

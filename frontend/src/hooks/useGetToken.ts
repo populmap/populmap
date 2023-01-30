@@ -9,14 +9,14 @@ const useGetToken = (): void => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const user = useAppSelector((state) => state.user);
+  const token = getCookie("populmap_token");
 
   useEffect(() => {
-    const token = getCookie("populmap_token");
     if (user.userId === -1 && token) {
       dispatch(userInfoUpdate(jwtDecode(token)));
       navigate("/");
     }
-  }, []);
+  }, [token]);
 };
 
 export default useGetToken;

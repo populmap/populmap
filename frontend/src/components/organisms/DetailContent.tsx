@@ -23,37 +23,29 @@ const SummaryStyle = styled.div`
   flex-direction: column;
   font-size: 0.9rem;
   height: 9rem;
-  padding: 1rem 1.7rem;
 `;
 
 const ButtonDivStyle = styled.div`
   border-top: 0.05rem solid gray;
   border-bottom: 0.05rem solid gray;
-  padding-top: 1.5rem;
-  height: 3.5rem;
+  padding-top: 1rem;
+  height: 3rem;
 `;
 
 const InformationStyle = styled.div`
   text-align: left;
   font-size: 0.8rem;
-  padding: 2.5rem;
+  padding: 1rem;
   display: flex;
   justify-content: start;
   flex-direction: column;
-  height: 18rem;
+  height: 12rem;
   overflow-y: scroll;
   -ms-overflow-style: none;
   scrollbar-width: none;
   &::-webkit-scrollbar {
     display: none;
   }
-`;
-
-const UpdateStyle = styled.div`
-  position: fixed;
-  top: 81%;
-  left: 55%;
-  font-size: 0.1rem;
 `;
 
 const DetailContent = (props: DetailContentProps): JSX.Element => {
@@ -128,16 +120,12 @@ const DetailContent = (props: DetailContentProps): JSX.Element => {
           </p>
         )}
       </InformationStyle>
-      <UpdateStyle>
-        {detailResponse?.modifiedTime && (
-          <p>
-            업데이트{" "}
-            {`${dayjs(detailResponse?.modifiedTime).format(
-              "YYYY/MM/DD HH:mm"
-            )}`}
-          </p>
-        )}
-      </UpdateStyle>
+      {detailResponse?.modifiedTime && (
+        <p style={{ fontSize: "0.5rem" }}>
+          업데이트{" "}
+          {`${dayjs(detailResponse?.modifiedTime).format("YYYY/MM/DD HH:mm")}`}
+        </p>
+      )}
     </>
   );
 };

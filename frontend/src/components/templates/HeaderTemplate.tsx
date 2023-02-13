@@ -1,8 +1,6 @@
 import styled from "@emotion/styled";
 import PageNavigateButton from "../atoms/buttons/PageNavigateButton";
 import HeaderMenu from "../organisms/HeaderMenu";
-import IconButton from "@mui/material/IconButton";
-import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import { useNavigate } from "react-router-dom";
 
 const Header = styled.header`

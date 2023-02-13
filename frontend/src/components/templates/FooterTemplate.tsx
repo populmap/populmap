@@ -11,6 +11,7 @@ const Footer = style.footer`
 `;
 
 const FooterTemplate = (): JSX.Element => {
+  const date = new Date();
   return (
     <Footer>
       <section>
@@ -23,7 +24,7 @@ const FooterTemplate = (): JSX.Element => {
           &nbsp;Github&nbsp;
         </a>
       </section>
-      <section>© 2022 populmap </section>
+      <section>© {date.getFullYear()} populmap </section>
     </Footer>
   );
 };

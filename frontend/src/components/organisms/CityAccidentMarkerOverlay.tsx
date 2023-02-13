@@ -13,20 +13,8 @@ const SummaryBox = styled.div`
   height: 11rem;
   border-radius: 0.5rem;
   background-color: white;
-  font-size: 0.2rem;
+  font-size: 0.5rem;
   padding: 0.5rem 1rem;
-`;
-
-const ButtonStyle = {
-  border: "0.01rem solid gray",
-  fontSize: "0.5rem",
-  height: "1.5rem",
-};
-
-const UpdateStyle = styled.div`
-  position: fixed;
-  transform: translate(15%, 20%);
-  font-size: 0.1rem;
 `;
 
 const CityAccidentMarkerOverlay = (
@@ -43,7 +31,15 @@ const CityAccidentMarkerOverlay = (
       clickable
     >
       <SummaryBox>
-        <p style={{ fontWeight: "bold", fontSize: "0.8rem" }}>
+        <p
+          style={{
+            fontSize: "0.7rem",
+            backgroundColor: "#0080FE",
+            color: "#ffffff",
+            height: "1.2rem",
+            borderRadius: "0.3rem",
+          }}
+        >
           {cityAccidentInfo.type}
         </p>
         <p style={{ fontSize: "0.6rem" }}>{cityAccidentInfo.detailType}</p>
@@ -52,13 +48,11 @@ const CityAccidentMarkerOverlay = (
         )}`}</p>
         <p>{"~"}</p>
         <p>{`${dayjs(cityAccidentInfo.endTime).format("YYYY/MM/DD HH:mm")}`}</p>
-        <UpdateStyle>
-          <p>
-            {" "}
-            업데이트{" "}
-            {`${dayjs(cityAccidentInfo.updateTime).format("YYYY/MM/DD HH:mm")}`}
-          </p>
-        </UpdateStyle>
+        <p>
+          {" "}
+          업데이트{" "}
+          {`${dayjs(cityAccidentInfo.updateTime).format("YYYY/MM/DD HH:mm")}`}
+        </p>
       </SummaryBox>
     </CustomOverlayMap>
   );

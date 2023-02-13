@@ -17,7 +17,7 @@ const ListSectionStyle = styled.section`
   position: absolute;
   top: 5%;
   width: 100%;
-  height: 80%;
+  height: ${window.ontouchstart ? "65%" : "80%"};
 `;
 
 const SelectBoxStyle = styled.div`
@@ -34,12 +34,12 @@ const CardListStyle = styled.div`
   &::-webkit-scrollbar {
     display: none;
   }
-  height: 80%;
+  height: 75%;
 `;
 
 const PaginationStyle = styled.div`
-  margin-top: 2.5rem;
-  height: 15%;
+  margin-top: 0.7rem;
+  height: "20%";
 `;
 
 const ListTemplate = (): JSX.Element => {
@@ -72,8 +72,8 @@ const ListTemplate = (): JSX.Element => {
         <SelectBox setCity={setCity} setProgress={setProgress} />
       </SelectBoxStyle>
       <CardListStyle>
-        {eventLists?.eventLists.length === 0 && (
-          <p style={{ marginTop: "20rem" }}>등록된 행사가 없습니다.</p>
+        {(!eventLists || eventLists?.eventLists.length === 0) && (
+          <p style={{ marginTop: "15rem" }}>등록된 행사가 없습니다.</p>
         )}
         {eventLists?.eventLists.map((cardInfo, index) => {
           return <EventCard cardInfo={cardInfo} key={index} />;

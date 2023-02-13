@@ -11,19 +11,24 @@ interface CityMarkerOverlayProps {
   cityPeopleInfo: CityPeopleResponseDto;
 }
 
-const SummaryBox = styled.div`
+type buttonProps = {
+  isChange: boolean;
+};
+
+const SummaryBoxStyle = styled.div`
   position: relative;
   width: 10rem;
   height: 11rem;
   border-radius: 0.5rem;
   background-color: white;
-  font-size: 0.2rem;
+  font-size: 0.5rem;
   padding: 0.5rem 1rem;
 `;
 
-type buttonProps = {
-  isChange: boolean;
-};
+const SummaryNavStyle = styled.nav`
+  height: 1.5rem;
+  width: 100%;
+`;
 
 const TypeButtonStyle = styled.button<buttonProps>`
   border-radius: 0.3rem;
@@ -34,17 +39,6 @@ const TypeButtonStyle = styled.button<buttonProps>`
     props.isChange ? "#0080FE" : "white"};
   color: ${(props): string => (props.isChange ? "white" : "inherit")};
   font-size: 0.5rem;
-`;
-
-const SummaryNavStyle = styled.div`
-  height: 1.5rem;
-  width: 100%;
-`;
-
-const UpdateStyle = styled.div`
-  position: fixed;
-  transform: translate(15%, 20%);
-  font-size: 0.1rem;
 `;
 
 const CityMarkerOverlay = (props: CityMarkerOverlayProps): JSX.Element => {
@@ -70,7 +64,7 @@ const CityMarkerOverlay = (props: CityMarkerOverlayProps): JSX.Element => {
       }}
       clickable
     >
-      <SummaryBox>
+      <SummaryBoxStyle>
         <SummaryNavStyle>
           <TypeButtonStyle
             isChange={isChange}
@@ -108,14 +102,6 @@ const CityMarkerOverlay = (props: CityMarkerOverlayProps): JSX.Element => {
               상주({cityPeopleInfo.residentRatio}%) 비상주(
               {cityPeopleInfo.nonResidentRatio}%)
             </p>
-            <UpdateStyle>
-              <p>
-                업데이트{" "}
-                {`${dayjs(cityPeopleInfo.updateTime).format(
-                  "YYYY/MM/DD HH:mm"
-                )}`}
-              </p>
-            </UpdateStyle>
           </>
         ) : (
           <>
@@ -137,17 +123,15 @@ const CityMarkerOverlay = (props: CityMarkerOverlayProps): JSX.Element => {
             <span style={{ color: `${levelColor(roadAvgResponse?.level)}` }}>
               {roadAvgResponse?.speed}km/h
             </span>
-            <UpdateStyle>
-              <p>
-                업데이트{" "}
-                {`${dayjs(roadAvgResponse?.updateTime).format(
-                  "YYYY/MM/DD HH:mm"
-                )}`}
-              </p>
-            </UpdateStyle>
           </>
         )}
-      </SummaryBox>
+        <p>
+          업데이트{" "}
+          {isChange
+            ? dayjs(cityPeopleInfo.updateTime).format("YYYY/MM/DD HH:mm")
+            : dayjs(roadAvgResponse?.updateTime).format("YYYY/MM/DD HH:mm")}
+        </p>
+      </SummaryBoxStyle>
     </CustomOverlayMap>
   );
 };

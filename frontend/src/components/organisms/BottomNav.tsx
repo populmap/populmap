@@ -1,6 +1,5 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import styled from "@emotion/styled";
+import { useNavigate } from "react-router-dom";
 import BottomNavigation from "@mui/material/BottomNavigation";
 import BottomNavigationAction from "@mui/material/BottomNavigationAction";
 import EventIcon from "@mui/icons-material/Event";
@@ -9,24 +8,17 @@ import BookmarkIcon from "@mui/icons-material/Bookmark";
 import { useAppDispatch, useAppSelector } from "../../redux/hook";
 import { userPageSelected } from "../../redux/slices/userSlice";
 
-const NavSection = styled.section`
-  position: fixed;
-  top: ${window.ontouchstart ? "70%" : "85%"};
-  left: 50%;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  transform: translate(-50%, 0%);
+const NavStyle = styled.nav`
   touch-action: none;
 `;
 
 const BottomNavigationStyle = {
   borderRadius: "0.7rem",
-  width: "20rem",
+  width: "300px",
   border: "0.05rem solid gray",
 };
 
-const NavTemplate = (): JSX.Element => {
+const BottomNav = (): JSX.Element => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const user = useAppSelector((state) => state.user);
@@ -47,7 +39,7 @@ const NavTemplate = (): JSX.Element => {
   };
 
   return (
-    <NavSection>
+    <NavStyle>
       <BottomNavigation
         showLabels
         onChange={handleChange}
@@ -66,8 +58,8 @@ const NavTemplate = (): JSX.Element => {
           icon={user.pageSelected === 2 && <BookmarkIcon />}
         />
       </BottomNavigation>
-    </NavSection>
+    </NavStyle>
   );
 };
 
-export default NavTemplate;
+export default BottomNav;

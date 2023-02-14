@@ -4,16 +4,10 @@ import HeaderMenu from "../organisms/HeaderMenu";
 import { useNavigate } from "react-router-dom";
 
 const Header = styled.header`
-  position: absolute;
-  top: 0%;
-  left: 50%;
   width: 100%;
-  height: 5%;
+  height: 2.5rem;
   display: flex;
-  justify-content: center;
-  transform: translate(-50%, 0%);
   justify-content: space-between;
-  background-color: white;
   touch-action: none;
 `;
 

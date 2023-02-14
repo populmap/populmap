@@ -1,19 +1,15 @@
 import styled from "@emotion/styled";
 import SignupForm from "../organisms/SignupForm";
 
-const SignupSection = styled.section`
-  position: absolute;
-  text-align: center;
-  top: 5%;
-  width: 100%;
-  height: 90%;
+const SignupSectionStyle = styled.section`
+  padding-top: 4rem;
 `;
 
 const SignupTemplate = (): JSX.Element => {
   return (
-    <SignupSection>
+    <SignupSectionStyle>
       <SignupForm />
-    </SignupSection>
+    </SignupSectionStyle>
   );
 };
 

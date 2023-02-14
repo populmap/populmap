@@ -13,11 +13,6 @@ import {
 } from "../../redux/slices/mapSlice";
 
 const MapDiv = styled.div`
-  position: absolute;
-  width: 100%;
-  top: 8%;
-  left: 50%;
-  transform: translate(-50%, 0%);
   touch-action: none;
 `;
 

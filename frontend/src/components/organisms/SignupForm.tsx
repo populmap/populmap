@@ -5,12 +5,7 @@ import InputInstance from "../atoms/inputs/InputInstance";
 import PasswordInput from "../atoms/inputs/PasswordInput";
 
 const Form = styled.form`
-  margin-top: 6rem;
-  margin-bottom: 1rem;
-`;
-
-const InputSection = styled.section`
-  margin: 1rem 0;
+  text-align: center;
 `;
 
 const SignupForm = (): JSX.Element => {
@@ -21,23 +16,21 @@ const SignupForm = (): JSX.Element => {
   return (
     <Form>
       <h1>회원가입</h1>
-      <InputSection>
-        <InputInstance
-          title="이메일"
-          placeholder="이메일을 입력하세요"
-          setValue={setEmail}
-        />
-        <InputInstance
-          title="아이디"
-          placeholder="아이디를 입력하세요"
-          setValue={setUserName}
-        />
-        <PasswordInput
-          title="비밀번호"
-          placeholder="비밀번호를 입력하세요"
-          setValue={setPassword}
-        />
-      </InputSection>
+      <InputInstance
+        title="이메일"
+        placeholder="이메일을 입력하세요"
+        setValue={setEmail}
+      />
+      <InputInstance
+        title="아이디"
+        placeholder="아이디를 입력하세요"
+        setValue={setUserName}
+      />
+      <PasswordInput
+        title="비밀번호"
+        placeholder="비밀번호를 입력하세요"
+        setValue={setPassword}
+      />
       <SignupSubmitButton
         email={email}
         userName={userName}

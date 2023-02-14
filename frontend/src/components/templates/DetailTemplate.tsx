@@ -6,12 +6,7 @@ import progressType, {
 } from "../../types/dto/EventDetailResponse.dto";
 import DetailContent from "../organisms/DetailContent";
 
-const DetailSection = styled.section`
-  position: relative;
-  top: 5%;
-  height: 95%;
-  width: 100%;
-`;
+const DetailSection = styled.section``;
 
 const DetailTemplate = (): JSX.Element => {
   const eventId = window.location.pathname.replace(/.*\//, "");

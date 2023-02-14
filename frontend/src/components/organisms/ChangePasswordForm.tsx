@@ -4,13 +4,8 @@ import PasswordChangeButton from "../atoms/buttons/PasswordChangeButton";
 import PasswordAssertButton from "../atoms/buttons/PasswordAssertButton";
 import PasswordInput from "../atoms/inputs/PasswordInput";
 
-const Form = styled.form`
-  margin-top: 6rem;
-  margin-bottom: 1rem;
-`;
-
-const InputSection = styled.section`
-  margin: 1rem 0;
+const FormStyle = styled.form`
+  text-align: center;
 `;
 
 const ChangePasswordForm = (): JSX.Element => {
@@ -19,22 +14,20 @@ const ChangePasswordForm = (): JSX.Element => {
   const [isAssert, setIsAssert] = useState<boolean>(false);
 
   return (
-    <Form>
+    <FormStyle>
       {isAssert && (
         <>
           <h1>비밀번호 변경</h1>
-          <InputSection>
-            <PasswordInput
-              title="새 비밀번호"
-              placeholder="새 비밀번호"
-              setValue={setPassword}
-            />
-            <PasswordInput
-              title="새 비밀번호 확인"
-              placeholder="새 비밀번호 확인"
-              setValue={setCheckerPassword}
-            />
-          </InputSection>
+          <PasswordInput
+            title="새 비밀번호"
+            placeholder="새 비밀번호"
+            setValue={setPassword}
+          />
+          <PasswordInput
+            title="새 비밀번호 확인"
+            placeholder="새 비밀번호 확인"
+            setValue={setCheckerPassword}
+          />
           {password !== checkerPassword && (
             <p style={{ fontSize: "0.7rem", color: "red" }}>
               {" "}
@@ -50,13 +43,11 @@ const ChangePasswordForm = (): JSX.Element => {
       {!isAssert && (
         <>
           <h1>비밀번호 변경</h1>
-          <InputSection>
-            <PasswordInput
-              title="현재 비밀번호 입력"
-              placeholder="비밀번호"
-              setValue={setPassword}
-            />
-          </InputSection>
+          <PasswordInput
+            title="현재 비밀번호 입력"
+            placeholder="비밀번호"
+            setValue={setPassword}
+          />
           <PasswordAssertButton
             value="확인"
             password={password}
@@ -64,7 +55,7 @@ const ChangePasswordForm = (): JSX.Element => {
           />
         </>
       )}
-    </Form>
+    </FormStyle>
   );
 };
 

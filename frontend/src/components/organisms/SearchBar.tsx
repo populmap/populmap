@@ -1,33 +1,28 @@
 import { useState } from "react";
 import styled from "@emotion/styled";
+import IconButton from "@mui/material/IconButton";
+import ClearIcon from "@mui/icons-material/Clear";
 import SearchInput from "../atoms/inputs/SearchInput";
-import InputDeleteButton from "../atoms/buttons/InputDeleteButton";
 
-const SearchBarDiv = styled.div`
+const SearchBarDivStyle = styled.div`
   display: flex;
   justify-content: center;
-  width: 100%;
-  height: 100%;
-`;
-
-const InputDiv = styled.div`
-  width: 70%;
-  height: 80%;
-  display: flex;
-  justify-content: left;
+  height: 90%;
+  width: 60%;
+  margin: 0 auto;
   background-color: #fafafa;
-  border-radius: 0.3rem;
+  border-radius: 0.7rem;
 `;
 
 const SearchBar = (): JSX.Element => {
   const [value, setValue] = useState<string>("");
   return (
-    <SearchBarDiv>
-      <InputDiv>
-        <SearchInput value={value} setValue={setValue} />
-        {value === "" ? null : <InputDeleteButton setValue={setValue} />}
-      </InputDiv>
-    </SearchBarDiv>
+    <SearchBarDivStyle>
+      <SearchInput value={value} setValue={setValue} />
+      <IconButton onClick={() => setValue("")}>
+        <ClearIcon />
+      </IconButton>
+    </SearchBarDivStyle>
   );
 };
 

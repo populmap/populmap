@@ -6,9 +6,11 @@ const NavFooterWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   flex-direction: column;
-  position: fixed;
-  bottom: 5%;
   height: 100px;
+  position: fixed;
+  bottom: 2.5rem;
+  left: 50%;
+  transform: translate(-50%, 0);
 `;
 
 const BottomTemplate = (): JSX.Element => {

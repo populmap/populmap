@@ -1,21 +1,16 @@
 import styled from "@emotion/styled";
 import SearchBar from "../organisms/SearchBar";
 
-const BarSection = styled.section`
-  position: absolute;
-  top: 5%;
-  left: 50%;
-  width: 100%;
-  height: 5%;
-  transform: translate(-50%, 0%);
+const SearchSectionStyle = styled.section`
+  height: 2.5rem;
   touch-action: none;
 `;
 
 const SearchTemplate = (): JSX.Element => {
   return (
-    <BarSection>
+    <SearchSectionStyle>
       <SearchBar />
-    </BarSection>
+    </SearchSectionStyle>
   );
 };
 

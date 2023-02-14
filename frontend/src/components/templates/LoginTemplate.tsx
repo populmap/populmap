@@ -3,22 +3,20 @@ import LoginForm from "../organisms/LoginForm";
 import LoginNav from "../organisms/LoginNav";
 import OauthLoginNav from "../organisms/OauthLoginNav";
 
-const LoginSection = styled.section`
-  position: absolute;
-  text-align: center;
-  top: 5%;
-  width: 100%;
-  height: 90%;
+const LoginSectionStyle = styled.section`
+  display: flex;
+  flex-direction: column;
+  padding-top: 4rem;
 `;
 
 const LoginTemplate = (): JSX.Element => {
   return (
-    <LoginSection>
+    <LoginSectionStyle>
       <LoginForm />
       <LoginNav />
       <hr style={{ width: "60%" }} />
       <OauthLoginNav />
-    </LoginSection>
+    </LoginSectionStyle>
   );
 };
 

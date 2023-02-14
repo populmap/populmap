@@ -9,6 +9,8 @@ import { useAppDispatch, useAppSelector } from "../../redux/hook";
 import { userPageSelected } from "../../redux/slices/userSlice";
 
 const NavStyle = styled.nav`
+  display: flex;
+  justify-content: center;
   touch-action: none;
 `;
 

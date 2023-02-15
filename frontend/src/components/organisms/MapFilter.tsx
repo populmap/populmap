@@ -6,11 +6,11 @@ import WarningAmberIcon from "@mui/icons-material/WarningAmber";
 import { PayloadAction } from "@reduxjs/toolkit";
 import { useAppSelector, useAppDispatch } from "../../redux/hook";
 import {
-  mapSetIsEventShow,
-  mapSetIsBookmarkShow,
-  mapSetIsPeopleShow,
-  mapSetIsAccidentShow,
-} from "../../redux/slices/mapSlice";
+  filterSetIsEventShow,
+  filterSetIsBookmarkShow,
+  filterSetIsPeopleShow,
+  filterSetIsAccidentShow,
+} from "../../redux/slices/filterSlice";
 
 const MapDiv = styled.div`
   touch-action: none;
@@ -39,31 +39,31 @@ const FilterButton = styled.button<buttonProps>`
 
 const MapFilter = (): JSX.Element => {
   const dispatch = useAppDispatch();
-  const mapState = useAppSelector((state) => state.map);
+  const filterState = useAppSelector((state) => state.filter);
 
   return (
     <MapDiv>
       <FilterButton
-        isShow={mapState.isEventShow}
-        onClick={(): PayloadAction => dispatch(mapSetIsEventShow())}
+        isShow={filterState.isEventShow}
+        onClick={(): PayloadAction => dispatch(filterSetIsEventShow())}
       >
         <EventIcon /> 행사
       </FilterButton>
       <FilterButton
-        isShow={mapState.isBookmarkShow}
-        onClick={(): PayloadAction => dispatch(mapSetIsBookmarkShow())}
+        isShow={filterState.isBookmarkShow}
+        onClick={(): PayloadAction => dispatch(filterSetIsBookmarkShow())}
       >
         <BookmarkIcon /> 북마크
       </FilterButton>
       <FilterButton
-        isShow={mapState.isPeopleShow}
-        onClick={(): PayloadAction => dispatch(mapSetIsPeopleShow())}
+        isShow={filterState.isPeopleShow}
+        onClick={(): PayloadAction => dispatch(filterSetIsPeopleShow())}
       >
         <PersonIcon /> 밀집도
       </FilterButton>
       <FilterButton
-        isShow={mapState.isAccidentShow}
-        onClick={(): PayloadAction => dispatch(mapSetIsAccidentShow())}
+        isShow={filterState.isAccidentShow}
+        onClick={(): PayloadAction => dispatch(filterSetIsAccidentShow())}
       >
         <WarningAmberIcon /> 사고
       </FilterButton>

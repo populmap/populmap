@@ -22,6 +22,7 @@ const LoadMap = (props: LoadMapProps): JSX.Element => {
 
   const dispatch = useAppDispatch();
   const mapState = useAppSelector((state) => state.map);
+  const filterState = useAppSelector((state) => state.filter);
   const overlayState = useAppSelector((state) => state.overlay);
   useKakaoSearch();
 
@@ -49,7 +50,7 @@ const LoadMap = (props: LoadMapProps): JSX.Element => {
       zoomable={overlayState.isEventOverlayNumber === -1}
     >
       <>
-        {mapState.isBookmarkShow &&
+        {filterState.isBookmarkShow &&
           bookmarkInfo?.map((event) => {
             return (
               <EventMarker
@@ -63,7 +64,7 @@ const LoadMap = (props: LoadMapProps): JSX.Element => {
               />
             );
           })}
-        {mapState.isEventShow &&
+        {filterState.isEventShow &&
           eventInfo?.map((event) => {
             return (
               <EventMarker
@@ -77,7 +78,7 @@ const LoadMap = (props: LoadMapProps): JSX.Element => {
               />
             );
           })}
-        {mapState.isPeopleShow &&
+        {filterState.isPeopleShow &&
           cityPeopleInfo?.map((people) => {
             return (
               <CityMarker
@@ -87,7 +88,7 @@ const LoadMap = (props: LoadMapProps): JSX.Element => {
               />
             );
           })}
-        {mapState.isAccidentShow &&
+        {filterState.isAccidentShow &&
           cityAccidentInfo?.map((accident) => {
             return (
               <CityAccidentMarker

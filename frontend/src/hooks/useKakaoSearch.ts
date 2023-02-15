@@ -1,6 +1,10 @@
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../redux/hook";
-import { mapLocationChange, mapLevelSelect } from "../redux/slices/mapSlice";
+import {
+  mapLocationChange,
+  mapLevelSelect,
+  mapSearch,
+} from "../redux/slices/mapSlice";
 
 const useKakaoSearch = (): void => {
   const dispatch = useAppDispatch();
@@ -17,7 +21,10 @@ const useKakaoSearch = (): void => {
           lng: result[0].x,
         })
       );
-    } else alert("검색결과가 없습니다.");
+    } else {
+      dispatch(mapSearch(""));
+      alert("검색결과가 없습니다.");
+    }
   };
 
   useEffect(() => {

@@ -7,7 +7,6 @@ export interface userStateType {
   loginType: string;
   userId: number;
   userName: string;
-  pageSelected: number;
 }
 
 const initialState: userStateType = {
@@ -17,7 +16,6 @@ const initialState: userStateType = {
   loginType: "",
   userId: -1,
   userName: "",
-  pageSelected: 1,
 };
 
 export const userSlice = createSlice({
@@ -27,15 +25,11 @@ export const userSlice = createSlice({
     userInfoUpdate: (state, action: PayloadAction<userStateType>) => {
       return action.payload;
     },
-    userPageSelected: (state, action: PayloadAction<number>) => {
-      state.pageSelected = action.payload;
-    },
     userInitialize: () => {
       return initialState;
     },
   },
 });
 
-export const { userInfoUpdate, userInitialize, userPageSelected } =
-  userSlice.actions;
+export const { userInfoUpdate, userInitialize } = userSlice.actions;
 export default userSlice.reducer;

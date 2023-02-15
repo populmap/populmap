@@ -5,10 +5,6 @@ export interface mapStateType {
     lat: number;
     lng: number;
   };
-  mousePosition: {
-    lat: number;
-    lng: number;
-  };
   level: number;
   search: string;
 }
@@ -17,10 +13,6 @@ const initialState: mapStateType = {
   center: {
     lat: 37.57225,
     lng: 126.98535,
-  },
-  mousePosition: {
-    lat: 0,
-    lng: 0,
   },
   level: 4,
   search: "",

@@ -5,12 +5,14 @@ import mapSlice from "./slices/mapSlice";
 import userSlice from "./slices/userSlice";
 import overlaySlice from "./slices/overlaySlice";
 import reloadSlice from "./slices/reloadSlice";
+import filterSlice from "./slices/filterSlice";
 
 const reducer = combineReducers({
   map: mapSlice,
   user: userSlice,
   overlay: overlaySlice,
   reload: reloadSlice,
+  filter: filterSlice,
 });
 
 const persistConfig = {

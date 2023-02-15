@@ -4,13 +4,12 @@ import SignupSubmitButton from "../atoms/buttons/SignupSubmitButton";
 import InputInstance from "../atoms/inputs/InputInstance";
 import PasswordInput from "../atoms/inputs/PasswordInput";
 
-const Form = styled.form`
-  margin-top: 6rem;
-  margin-bottom: 1rem;
+const FormStyle = styled.form`
+  text-align: center;
 `;
 
-const InputSection = styled.section`
-  margin: 1rem 0;
+const DivStyle = styled.div`
+  padding-bottom: 0.5rem;
 `;
 
 const SignupForm = (): JSX.Element => {
@@ -19,9 +18,9 @@ const SignupForm = (): JSX.Element => {
   const [password, setPassword] = useState<string>("");
 
   return (
-    <Form>
-      <h1>회원가입</h1>
-      <InputSection>
+    <FormStyle>
+      <DivStyle>
+        <h1>회원가입</h1>
         <InputInstance
           title="이메일"
           placeholder="이메일을 입력하세요"
@@ -37,14 +36,14 @@ const SignupForm = (): JSX.Element => {
           placeholder="비밀번호를 입력하세요"
           setValue={setPassword}
         />
-      </InputSection>
+      </DivStyle>
       <SignupSubmitButton
         email={email}
         userName={userName}
         password={password}
         value="가입하기"
       />
-    </Form>
+    </FormStyle>
   );
 };
 

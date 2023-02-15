@@ -24,12 +24,6 @@ const InformationStyle = styled.div`
   height: 7rem;
 `;
 
-const DetailAndBookmarkNavStyle = styled.div`
-  position: absolute;
-  top: 80%;
-  left: 10%;
-`;
-
 const EventCard = (props: EventCardProps): JSX.Element => {
   const { cardInfo } = props;
   const navigate = useNavigate();

@@ -14,19 +14,18 @@ import {
 import { useAppSelector } from "../../redux/hook";
 
 const ListSectionStyle = styled.section`
-  position: absolute;
-  top: 5%;
   width: 100%;
-  height: calc(90% - 100px);
+  height: calc(100% - 200px);
+  text-align: center;
 `;
 
 const SelectBoxStyle = styled.div`
-  height: 5%;
+  height: 26px;
 `;
 
 const CardListStyle = styled.div`
-  display: flex;
   align-items: center;
+  display: flex;
   flex-direction: column;
   overflow-y: scroll;
   -ms-overflow-style: none;

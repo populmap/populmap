@@ -3,7 +3,7 @@ import NaverIcon from "../../../img/naver.png";
 import KakaoIcon from "../../../img/kakao.png";
 import GoogleIcon from "../../../img/google.svg";
 
-const Div = styled.div`
+const OauthLoginNavStyle = styled.nav`
   display: flex;
   justify-content: center;
   a {
@@ -13,7 +13,7 @@ const Div = styled.div`
 
 const OauthLoginNav = (): JSX.Element => {
   return (
-    <Div>
+    <OauthLoginNavStyle>
       <a href="/auth/naver/login">
         <img src={NaverIcon} width={32} height={32} alt="naver" />
       </a>
@@ -23,7 +23,7 @@ const OauthLoginNav = (): JSX.Element => {
       <a href="/auth/google/login">
         <img src={GoogleIcon} alt="google" />
       </a>
-    </Div>
+    </OauthLoginNavStyle>
   );
 };
 

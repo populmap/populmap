@@ -17,29 +17,30 @@ interface DetailContentProps {
   detailResponse: EventDetailResponseDto | undefined;
 }
 
-const SummaryStyle = styled.div`
+const DetailDivStyle = styled.div`
+  text-align: center;
+`;
+
+const SummaryDivStyle = styled.div`
   display: flex;
   justify-content: center;
   flex-direction: column;
   font-size: 0.9rem;
-  height: 9rem;
 `;
 
 const ButtonDivStyle = styled.div`
   border-top: 0.05rem solid gray;
   border-bottom: 0.05rem solid gray;
   padding-top: 1rem;
-  height: 3rem;
 `;
 
-const InformationStyle = styled.div`
+const InformationDivStyle = styled.div`
   text-align: left;
   font-size: 0.8rem;
-  padding: 1rem;
+  padding: 1rem 1.5rem;
   display: flex;
-  justify-content: start;
   flex-direction: column;
-  height: 12rem;
+
   overflow-y: scroll;
   -ms-overflow-style: none;
   scrollbar-width: none;
@@ -52,11 +53,11 @@ const DetailContent = (props: DetailContentProps): JSX.Element => {
   const { detailResponse } = props;
   if (!detailResponse) return <h2>Loading....</h2>;
   return (
-    <>
-      <SummaryStyle>
+    <DetailDivStyle>
+      <SummaryDivStyle>
         <h3>{detailResponse?.title}</h3>
         <p>{detailResponse?.description}</p>
-      </SummaryStyle>
+      </SummaryDivStyle>
       <ButtonDivStyle>
         <BookmarkApiButton
           param={detailResponse?.eventId}
@@ -72,7 +73,7 @@ const DetailContent = (props: DetailContentProps): JSX.Element => {
         />
         <ShareButton />
       </ButtonDivStyle>
-      <InformationStyle>
+      <InformationDivStyle>
         <h3>상세정보</h3>
         {detailResponse?.address && (
           <p>
@@ -119,14 +120,20 @@ const DetailContent = (props: DetailContentProps): JSX.Element => {
             <PaymentIcon /> {detailResponse?.fee}
           </p>
         )}
-      </InformationStyle>
+      </InformationDivStyle>
       {detailResponse?.modifiedTime && (
-        <p style={{ fontSize: "0.5rem" }}>
+        <p
+          style={{
+            fontSize: "0.5rem",
+            textAlign: "right",
+            padding: "0 1.5rem",
+          }}
+        >
           업데이트{" "}
           {`${dayjs(detailResponse?.modifiedTime).format("YYYY/MM/DD HH:mm")}`}
         </p>
       )}
-    </>
+    </DetailDivStyle>
   );
 };
 

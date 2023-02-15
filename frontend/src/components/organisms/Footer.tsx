@@ -3,6 +3,7 @@ import style from "@emotion/styled";
 const FooterStyle = style.footer`
   font-weight: 400;
   font-size: 0.5rem;
+  text-align: center;
 `;
 
 const Footer = (): JSX.Element => {

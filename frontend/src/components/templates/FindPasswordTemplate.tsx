@@ -1,19 +1,15 @@
 import styled from "@emotion/styled";
 import FindPasswordForm from "../organisms/FindPasswordForm";
 
-const FindPasswordSection = styled.section`
-  position: absolute;
-  text-align: center;
-  top: 5%;
-  width: 100%;
-  height: 90%;
+const FindPasswordSectionStyle = styled.section`
+  padding-top: 4rem;
 `;
 
 const FindPasswordTemplate = (): JSX.Element => {
   return (
-    <FindPasswordSection>
+    <FindPasswordSectionStyle>
       <FindPasswordForm />
-    </FindPasswordSection>
+    </FindPasswordSectionStyle>
   );
 };
 

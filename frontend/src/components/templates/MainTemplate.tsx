@@ -20,7 +20,7 @@ import { useAppSelector } from "../../redux/hook";
 import useGetToken from "../../hooks/useGetToken";
 
 const MainSectionStyle = styled.section`
-  height: 50rem;
+  height: 55rem;
   position: relative;
 `;
 

@@ -1,13 +1,6 @@
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../redux/hook";
-import {
-  mapLevelSelect,
-  mapLocationChange,
-  mapSetIsAccidentShow,
-  mapSetIsEventShow,
-  mapSetIsBookmarkShow,
-  mapSetIsPeopleShow,
-} from "../redux/slices/mapSlice";
+import { mapLocationChange, mapLevelSelect } from "../redux/slices/mapSlice";
 
 const useKakaoSearch = (): void => {
   const dispatch = useAppDispatch();
@@ -25,10 +18,6 @@ const useKakaoSearch = (): void => {
         })
       );
     } else alert("검색결과가 없습니다.");
-    if (!mapState.isEventShow) dispatch(mapSetIsEventShow());
-    if (!mapState.isBookmarkShow) dispatch(mapSetIsBookmarkShow());
-    if (!mapState.isPeopleShow) dispatch(mapSetIsPeopleShow());
-    if (!mapState.isAccidentShow) dispatch(mapSetIsAccidentShow());
   };
 
   useEffect(() => {

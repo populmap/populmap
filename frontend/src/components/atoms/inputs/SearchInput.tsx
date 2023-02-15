@@ -7,14 +7,6 @@ interface SearchInputProps {
   setValue: Dispatch<SetStateAction<string>>;
 }
 
-const SearchInputStyle = {
-  border: 0,
-  width: "80%",
-  height: "100%",
-  marginLeft: "1rem",
-  backgroundColor: "transparent",
-};
-
 const SearchInput = (props: SearchInputProps): JSX.Element => {
   const { value, setValue } = props;
   const dispatch = useAppDispatch();
@@ -32,7 +24,7 @@ const SearchInput = (props: SearchInputProps): JSX.Element => {
 
   return (
     <input
-      style={SearchInputStyle}
+      style={{ border: 0, backgroundColor: "#fafafa" }}
       value={value}
       type="text"
       placeholder="장소를 입력해주세요"

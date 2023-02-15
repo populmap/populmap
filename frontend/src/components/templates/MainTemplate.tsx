@@ -19,20 +19,30 @@ import { EventSummaryGroupResponseDto } from "../../types/dto/EventSummaryRespon
 import { useAppSelector } from "../../redux/hook";
 import useGetToken from "../../hooks/useGetToken";
 
-const MainSection = styled.section`
+const MainSectionStyle = styled.section`
+  height: 50rem;
   position: relative;
-  top: 10%;
-  height: 90%;
-  width: 100%;
 `;
 
 const SelectBoxStyle = styled.div`
   position: absolute;
-  width: 100%;
   top: 2%;
   left: 50%;
-  transform: translate(-50%, 0%);
-  touch-action: none;
+  transform: translate(-50%, 0);
+`;
+
+const MapFilterStyle = styled.div`
+  position: absolute;
+  top: 7%;
+  left: 50%;
+  width: 70%;
+  transform: translate(-50%, 0);
+`;
+
+const MapNavStyle = styled.div`
+  position: absolute;
+  top: 15%;
+  left: 6%;
 `;
 
 const MainTemplate = (): JSX.Element => {
@@ -92,7 +102,7 @@ const MainTemplate = (): JSX.Element => {
   }, []);
 
   return (
-    <MainSection>
+    <MainSectionStyle>
       {loading ? null : (
         <LoadMap
           eventInfo={eventInfo}
@@ -101,12 +111,16 @@ const MainTemplate = (): JSX.Element => {
           cityAccidentInfo={cityAccidentInfo}
         />
       )}
-      <MapFilter />
       <SelectBoxStyle>
         <SelectBox setCity={setCity} setProgress={setProgress} />
       </SelectBoxStyle>
-      <MapNav />
-    </MainSection>
+      <MapFilterStyle>
+        <MapFilter />
+      </MapFilterStyle>
+      <MapNavStyle>
+        <MapNav />
+      </MapNavStyle>
+    </MainSectionStyle>
   );
 };
 

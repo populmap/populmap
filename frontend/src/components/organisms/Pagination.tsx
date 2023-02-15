@@ -3,9 +3,9 @@ import { useState, Dispatch, SetStateAction, useEffect } from "react";
 
 interface PaginationProps {
   totalLength: number | undefined;
-  page: number;
+  index: number;
   length: number;
-  setPage: Dispatch<SetStateAction<number>>;
+  setIndex: Dispatch<SetStateAction<number>>;
 }
 
 const PaginationNavStyle = styled.nav`
@@ -15,56 +15,35 @@ const PaginationNavStyle = styled.nav`
   }
 `;
 
-const PaginationButtonStyle = styled.button``;
-
 const Pagination = (props: PaginationProps): JSX.Element => {
-  const { totalLength, page, length, setPage } = props;
-  const [pageNum, setPageNum] = useState<number>(-1);
-  const [pageList, setPageList] = useState<Array<number>>();
-  const [isChange, setIsChange] = useState<string>("next");
-
-  const handleNext = (): void => {
-    if (totalLength && page < totalLength) setPage(page + 1);
-    if ((page + 1) % 5 === 0) setIsChange("next");
-  };
-
-  const handlePrev = (): void => {
-    if (0 < page) setPage(page - 1);
-    if (page % 5 === 0) setIsChange("prev");
-  };
+  const { totalLength, index, length, setIndex } = props;
+  const [maxPage, setMaxPage] = useState<number>(0);
+  // const [pageList, setPageList] = useState<Array<number>>([...Array.map(ele)]);
 
   useEffect(() => {
-    if (totalLength) setPageNum(Math.ceil(totalLength / length));
-  }, []);
-
-  useEffect(() => {
-    const tmp = new Array();
-    if (isChange === "next")
-      for (let i = 0; i <= 4; i++) tmp[i] = page + (i + 1);
-    else if (isChange === "prev")
-      for (let i = 0; i <= 4; i++) tmp[i] = page - (3 - i);
-    if (tmp.length !== 0) setPageList(tmp);
-    setIsChange("");
-  }, [isChange]);
+    totalLength && setMaxPage(Math.ceil(totalLength / length));
+  }, [totalLength]);
 
   return (
     <PaginationNavStyle>
-      <button onClick={handlePrev} disabled={page === 0}>
+      <button onClick={() => setIndex(0)} disabled={index === 0}>
+        {"<<"}
+      </button>
+      <button onClick={() => setIndex(index - 1)} disabled={index === 0}>
         {"<"}
       </button>
-      {pageList?.map((value, index) => {
-        return (
-          <button
-            onClick={(): void => setPage(value - 1)}
-            style={{ color: page === value - 1 ? "red" : "black" }}
-            key={index}
-          >
-            {value}
-          </button>
-        );
-      })}
-      <button onClick={handleNext} disabled={page === pageNum}>
+      <button>{index + 1}</button>
+      <button
+        onClick={() => setIndex(index + 1)}
+        disabled={index + 1 === maxPage}
+      >
         {">"}
+      </button>
+      <button
+        onClick={() => setIndex(maxPage - 1)}
+        disabled={index + 1 === maxPage}
+      >
+        {">>"}
       </button>
     </PaginationNavStyle>
   );

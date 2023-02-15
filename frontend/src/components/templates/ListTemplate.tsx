@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { PropsWithChildren, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import SelectBox from "../organisms/SelectBox";
 import EventCard from "../organisms/EventCard";
 import Pagination from "../organisms/Pagination";
@@ -14,19 +14,18 @@ import {
 import { useAppSelector } from "../../redux/hook";
 
 const ListSectionStyle = styled.section`
-  position: absolute;
-  top: 5%;
   width: 100%;
-  height: ${window.ontouchstart ? "65%" : "80%"};
+  height: calc(100% - 200px);
+  text-align: center;
 `;
 
 const SelectBoxStyle = styled.div`
-  height: 5%;
+  height: 26px;
 `;
 
 const CardListStyle = styled.div`
-  display: flex;
   align-items: center;
+  display: flex;
   flex-direction: column;
   overflow-y: scroll;
   -ms-overflow-style: none;
@@ -34,18 +33,18 @@ const CardListStyle = styled.div`
   &::-webkit-scrollbar {
     display: none;
   }
-  height: 75%;
+  height: calc(95% - 36px);
 `;
 
 const PaginationStyle = styled.div`
-  margin-top: 0.7rem;
-  height: "20%";
+  padding: 6px 0;
+  height: 24px;
 `;
 
 const ListTemplate = (): JSX.Element => {
   const [city, setCity] = useState<string>("전국");
   const [progress, setProgress] = useState<string>("전체");
-  const [page, setPage] = useState<number>(0);
+  const [index, setIndex] = useState<number>(0);
   const [length, setLength] = useState<number>(10);
   const [eventLists, setEventLists] = useState<EventPagiNationResponseDto>();
   const user = useAppSelector((state) => state.user);
@@ -54,17 +53,17 @@ const ListTemplate = (): JSX.Element => {
 
   useEffect((): void => {
     if (type === "/event") {
-      axiosEventSearchList(page, length, city, progress)
+      axiosEventSearchList(index, length, city, progress)
         .then((response) => setEventLists(response.data))
         .catch((err) => console.error(err));
     } else if (type === "/bookmark" && user.userId !== -1) {
-      axiosEventBookmarkList(page, length, city, progress)
+      axiosEventBookmarkList(index, length, city, progress)
         .then((response) => {
           setEventLists(response.data);
         })
         .catch((err) => console.error(err));
     }
-  }, [page, length, city, progress, reload.active]);
+  }, [index, length, city, progress, reload.active]);
 
   return (
     <ListSectionStyle>
@@ -83,8 +82,8 @@ const ListTemplate = (): JSX.Element => {
         <Pagination
           totalLength={eventLists?.totalLength}
           length={length}
-          page={page}
-          setPage={setPage}
+          index={index}
+          setIndex={setIndex}
         />
       </PaginationStyle>
     </ListSectionStyle>

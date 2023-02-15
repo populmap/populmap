@@ -1,3 +1,4 @@
+import styled from "@emotion/styled";
 import { SetStateAction, Dispatch } from "react";
 import progressType from "../../types/dto/EventDetailResponse.dto";
 import CityType from "../../../../backend/src/enums/city.type.enum";
@@ -20,11 +21,15 @@ const progressStyle = {
   marginLeft: "0.3rem",
 };
 
+const SelectBoxStyle = styled.div`
+  touch-action: none;
+`;
+
 const SelectBox = (props: SelectBoxProps): JSX.Element => {
   const { setCity, setProgress } = props;
 
   return (
-    <>
+    <SelectBoxStyle>
       <SelectInstance
         options={Object.values(CityType)}
         type="city"
@@ -36,7 +41,7 @@ const SelectBox = (props: SelectBoxProps): JSX.Element => {
         setValue={setProgress}
         style={progressStyle}
       />
-    </>
+    </SelectBoxStyle>
   );
 };
 

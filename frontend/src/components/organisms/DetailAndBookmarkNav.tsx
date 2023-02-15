@@ -1,4 +1,4 @@
-import { useState } from "react";
+import styled from "@emotion/styled";
 import PageNavigateButton from "../atoms/buttons/PageNavigateButton";
 import BookmarkApiButton from "../atoms/buttons/BookmarkApiButton";
 import {
@@ -13,6 +13,11 @@ const ButtonStyle = {
   color: "#3d75cc",
 };
 
+const DetailAndBookmarkNavStyle = styled.div`
+  display: flex;
+  justify-content: center;
+`;
+
 interface DetailAndBookmarkNavProps {
   eventId: number;
   isBookmarked: boolean;
@@ -23,7 +28,7 @@ const DetailAndBookmarkNav = (
 ): JSX.Element => {
   const { eventId, isBookmarked } = props;
   return (
-    <>
+    <DetailAndBookmarkNavStyle>
       <PageNavigateButton
         style={ButtonStyle}
         value="상세보기"
@@ -46,7 +51,7 @@ const DetailAndBookmarkNav = (
           api={axiosEventBookmarkPost}
         />
       )}
-    </>
+    </DetailAndBookmarkNavStyle>
   );
 };
 

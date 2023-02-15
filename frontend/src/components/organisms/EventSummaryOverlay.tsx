@@ -16,17 +16,12 @@ interface EventSummaryOverlayProps {
 
 const SummaryBox = styled.div`
   width: 10rem;
-  height: 9rem;
+  height: 8rem;
   border-radius: 0.5rem;
   background-color: white;
   font-size: 0.5rem;
   padding: 1rem;
-`;
-
-const DetailAndBookmarkNavStyle = styled.div`
-  position: absolute;
-  top: 80%;
-  left: 10%;
+  text-align: center;
 `;
 
 const EventSummaryOverlay = (props: EventSummaryOverlayProps): JSX.Element => {
@@ -64,13 +59,17 @@ const EventSummaryOverlay = (props: EventSummaryOverlayProps): JSX.Element => {
         >
           {eventInfo.progress}
         </p>
-        <p style={{ whiteSpace: "normal" }}>{eventInfo.address}</p>
-        <DetailAndBookmarkNavStyle>
-          <DetailAndBookmarkNav
-            eventId={eventInfo.eventId}
-            isBookmarked={eventInfo.isBookmarked}
-          />
-        </DetailAndBookmarkNavStyle>
+        <p
+          style={{
+            whiteSpace: "normal",
+          }}
+        >
+          {eventInfo.address}
+        </p>
+        <DetailAndBookmarkNav
+          eventId={eventInfo.eventId}
+          isBookmarked={eventInfo.isBookmarked}
+        />
       </SummaryBox>
     </CustomOverlayMap>
   );

@@ -8,17 +8,9 @@ const style = css`
     font-weight: normal;
     font-style: normal;
   }
-  html {
-    max-width: 30rem;
-    margin: auto;
-  }
   body {
     margin: 0;
-    max-height: 60rem;
     font-family: "EliceDigitalBaeum_Regular";
-    -webkit-text-size-adjust: none;
-    -ms-text-size-adjust: none;
-    -moz-text-size-adjust: none;
   }
 
   input,

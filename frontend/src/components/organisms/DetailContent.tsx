@@ -32,6 +32,7 @@ const ButtonDivStyle = styled.div`
   border-top: 0.05rem solid gray;
   border-bottom: 0.05rem solid gray;
   padding-top: 1rem;
+  height: 3rem;
 `;
 
 const InformationDivStyle = styled.div`

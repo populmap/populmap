@@ -4,6 +4,8 @@ import PageNavigateButton from "../atoms/buttons/PageNavigateButton";
 const NavStyle = styled.nav`
   display: flex;
   justify-content: center;
+  height: 1.5rem;
+  padding-top: 0.5rem;
 `;
 
 const LoginNav = (): JSX.Element => {

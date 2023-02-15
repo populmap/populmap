@@ -8,6 +8,10 @@ const FormStyle = styled.form`
   text-align: center;
 `;
 
+const DivStyle = styled.div`
+  padding-bottom: 0.5rem;
+`;
+
 const ChangePasswordForm = (): JSX.Element => {
   const [password, setPassword] = useState<string>("");
   const [checkerPassword, setCheckerPassword] = useState<string>("");
@@ -17,23 +21,25 @@ const ChangePasswordForm = (): JSX.Element => {
     <FormStyle>
       {isAssert && (
         <>
-          <h1>비밀번호 변경</h1>
-          <PasswordInput
-            title="새 비밀번호"
-            placeholder="새 비밀번호"
-            setValue={setPassword}
-          />
-          <PasswordInput
-            title="새 비밀번호 확인"
-            placeholder="새 비밀번호 확인"
-            setValue={setCheckerPassword}
-          />
-          {password !== checkerPassword && (
-            <p style={{ fontSize: "0.7rem", color: "red" }}>
-              {" "}
-              비밀번호가 일치하지 않습니다.{" "}
-            </p>
-          )}
+          <DivStyle>
+            <h1>비밀번호 변경</h1>
+            <PasswordInput
+              title="새 비밀번호"
+              placeholder="새 비밀번호"
+              setValue={setPassword}
+            />
+            <PasswordInput
+              title="새 비밀번호 확인"
+              placeholder="새 비밀번호 확인"
+              setValue={setCheckerPassword}
+            />
+            {password !== checkerPassword && (
+              <p style={{ fontSize: "0.7rem", color: "red" }}>
+                {" "}
+                비밀번호가 일치하지 않습니다.{" "}
+              </p>
+            )}
+          </DivStyle>
           <PasswordChangeButton
             value="변경하기"
             newPassword={password !== checkerPassword ? "" : password}
@@ -42,12 +48,14 @@ const ChangePasswordForm = (): JSX.Element => {
       )}
       {!isAssert && (
         <>
-          <h1>비밀번호 변경</h1>
-          <PasswordInput
-            title="현재 비밀번호 입력"
-            placeholder="비밀번호"
-            setValue={setPassword}
-          />
+          <DivStyle>
+            <h1>비밀번호 변경</h1>
+            <PasswordInput
+              title="현재 비밀번호 입력"
+              placeholder="비밀번호"
+              setValue={setPassword}
+            />
+          </DivStyle>
           <PasswordAssertButton
             value="확인"
             password={password}

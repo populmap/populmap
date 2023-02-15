@@ -22,7 +22,7 @@ type buttonProps = {
 
 const FilterButton = styled.button<buttonProps>`
   border-radius: 0.5rem;
-  width: 4.2rem;
+  width: 4rem;
   height: 1.5rem;
   border: 0;
   margin: 0 0.4rem;

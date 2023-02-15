@@ -27,13 +27,16 @@ const MainSectionStyle = styled.section`
 const SelectBoxStyle = styled.div`
   position: absolute;
   top: 2%;
-  left: 20%;
+  left: 50%;
+  transform: translate(-50%, 0);
 `;
 
 const MapFilterStyle = styled.div`
   position: absolute;
   top: 7%;
-  left: 6%;
+  left: 50%;
+  width: 70%;
+  transform: translate(-50%, 0);
 `;
 
 const MapNavStyle = styled.div`

@@ -8,13 +8,13 @@ interface CityAccidentMarkerOverlayProps {
 }
 
 const SummaryBox = styled.div`
-  position: relative;
-  width: 10rem;
   height: 11rem;
+  width: 10rem;
   border-radius: 0.5rem;
   background-color: white;
   font-size: 0.5rem;
   padding: 0.5rem 1rem;
+  text-align: center;
 `;
 
 const CityAccidentMarkerOverlay = (

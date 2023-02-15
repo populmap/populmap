@@ -16,13 +16,13 @@ type buttonProps = {
 };
 
 const SummaryBoxStyle = styled.div`
-  position: relative;
   width: 10rem;
   height: 11rem;
   border-radius: 0.5rem;
   background-color: white;
   font-size: 0.5rem;
   padding: 0.5rem 1rem;
+  text-align: center;
 `;
 
 const SummaryNavStyle = styled.nav`

@@ -5,16 +5,8 @@ export interface mapStateType {
     lat: number;
     lng: number;
   };
-  mousePosition: {
-    lat: number;
-    lng: number;
-  };
   level: number;
   search: string;
-  isEventShow: boolean;
-  isBookmarkShow: boolean;
-  isPeopleShow: boolean;
-  isAccidentShow: boolean;
 }
 
 const initialState: mapStateType = {
@@ -22,16 +14,8 @@ const initialState: mapStateType = {
     lat: 37.57225,
     lng: 126.98535,
   },
-  mousePosition: {
-    lat: 0,
-    lng: 0,
-  },
-  level: 7,
+  level: 4,
   search: "",
-  isEventShow: true,
-  isBookmarkShow: true,
-  isPeopleShow: true,
-  isAccidentShow: true,
 };
 
 export const mapSlice = createSlice({
@@ -42,7 +26,7 @@ export const mapSlice = createSlice({
       if (state.level > 1) state.level -= 1;
     },
     mapLevelDown: (state) => {
-      if (state.level < 14) state.level += 1;
+      if (state.level <= 9) state.level += 1;
     },
     mapLevelSelect: (state, action: PayloadAction<number>) => {
       state.level = action.payload;
@@ -55,18 +39,6 @@ export const mapSlice = createSlice({
     },
     mapSearch: (state, action: PayloadAction<string>) => {
       state.search = action.payload;
-    },
-    mapSetIsEventShow: (state) => {
-      state.isEventShow = !state.isEventShow;
-    },
-    mapSetIsBookmarkShow: (state) => {
-      state.isBookmarkShow = !state.isBookmarkShow;
-    },
-    mapSetIsPeopleShow: (state) => {
-      state.isPeopleShow = !state.isPeopleShow;
-    },
-    mapSetIsAccidentShow: (state) => {
-      state.isAccidentShow = !state.isAccidentShow;
     },
     mapInitialize: () => {
       return initialState;
@@ -81,9 +53,5 @@ export const {
   mapLocationChange,
   mapInitialize,
   mapSearch,
-  mapSetIsEventShow,
-  mapSetIsBookmarkShow,
-  mapSetIsPeopleShow,
-  mapSetIsAccidentShow,
 } = mapSlice.actions;
 export default mapSlice.reducer;

@@ -1,3 +1,4 @@
+import { memo } from "react";
 import { MapMarker, useMap } from "react-kakao-maps-sdk";
 import { CityAccidentResponseDto } from "../../types/dto/CityAccidentResponse.dto";
 import { useAppDispatch } from "../../redux/hook";
@@ -50,4 +51,4 @@ const CityAccidentMarker = (props: CityAccidentMarkerProps): JSX.Element => {
   );
 };
 
-export default CityAccidentMarker;
+export default memo(CityAccidentMarker);

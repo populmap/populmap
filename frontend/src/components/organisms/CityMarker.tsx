@@ -1,5 +1,6 @@
+import { memo } from "react";
 import { MapMarker, useMap } from "react-kakao-maps-sdk";
-import densityLevel, {
+import {
   CityPeopleResponseDto,
   setImage,
 } from "../../types/dto/CityPeopleResponse.dto";
@@ -50,4 +51,4 @@ const CityMarker = (props: CityMarkerProps): JSX.Element => {
   );
 };
 
-export default CityMarker;
+export default memo(CityMarker);

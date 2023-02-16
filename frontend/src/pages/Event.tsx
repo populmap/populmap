@@ -1,4 +1,3 @@
-import styled from "@emotion/styled";
 import HeaderTemplate from "../components/templates/HeaderTemplate";
 import ContentTemplate from "../components/templates/ContentTemplate";
 import ListTemplate from "../components/templates/ListTemplate";

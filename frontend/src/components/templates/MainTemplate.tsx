@@ -1,6 +1,5 @@
 import styled from "@emotion/styled";
 import { useEffect, useState } from "react";
-import { useInjectKakaoMapApi } from "react-kakao-maps-sdk";
 import LoadMap from "../organisms/LoadMap";
 import SelectBox from "../organisms/SelectBox";
 import MapFilter from "../organisms/MapFilter";
@@ -46,10 +45,6 @@ const MapNavStyle = styled.div`
 `;
 
 const MainTemplate = (): JSX.Element => {
-  const { loading, error } = useInjectKakaoMapApi({
-    appkey: `${import.meta.env.VITE_KAKAO_MAP_KEY}`,
-    libraries: ["services"],
-  });
   const user = useAppSelector((state) => state.user);
 
   const [cityPeopleInfo, setCityPeopleInfo] =
@@ -103,14 +98,12 @@ const MainTemplate = (): JSX.Element => {
 
   return (
     <MainSectionStyle>
-      {loading ? null : (
-        <LoadMap
-          eventInfo={eventInfo}
-          bookmarkInfo={bookmarkInfo}
-          cityPeopleInfo={cityPeopleInfo}
-          cityAccidentInfo={cityAccidentInfo}
-        />
-      )}
+      <LoadMap
+        eventInfo={eventInfo}
+        bookmarkInfo={bookmarkInfo}
+        cityPeopleInfo={cityPeopleInfo}
+        cityAccidentInfo={cityAccidentInfo}
+      />
       <SelectBoxStyle>
         <SelectBox setCity={setCity} setProgress={setProgress} />
       </SelectBoxStyle>

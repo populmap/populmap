@@ -19,13 +19,12 @@ interface LoadMapProps {
 
 const LoadMap = (props: LoadMapProps): JSX.Element => {
   const { eventInfo, bookmarkInfo, cityPeopleInfo, cityAccidentInfo } = props;
-
   const dispatch = useAppDispatch();
   const mapState = useAppSelector((state) => state.map);
   const filterState = useAppSelector((state) => state.filter);
   const overlayState = useAppSelector((state) => state.overlay);
-  useKakaoSearch();
 
+  useKakaoSearch();
   return (
     <Map
       center={{

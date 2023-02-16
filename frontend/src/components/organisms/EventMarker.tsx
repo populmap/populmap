@@ -1,3 +1,4 @@
+import { memo } from "react";
 import { MapMarker, useMap } from "react-kakao-maps-sdk";
 import { useAppDispatch } from "../../redux/hook";
 import { mapLocationChange } from "../../redux/slices/mapSlice";
@@ -23,6 +24,7 @@ const EventMarker = (props: EventMarkerProps): JSX.Element => {
   const { eventInfo, isShow, type } = props;
   const dispatch = useAppDispatch();
   const map = useMap();
+  const eventType = type === "event";
 
   return (
     <>
@@ -40,7 +42,7 @@ const EventMarker = (props: EventMarkerProps): JSX.Element => {
             })
           );
           dispatch(overlayClose());
-          type === "event"
+          eventType
             ? dispatch(
                 overlaySetIsEventOverlayNumber(
                   eventInfo.eventSummaries[0].eventId
@@ -52,8 +54,9 @@ const EventMarker = (props: EventMarkerProps): JSX.Element => {
                 )
               );
         }}
+        zIndex={eventType ? -1 : -2}
         image={{
-          src: type === "event" ? EventImage : BookmarkImage,
+          src: eventType ? EventImage : BookmarkImage,
           size: { width: 32, height: 32 },
         }}
       />
@@ -75,4 +78,4 @@ const EventMarker = (props: EventMarkerProps): JSX.Element => {
   );
 };
 
-export default EventMarker;
+export default memo(EventMarker);

@@ -1,10 +1,11 @@
 import styled from "@emotion/styled";
-import PageNavigateButton from "../atoms/buttons/PageNavigateButton";
+import BaseButton from "../atoms/buttons/BaseButton";
 import BookmarkApiButton from "../atoms/buttons/BookmarkApiButton";
 import {
   axiosEventBookmarkPost,
   axiosEventBookmarkDelete,
 } from "../../network/axios/axios.event";
+import { useNavigate } from "react-router-dom";
 
 const ButtonStyle = {
   fontSize: "0.5rem",
@@ -27,12 +28,12 @@ const DetailAndBookmarkNav = (
   props: DetailAndBookmarkNavProps
 ): JSX.Element => {
   const { eventId, isBookmarked } = props;
+  const navigate = useNavigate();
   return (
     <DetailAndBookmarkNavStyle>
-      <PageNavigateButton
-        style={ButtonStyle}
+      <BaseButton
         value="상세보기"
-        route={`/detail/${eventId}`}
+        handleClick={() => navigate(`/detail/${eventId}`)}
       />
       {isBookmarked ? (
         <BookmarkApiButton

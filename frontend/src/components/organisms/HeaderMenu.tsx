@@ -3,13 +3,15 @@ import { useNavigate } from "react-router-dom";
 import { Menu, MenuItem } from "@mui/material";
 import Button from "@mui/material/Button";
 import MenuIcon from "@mui/icons-material/Menu";
-import LogoutItem from "../atoms/buttons/LogoutItem";
-import { useAppSelector } from "../../redux/hook";
+import { useAppSelector, useAppDispatch } from "../../redux/hook";
+import { userInitialize } from "../../redux/slices/userSlice";
+import { axiosAuthLogout } from "../../network/axios/axios.auth";
 
 const HeaderMenu = (): JSX.Element => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const userState = useAppSelector((state) => state.user);
 
   const handleClose = (): void => {
@@ -25,6 +27,17 @@ const HeaderMenu = (): JSX.Element => {
     else navigate("/changepassword");
   };
 
+  const handleLogout = (): void => {
+    axiosAuthLogout()
+      .then((response) => {
+        if (response.status === 200) {
+          dispatch(userInitialize());
+          navigate("/");
+        }
+      })
+      .catch((error) => console.error(error));
+  };
+
   return (
     <>
       <Button onClick={handleClick}>
@@ -38,7 +51,7 @@ const HeaderMenu = (): JSX.Element => {
         {userState.userId === -1 ? (
           <MenuItem onClick={(): void => navigate("/login")}>로그인</MenuItem>
         ) : (
-          <LogoutItem />
+          <MenuItem onClick={handleLogout}>로그아웃</MenuItem>
         )}
       </Menu>
     </>

@@ -1,5 +1,6 @@
 import styled from "@emotion/styled";
-import PageNavigateButton from "../atoms/buttons/PageNavigateButton";
+import { useNavigate } from "react-router-dom";
+import BaseButton from "../atoms/buttons/BaseButton";
 
 const NavStyle = styled.nav`
   display: flex;
@@ -9,10 +10,15 @@ const NavStyle = styled.nav`
 `;
 
 const LoginNav = (): JSX.Element => {
+  const navigate = useNavigate();
+
   return (
     <NavStyle>
-      <PageNavigateButton value="회원가입" route="/signup" />
-      <PageNavigateButton value="비밀번호 찾기" route="/findpassword" />
+      <BaseButton value="회원가입" handleClick={() => navigate("/signup")} />
+      <BaseButton
+        value="비밀번호 찾기"
+        handleClick={() => navigate("/findpassword")}
+      />
     </NavStyle>
   );
 };

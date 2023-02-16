@@ -5,13 +5,12 @@ import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import CallIcon from "@mui/icons-material/Call";
 import PaymentIcon from "@mui/icons-material/Payment";
+import IosShareIcon from "@mui/icons-material/IosShare";
 import dayjs from "dayjs";
-import PageNavigateButton from "../atoms/buttons/PageNavigateButton";
 import BookmarkApiButton from "../atoms/buttons/BookmarkApiButton";
-import ShareButton from "../atoms/buttons/ShareButton";
-import CallButton from "../atoms/buttons/CallButton";
 import { EventDetailResponseDto } from "../../types/dto/EventDetailResponse.dto";
 import { axiosEventBookmarkPost } from "../../network/axios/axios.event";
+import BaseButton from "../atoms/buttons/BaseButton";
 
 interface DetailContentProps {
   detailResponse: EventDetailResponseDto | undefined;
@@ -52,7 +51,7 @@ const InformationDivStyle = styled.div`
 
 const DetailContent = (props: DetailContentProps): JSX.Element => {
   const { detailResponse } = props;
-  if (!detailResponse) return <h2>Loading....</h2>;
+  if (!detailResponse) return <h2>결과가 없습니다.</h2>;
   return (
     <DetailDivStyle>
       <SummaryDivStyle>
@@ -72,7 +71,22 @@ const DetailContent = (props: DetailContentProps): JSX.Element => {
           }}
           api={axiosEventBookmarkPost}
         />
-        <ShareButton />
+        <BaseButton
+          value={
+            <>
+              <IosShareIcon />
+              {"공유"}
+            </>
+          }
+          handleClick={async () => {
+            try {
+              await navigator.clipboard.writeText(window.location.href);
+              alert("복사되었습니다.");
+            } catch (e) {
+              alert("복사에 실패했습니다.");
+            }
+          }}
+        />
       </ButtonDivStyle>
       <InformationDivStyle>
         <h3>상세정보</h3>

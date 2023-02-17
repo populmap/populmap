@@ -11,11 +11,14 @@ import {
   mapLevelDown,
   mapLocationChange,
 } from "../../redux/slices/mapSlice";
+import colorTypes from "../../types/colorTypes";
 
 const MapSection = styled.div`
   display: flex;
   flex-direction: column;
   touch-action: none;
+  border-radius: 0.7rem;
+  background-color: ${colorTypes.white};
 `;
 
 const MapNav = (): JSX.Element => {
@@ -34,13 +37,19 @@ const MapNav = (): JSX.Element => {
 
   return (
     <MapSection>
-      <BaseButton value={<MyLocationIcon />} handleClick={handleLocation} />
       <BaseButton
-        value={<AddIcon />}
+        theme={"mapNavigate"}
+        icon={<MyLocationIcon />}
+        handleClick={handleLocation}
+      />
+      <BaseButton
+        theme={"mapNavigate"}
+        icon={<AddIcon />}
         handleClick={() => dispatch(mapLevelUp())}
       />
       <BaseButton
-        value={<RemoveIcon />}
+        theme={"mapNavigate"}
+        icon={<RemoveIcon />}
         handleClick={() => {
           dispatch(mapLevelDown());
         }}

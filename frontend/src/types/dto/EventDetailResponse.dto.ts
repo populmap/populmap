@@ -1,4 +1,4 @@
-enum progressType {
+const enum progressType {
   ALL = "전체",
   BEFOREPROGRESS = "진행전",
   INPROGRESS = "진행중",

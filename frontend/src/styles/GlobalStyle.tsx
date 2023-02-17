@@ -1,4 +1,5 @@
 import { Global, css } from "@emotion/react";
+import colorTypes from "../types/colorTypes";
 
 const style = css`
   @font-face {
@@ -17,6 +18,7 @@ const style = css`
   button,
   select,
   option {
+    color: ${colorTypes.black};
     font-family: inherit;
     appearance: none;
     -moz-appearance: none;

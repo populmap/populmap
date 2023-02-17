@@ -14,8 +14,13 @@ const LoginNav = (): JSX.Element => {
 
   return (
     <NavStyle>
-      <BaseButton value="회원가입" handleClick={() => navigate("/signup")} />
       <BaseButton
+        theme={"navigate"}
+        value="회원가입"
+        handleClick={() => navigate("/signup")}
+      />
+      <BaseButton
+        theme={"navigate"}
         value="비밀번호 찾기"
         handleClick={() => navigate("/findpassword")}
       />

@@ -73,7 +73,13 @@ const ChangePasswordForm = (): JSX.Element => {
               </p>
             )}
           </DivStyle>
-          <BaseButton value="변경하기" handleClick={handleChange} />
+          <BaseButton
+            theme={"api"}
+            color={"secondary"}
+            variant={"contained"}
+            value="변경하기"
+            handleClick={handleChange}
+          />
         </>
       )}
       {!isAssert && (
@@ -86,7 +92,13 @@ const ChangePasswordForm = (): JSX.Element => {
               setValue={setPassword}
             />
           </DivStyle>
-          <BaseButton value="비밀번호 확인" handleClick={handleAssert} />
+          <BaseButton
+            theme={"api"}
+            color={"secondary"}
+            variant={"contained"}
+            value="비밀번호 확인"
+            handleClick={handleAssert}
+          />
         </>
       )}
     </FormStyle>

@@ -42,7 +42,13 @@ const FindPasswordForm = (): JSX.Element => {
           setValue={setBody}
         />
       </DivStyle>
-      <BaseButton value="비밀번호 찾기" handleClick={handleClick} />
+      <BaseButton
+        theme={"api"}
+        color={"secondary"}
+        variant={"contained"}
+        value="비밀번호 찾기"
+        handleClick={handleClick}
+      />
     </FormStyle>
   );
 };

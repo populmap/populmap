@@ -46,7 +46,13 @@ const LoginForm = (): JSX.Element => {
           setValue={setPassword}
         />
       </DivStyle>
-      <BaseButton value="로그인" handleClick={handleClick} />
+      <BaseButton
+        theme={"api"}
+        color={"secondary"}
+        variant={"contained"}
+        value={"로그인"}
+        handleClick={handleClick}
+      />
     </FormStyle>
   );
 };

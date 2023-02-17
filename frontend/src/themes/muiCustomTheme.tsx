@@ -1,4 +1,5 @@
 import { createTheme } from "@mui/material/styles";
+import colorTypes from "../types/colorTypes";
 
 const muiCustomTheme = createTheme({
   typography: {
@@ -6,31 +7,21 @@ const muiCustomTheme = createTheme({
   },
   palette: {
     primary: {
-      main: "#0080fd",
+      main: colorTypes.black,
     },
     secondary: {
-      main: "#000000",
+      main: colorTypes.blue,
     },
   },
-  // components: {
-  //   MuiButton: {
-  //     styleOverrides: {
-  //       root: {
-  //         color: "black",
-  //         textTransform: "unset",
-  //         minWidth: 0,
-  //       },
-  //     },
-  //   },
-  //   MuiSvgIcon: {
-  //     styleOverrides: {
-  //       root: {
-  //         color: "black",
-  //         fontSize: "1.2rem",
-  //       },
-  //     },
-  //   },
-  // },
+  components: {
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          minWidth: 0,
+        },
+      },
+    },
+  },
 });
 
 export default muiCustomTheme;

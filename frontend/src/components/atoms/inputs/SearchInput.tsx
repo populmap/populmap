@@ -1,4 +1,5 @@
 import { SetStateAction, Dispatch } from "react";
+import colorTypes from "../../../types/colorTypes";
 import { useAppDispatch } from "../../../redux/hook";
 import { mapSearch } from "../../../redux/slices/mapSlice";
 
@@ -24,7 +25,7 @@ const SearchInput = (props: SearchInputProps): JSX.Element => {
 
   return (
     <input
-      style={{ border: 0, backgroundColor: "#fafafa" }}
+      style={{ border: 0, backgroundColor: colorTypes.gray }}
       value={value}
       type="text"
       placeholder="장소를 입력해주세요"

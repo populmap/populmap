@@ -1,8 +1,9 @@
 import styled from "@emotion/styled";
 import { useNavigate } from "react-router-dom";
 import dayjs from "dayjs";
-import { EventListDto } from "../../types/dto/EventPagiNationResponse.dto";
 import DetailAndBookmarkNav from "./DetailAndBookmarkNav";
+import { EventListDto } from "../../types/dto/EventPagiNationResponse.dto";
+import colorTypes from "../../types/colorTypes";
 
 interface EventCardProps {
   cardInfo: EventListDto;
@@ -24,9 +25,18 @@ const InformationStyle = styled.div`
   height: 7rem;
 `;
 
+/**
+ * Bug : DB에 event의 isBookmarked가 정상적으로 저장되지 않고 있는 상황
+ * - DB가 수정될 때까지 사용자 경험을 위해 접속한 페이지에 따라 일괄적으로 추가, 제거가 보이게 수정.
+ * - isBookmarked 변수를 통해 접속한 페이지를 boolean type으로 저장.
+ * - 유저가 접속한 페이지가 event인 경우 '북마크 추가'
+ * - 유저가 접속한 페이지가 bookmark인 경우 '북마크 제거'
+ *
+ */
 const EventCard = (props: EventCardProps): JSX.Element => {
   const { cardInfo } = props;
   const navigate = useNavigate();
+  const isBookmarked = window.location.pathname === "/bookmark";
 
   return (
     <EventCardStyle onClick={() => navigate(`/detail/${cardInfo.eventId}`)}>
@@ -36,7 +46,7 @@ const EventCard = (props: EventCardProps): JSX.Element => {
         {cardInfo?.call && (
           <p>
             <a
-              style={{ textDecoration: "none", color: "#1b73e8" }}
+              style={{ textDecoration: "none", color: colorTypes.blue }}
               href={`tel:${cardInfo?.call}`}
             >
               {cardInfo?.call}
@@ -53,7 +63,8 @@ const EventCard = (props: EventCardProps): JSX.Element => {
       </InformationStyle>
       <DetailAndBookmarkNav
         eventId={cardInfo.eventId}
-        isBookmarked={cardInfo.isBookmarked}
+        // isBookmarked={cardInfo.isBookmarked}
+        isBookmarked={isBookmarked}
       />
     </EventCardStyle>
   );

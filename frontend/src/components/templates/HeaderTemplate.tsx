@@ -9,10 +9,6 @@ const Header = styled.header`
   display: flex;
   justify-content: space-between;
   touch-action: none;
-
-  button {
-    width: 5rem;
-  }
 `;
 
 const HeaderTemplate = (): JSX.Element => {
@@ -21,17 +17,15 @@ const HeaderTemplate = (): JSX.Element => {
   return (
     <Header>
       <BaseButton
-        value={
-          <img
-            width="40px"
-            height="40px"
-            src="../../../img/homeLogo.ico"
-            alt="homeLogo"
-          />
-        }
+        theme={"icon"}
+        icon={<img src="../../../img/homeLogo.ico" alt="homeLogo" />}
         handleClick={() => navigate("/")}
       />
-      <BaseButton value="populmap" handleClick={() => navigate("/")} />
+      <BaseButton
+        theme={"navigate"}
+        value={"populmap"}
+        handleClick={() => navigate("/")}
+      />
       <HeaderMenu />
     </Header>
   );

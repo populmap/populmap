@@ -51,7 +51,13 @@ const SignupForm = (): JSX.Element => {
           setValue={setPassword}
         />
       </DivStyle>
-      <BaseButton value="가입하기" handleClick={handleClick} />
+      <BaseButton
+        theme={"api"}
+        color={"secondary"}
+        variant={"contained"}
+        value={"가입하기"}
+        handleClick={handleClick}
+      />
     </FormStyle>
   );
 };

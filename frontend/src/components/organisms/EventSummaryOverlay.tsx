@@ -1,10 +1,7 @@
 import { CustomOverlayMap } from "react-kakao-maps-sdk";
 import styled from "@emotion/styled";
 import { useNavigate } from "react-router-dom";
-import {
-  EventSummaryResponseDto,
-  EventSummaryGroupResponseDto,
-} from "../../types/dto/EventSummaryResponse.dto";
+import { EventSummaryResponseDto } from "../../types/dto/EventSummaryResponse.dto";
 import { progressColor } from "../../types/dto/EventSummaryResponse.dto";
 import DetailAndBookmarkNav from "./DetailAndBookmarkNav";
 

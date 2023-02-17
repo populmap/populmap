@@ -2,6 +2,7 @@ import { CustomOverlayMap } from "react-kakao-maps-sdk";
 import styled from "@emotion/styled";
 import dayjs from "dayjs";
 import { CityAccidentResponseDto } from "../../types/dto/CityAccidentResponse.dto";
+import colorTypes from "../../types/colorTypes";
 
 interface CityAccidentMarkerOverlayProps {
   cityAccidentInfo: CityAccidentResponseDto;
@@ -34,8 +35,8 @@ const CityAccidentMarkerOverlay = (
         <p
           style={{
             fontSize: "0.7rem",
-            backgroundColor: "#0080FE",
-            color: "#ffffff",
+            backgroundColor: colorTypes.blue,
+            color: colorTypes.white,
             height: "1.2rem",
             borderRadius: "0.3rem",
           }}

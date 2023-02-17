@@ -1,4 +1,5 @@
 import progressType from "./EventDetailResponse.dto";
+import colorTypes from "../colorTypes";
 
 export interface EventSummaryResponseDto {
   eventId: number;
@@ -11,13 +12,13 @@ export interface EventSummaryResponseDto {
 export const progressColor = (status: string): string => {
   switch (status) {
     case progressType.BEFOREPROGRESS:
-      return "#ff6f0f";
+      return colorTypes.orange;
     case progressType.INPROGRESS:
-      return "#18ce5f";
+      return colorTypes.green;
     case progressType.AFTERPROGRESS:
-      return "#ff0200";
+      return colorTypes.red;
     default:
-      return "#ffffff";
+      return colorTypes.white;
   }
 };
 

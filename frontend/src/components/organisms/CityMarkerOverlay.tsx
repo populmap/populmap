@@ -6,6 +6,7 @@ import { axiosCityRoadAvg } from "../../network/axios/axios.city";
 import { CityRoadAvgResponseDto } from "../../types/dto/CityRoadAvgResponse.dto";
 import { CityPeopleResponseDto } from "../../types/dto/CityPeopleResponse.dto";
 import { levelColor } from "../../types/dto/CityPeopleResponse.dto";
+import colorTypes from "../../types/colorTypes";
 
 interface CityMarkerOverlayProps {
   cityPeopleInfo: CityPeopleResponseDto;
@@ -36,8 +37,9 @@ const TypeButtonStyle = styled.button<buttonProps>`
   border: 0;
   width: 50%;
   background-color: ${(props): string =>
-    props.isChange ? "#0080FE" : "white"};
-  color: ${(props): string => (props.isChange ? "white" : "inherit")};
+    props.isChange ? colorTypes.blue : colorTypes.white};
+  color: ${(props): string =>
+    props.isChange ? colorTypes.white : colorTypes.black};
   font-size: 0.5rem;
 `;
 

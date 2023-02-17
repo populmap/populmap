@@ -1,8 +1,10 @@
 import styled from "@emotion/styled";
 import { useState } from "react";
-import SignupSubmitButton from "../atoms/buttons/SignupSubmitButton";
+import { useNavigate } from "react-router-dom";
 import InputInstance from "../atoms/inputs/InputInstance";
 import PasswordInput from "../atoms/inputs/PasswordInput";
+import BaseButton from "../atoms/buttons/BaseButton";
+import { axiosAuthRegister } from "../../network/axios/axios.auth";
 
 const FormStyle = styled.form`
   text-align: center;
@@ -16,6 +18,18 @@ const SignupForm = (): JSX.Element => {
   const [email, setEmail] = useState<string>("");
   const [userName, setUserName] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    axiosAuthRegister({ email, userName, password })
+      .then((response) => {
+        if (response.status === 201) {
+          alert("회원가입에 성공했습니다.");
+          navigate("/");
+        }
+      })
+      .catch((error) => console.error(error));
+  };
 
   return (
     <FormStyle>
@@ -37,11 +51,12 @@ const SignupForm = (): JSX.Element => {
           setValue={setPassword}
         />
       </DivStyle>
-      <SignupSubmitButton
-        email={email}
-        userName={userName}
-        password={password}
-        value="가입하기"
+      <BaseButton
+        theme={"api"}
+        color={"secondary"}
+        variant={"contained"}
+        value={"가입하기"}
+        handleClick={handleClick}
       />
     </FormStyle>
   );

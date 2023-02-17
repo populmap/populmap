@@ -5,13 +5,13 @@ import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import CallIcon from "@mui/icons-material/Call";
 import PaymentIcon from "@mui/icons-material/Payment";
+import IosShareIcon from "@mui/icons-material/IosShare";
+import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
 import dayjs from "dayjs";
-import PageNavigateButton from "../atoms/buttons/PageNavigateButton";
 import BookmarkApiButton from "../atoms/buttons/BookmarkApiButton";
-import ShareButton from "../atoms/buttons/ShareButton";
-import CallButton from "../atoms/buttons/CallButton";
+import BaseButton from "../atoms/buttons/BaseButton";
 import { EventDetailResponseDto } from "../../types/dto/EventDetailResponse.dto";
-import { axiosEventBookmarkPost } from "../../network/axios/axios.event";
+import colorTypes from "../../types/colorTypes";
 
 interface DetailContentProps {
   detailResponse: EventDetailResponseDto | undefined;
@@ -33,6 +33,9 @@ const ButtonDivStyle = styled.div`
   border-bottom: 0.05rem solid gray;
   padding-top: 1rem;
   height: 3rem;
+  button {
+    margin: 0 1rem;
+  }
 `;
 
 const InformationDivStyle = styled.div`
@@ -50,9 +53,18 @@ const InformationDivStyle = styled.div`
   }
 `;
 
+const handleCopy = async () => {
+  try {
+    await navigator.clipboard.writeText(window.location.href);
+    alert("복사되었습니다.");
+  } catch (e) {
+    alert("복사에 실패했습니다.");
+  }
+};
+
 const DetailContent = (props: DetailContentProps): JSX.Element => {
   const { detailResponse } = props;
-  if (!detailResponse) return <h2>Loading....</h2>;
+  if (!detailResponse) return <h2>결과가 없습니다.</h2>;
   return (
     <DetailDivStyle>
       <SummaryDivStyle>
@@ -61,18 +73,17 @@ const DetailContent = (props: DetailContentProps): JSX.Element => {
       </SummaryDivStyle>
       <ButtonDivStyle>
         <BookmarkApiButton
-          param={detailResponse?.eventId}
-          value="북마크"
-          style={{
-            flexDirection: "column",
-            fontSize: "0.5rem",
-            height: "1.5rem",
-            width: "5rem",
-            color: "#1b73e8",
-          }}
-          api={axiosEventBookmarkPost}
+          theme={"icon"}
+          eventId={detailResponse?.eventId}
+          icon={<BookmarkBorderIcon />}
+          color={"secondary"}
         />
-        <ShareButton />
+        <BaseButton
+          theme={"icon"}
+          icon={<IosShareIcon />}
+          color={"secondary"}
+          handleClick={handleCopy}
+        />
       </ButtonDivStyle>
       <InformationDivStyle>
         <h3>상세정보</h3>
@@ -98,7 +109,7 @@ const DetailContent = (props: DetailContentProps): JSX.Element => {
           <p>
             <LanguageIcon />{" "}
             <a
-              style={{ textDecoration: "none", color: "#1b73e8" }}
+              style={{ textDecoration: "none", color: colorTypes.blue }}
               href={`https://${detailResponse?.url}`}
             >
               {detailResponse?.url}
@@ -109,7 +120,7 @@ const DetailContent = (props: DetailContentProps): JSX.Element => {
           <p>
             <CallIcon />{" "}
             <a
-              style={{ textDecoration: "none", color: "#1b73e8" }}
+              style={{ textDecoration: "none", color: colorTypes.blue }}
               href={`tel:${detailResponse?.call}`}
             >
               {detailResponse?.call}

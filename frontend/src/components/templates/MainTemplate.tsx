@@ -34,7 +34,7 @@ const MapFilterStyle = styled.div`
   position: absolute;
   top: 7%;
   left: 50%;
-  width: 70%;
+  width: 300px;
   transform: translate(-50%, 0);
 `;
 

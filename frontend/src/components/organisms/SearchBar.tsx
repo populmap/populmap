@@ -6,6 +6,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import SearchInput from "../atoms/inputs/SearchInput";
 import { useAppDispatch } from "../../redux/hook";
 import { mapSearch } from "../../redux/slices/mapSlice";
+import colorTypes from "../../types/colorTypes";
 
 const SearchBarDivStyle = styled.div`
   display: flex;
@@ -13,7 +14,7 @@ const SearchBarDivStyle = styled.div`
   height: 90%;
   width: 60%;
   margin: 0 auto;
-  background-color: #fafafa;
+  background-color: ${colorTypes.gray};
   border-radius: 0.7rem;
 `;
 

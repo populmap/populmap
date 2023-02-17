@@ -18,7 +18,6 @@ const PaginationNavStyle = styled.nav`
 const Pagination = (props: PaginationProps): JSX.Element => {
   const { totalLength, index, length, setIndex } = props;
   const [maxPage, setMaxPage] = useState<number>(0);
-  // const [pageList, setPageList] = useState<Array<number>>([...Array.map(ele)]);
 
   useEffect(() => {
     totalLength && setMaxPage(Math.ceil(totalLength / length));

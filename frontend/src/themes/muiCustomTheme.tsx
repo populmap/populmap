@@ -1,24 +1,23 @@
 import { createTheme } from "@mui/material/styles";
+import colorTypes from "../types/colorTypes";
 
 const muiCustomTheme = createTheme({
   typography: {
     fontFamily: ["EliceDigitalBaeum_Regular", "sans-serif"].join(","),
   },
+  palette: {
+    primary: {
+      main: colorTypes.black,
+    },
+    secondary: {
+      main: colorTypes.blue,
+    },
+  },
   components: {
     MuiButton: {
       styleOverrides: {
         root: {
-          color: "black",
-          textTransform: "unset",
           minWidth: 0,
-        },
-      },
-    },
-    MuiSvgIcon: {
-      styleOverrides: {
-        root: {
-          color: "black",
-          fontSize: "1.2rem",
         },
       },
     },

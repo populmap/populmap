@@ -1,8 +1,10 @@
 import styled from "@emotion/styled";
 import { useState } from "react";
-import LoginSubmitButton from "../atoms/buttons/LoginSumbitButton";
+import { useNavigate } from "react-router-dom";
+import BaseButton from "../atoms/buttons/BaseButton";
 import InputInstance from "../atoms/inputs/InputInstance";
 import PasswordInput from "../atoms/inputs/PasswordInput";
+import { axiosAuthLogin } from "../../network/axios/axios.auth";
 
 const FormStyle = styled.form`
   text-align: center;
@@ -15,6 +17,19 @@ const DivStyle = styled.div`
 const LoginForm = (): JSX.Element => {
   const [id, setId] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    axiosAuthLogin({ id, password })
+      .then((response) => {
+        if (response.status === 200) {
+          navigate("/");
+        } else if (response.status === 202) navigate("/changepassword");
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
 
   return (
     <FormStyle>
@@ -31,7 +46,13 @@ const LoginForm = (): JSX.Element => {
           setValue={setPassword}
         />
       </DivStyle>
-      <LoginSubmitButton id={id} password={password} value="로그인" />
+      <BaseButton
+        theme={"api"}
+        color={"secondary"}
+        variant={"contained"}
+        value={"로그인"}
+        handleClick={handleClick}
+      />
     </FormStyle>
   );
 };

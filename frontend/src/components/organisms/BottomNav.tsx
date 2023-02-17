@@ -12,11 +12,11 @@ const NavStyle = styled.nav`
   touch-action: none;
 `;
 
-const BottomNavigationStyle = {
-  borderRadius: "0.7rem",
-  width: "300px",
-  border: "0.05rem solid gray",
-};
+const BottomNavigationStyle = styled(BottomNavigation)`
+  width: 300px;
+  border: 0.05rem solid gray;
+  border-radius: 0.7rem;
+`;
 
 const BottomNav = (): JSX.Element => {
   const navigate = useNavigate();
@@ -37,15 +37,11 @@ const BottomNav = (): JSX.Element => {
 
   return (
     <NavStyle>
-      <BottomNavigation
-        showLabels
-        style={BottomNavigationStyle}
-        onChange={handleChange}
-      >
+      <BottomNavigationStyle showLabels onChange={handleChange}>
         <BottomNavigationAction label="Event" icon={<EventIcon />} />
         <BottomNavigationAction label="Home" icon={<RoofingIcon />} />
         <BottomNavigationAction label="Bookmark" icon={<BookmarkIcon />} />
-      </BottomNavigation>
+      </BottomNavigationStyle>
     </NavStyle>
   );
 };

@@ -1,4 +1,5 @@
 import roadLevel from "./CityRoadAvgResponse.dto";
+import colorTypes from "../colorTypes";
 import orangeCircle from "../../../img/orangeCircle.png";
 import greenCircle from "../../../img/greenCircle.png";
 import yellowCircle from "../../../img/yellowCircle.png";
@@ -46,20 +47,20 @@ export const setImage = (status: string): string => {
 export const levelColor = (level: string | undefined): string => {
   switch (level) {
     case densityLevel.SMOOTH:
-      return "#18ce5f";
+      return colorTypes.green;
     case roadLevel.SMOOTH:
-      return "#18ce5f";
+      return colorTypes.green;
     case densityLevel.NORMAL:
-      return "#f7e700";
+      return colorTypes.yellow;
     case roadLevel.NORMAL:
-      return "#ff6f0f";
+      return colorTypes.orange;
     case densityLevel.CROWDED:
-      return "#ff6f0f";
+      return colorTypes.orange;
     case densityLevel.VERYCROWDED:
-      return "#ff0200";
+      return colorTypes.red;
     case roadLevel.VERYCROWDED:
-      return "#ff0200";
+      return colorTypes.red;
     default:
-      return "#ffffff";
+      return colorTypes.white;
   }
 };

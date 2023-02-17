@@ -1,6 +1,7 @@
 import styled from "@emotion/styled";
-import { useState } from "react";
-import PasswordFindButton from "../atoms/buttons/PasswordFindButton";
+import { useCallback, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import BaseButton from "../atoms/buttons/BaseButton";
 import { axiosAuthPasswordFind } from "../../network/axios/axios.auth";
 import InputInstance from "../atoms/inputs/InputInstance";
 
@@ -13,7 +14,23 @@ const DivStyle = styled.div`
 `;
 
 const FindPasswordForm = (): JSX.Element => {
-  const [id, setId] = useState<string>("");
+  const [body, setBody] = useState<string>("");
+  const navigate = useNavigate();
+  const handleClick = () => {
+    if (body !== "") {
+      axiosAuthPasswordFind({ id: body })
+        .then((response) => {
+          if (response.status === 204) {
+            alert("아이디(이메일)로 임시 비밀번호가 발급되었습니다.");
+            navigate("/login");
+          }
+        })
+        .catch((error: any) => {
+          console.error(error);
+          alert("🚨 요청에 실패했습니다 🚨");
+        });
+    }
+  };
 
   return (
     <FormStyle>
@@ -22,10 +39,16 @@ const FindPasswordForm = (): JSX.Element => {
         <InputInstance
           title="비밀번호를 찾고자하는 아이디(이메일)를 입력해주세요."
           placeholder="아이디 또는 이메일"
-          setValue={setId}
+          setValue={setBody}
         />
       </DivStyle>
-      <PasswordFindButton value="다음" body={id === "" ? "" : id} />
+      <BaseButton
+        theme={"api"}
+        color={"secondary"}
+        variant={"contained"}
+        value="비밀번호 찾기"
+        handleClick={handleClick}
+      />
     </FormStyle>
   );
 };

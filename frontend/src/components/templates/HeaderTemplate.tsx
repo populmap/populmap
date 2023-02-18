@@ -4,11 +4,13 @@ import HeaderMenu from "../organisms/HeaderMenu";
 import { useNavigate } from "react-router-dom";
 
 const Header = styled.header`
-  width: 100%;
-  height: 2.5rem;
+  height: 5vh;
   display: flex;
   justify-content: space-between;
   touch-action: none;
+  button {
+    padding-top: 0.7rem;
+  }
 `;
 
 const HeaderTemplate = (): JSX.Element => {

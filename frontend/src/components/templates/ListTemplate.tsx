@@ -33,7 +33,7 @@ const CardListStyle = styled.div`
   &::-webkit-scrollbar {
     display: none;
   }
-  height: calc(95% - 36px);
+  height: 65vh;
 `;
 
 const PaginationStyle = styled.div`

@@ -2,7 +2,7 @@ import styled from "@emotion/styled";
 import SearchBar from "../organisms/SearchBar";
 
 const SearchSectionStyle = styled.section`
-  height: 2.5rem;
+  height: 5vh;
   touch-action: none;
 `;
 

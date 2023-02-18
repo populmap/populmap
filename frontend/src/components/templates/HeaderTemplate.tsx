@@ -9,7 +9,7 @@ const Header = styled.header`
   justify-content: space-between;
   touch-action: none;
   button {
-    padding-top: 0.7rem;
+    padding-top: 0.5rem;
   }
 `;
 

@@ -32,7 +32,7 @@ const SelectBoxStyle = styled.div`
 
 const MapFilterStyle = styled.div`
   position: absolute;
-  top: 7%;
+  top: 8%;
   left: 50%;
   width: 300px;
   transform: translate(-50%, 0);

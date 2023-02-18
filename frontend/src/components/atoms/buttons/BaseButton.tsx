@@ -23,6 +23,7 @@ const ButtonStyle = styled(Button)`
     props.theme === "navigate" &&
     css`
       width: 20%;
+      font-size: 0.8rem;
     `};
   ${(props) =>
     props.theme === "mapNavigate" &&

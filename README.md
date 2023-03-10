@@ -2,7 +2,6 @@
 
 ![titleLogo](https://user-images.githubusercontent.com/46778769/222502760-40c319de-459d-4aa5-a8b8-3a04762c6687.png)
 
-
 [![GitHub Stars](https://img.shields.io/github/stars/populmap/populmap?style=for-the-badge)](https://github.com/populmap/populmap/stargazers)
 [![GitHub Stars](https://img.shields.io/github/issues/populmap/populmap?style=for-the-badge)](https://github.com/populmap/populmap/issues)
 [![GitHub License](https://img.shields.io/github/license/populmap/populmap?style=for-the-badge)](https://github.com/IgorAntun/node-chat/issues)
@@ -27,11 +26,14 @@
 <!-- AWS 크레딧 종료 이후에 local 환경에서 접속하는 Usage 방법에 대해 작성해야합니다. -->
 
 ## Usage
-### Website
-- https://populmap.site/
-### API
-- https://populmap.site/docs
 
+### Website
+
+- https://populmap.site/
+
+### API
+
+- https://populmap.site/docs
 
 ### 기능 안내
 
@@ -44,7 +46,6 @@
 <td>
 
 ![people](https://user-images.githubusercontent.com/46778769/222501876-a2cc4ff5-2a09-495a-96bb-e17298fc4ce5.gif)
-
 
 </td>
 <td>
@@ -89,20 +90,26 @@
 
 ![detailAndAddBookmark](https://user-images.githubusercontent.com/46778769/222512740-0ada5d83-aeab-4e0b-9419-e950b8aa7944.gif)
 
-
 </td>
 </tr>
 </table>
 
 ## Structure
+
 <img width="1206" alt="image" src="https://user-images.githubusercontent.com/46778769/222497021-017c02c0-21d7-4ee1-b8e7-ef66b5d067d5.png">
 
 ## Skills
-<!-- 백엔드 사용 스택 작성해주시면 됩니다. -->
+
 ### Backend
 
 <div>
    <img src="https://img.shields.io/badge/Typescript-3178C6?style=flat-square&logo=Typescript&logoColor=white"/>
+   <img src="https://img.shields.io/badge/NestJS-red?style=flat-square&logo=NestJS&logoColor=white"/>
+   <img src="https://img.shields.io/badge/MariaDB-003B5C?style=flat-square&logo=MariaDB&logoColor=white"/>
+   <img src="https://img.shields.io/badge/TypeORM-808080?style=flat-square&logo=TypeORM&logoColor=808080"/>
+   <img src="https://img.shields.io/badge/Swagger-85EA2D?style=flat-square&logo=Swagger&logoColor=white"/>
+   <img src="https://img.shields.io/badge/Swagger-85EA2D?style=flat-square&logo=Swagger&logoColor=white"/>
+   <img src="https://img.shields.io/badge/Passport-34E27A?style=flat-square&logo=Passport&logoColor=white"/>
 </div>
 
 ### Frontend
@@ -126,6 +133,7 @@
 </div>
 
 ## Features
+
 - `인구 복잡도`와 `도로 상태`를 실시간으로 확인할 수 있습니다.
 - 장소 검색 시 지도에서 해당 위치로 이동됩니다.
 - 전국의 행사 정보를`지역`과 `진행 상태`에 따라 분류할 수 있습니다.
@@ -133,6 +141,7 @@
 - 로그인이 된 유저는 행사에 대해 `북마크` 추가가 가능합니다.
 
 ## Credits
+
 <table>
 <tr>
 <th> Frontend </th>
@@ -161,5 +170,6 @@
 [AWS credit](https://42seoul.kr/seoul42/main/view)
 
 [react-kakao-maps-sdk](https://github.com/JaeSeoKim/react-kakao-maps-sdk)
+
 </td>
 </table>

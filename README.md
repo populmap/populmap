@@ -108,7 +108,6 @@
    <img src="https://img.shields.io/badge/MariaDB-003B5C?style=flat-square&logo=MariaDB&logoColor=white"/>
    <img src="https://img.shields.io/badge/TypeORM-808080?style=flat-square&logo=TypeORM&logoColor=808080"/>
    <img src="https://img.shields.io/badge/Swagger-85EA2D?style=flat-square&logo=Swagger&logoColor=white"/>
-   <img src="https://img.shields.io/badge/Swagger-85EA2D?style=flat-square&logo=Swagger&logoColor=white"/>
    <img src="https://img.shields.io/badge/Passport-34E27A?style=flat-square&logo=Passport&logoColor=white"/>
 </div>
 
